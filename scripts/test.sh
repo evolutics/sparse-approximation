@@ -12,6 +12,13 @@ main() {
   docker run --entrypoint sh --rm --volume "$(pwd)":/workdir \
     evolutics/travel-kit:0.6.0 -c \
     'git ls-files -z | xargs -0 travel-kit check --'
+
+  python3 -m venv .venv
+  # shellcheck disable=SC1091
+  source .venv/bin/activate
+  pip install --requirement requirements.txt
+
+  journal test
 }
 
 main "$@"
