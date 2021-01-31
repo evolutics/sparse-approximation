@@ -11,7 +11,7 @@ main() {
 
   docker run --entrypoint sh --rm --volume "$(pwd)":/workdir \
     evolutics/travel-kit:0.6.0 -c \
-    'git ls-files -z | xargs -0 travel-kit check --'
+    'git ls-files -z | xargs -0 travel-kit check --skip Pylint --'
 
   python3 -m venv .venv
   # shellcheck disable=SC1091

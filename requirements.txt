@@ -2,5 +2,6 @@
 git+https://github.com/evolutics/journal#egg=journal
 jupyterlab==3.0.5
 jupytext==1.9.1
+numpy==1.20.0
 pylint==2.6.0
 pytest==6.2.1
