@@ -39,3 +39,14 @@ class TestDrawDistribution:
         ]
 
         assert len(set(nonzero_counts)) == 4
+
+
+class TestDrawDistributions:
+    def test_are_valid_distributions(self):
+        generator = random.default_rng(610)
+
+        distributions = randomness.draw_distributions(generator, 5, 8)
+
+        assert distributions.shape == (5, 8)
+        assert numpy.all(distributions >= 0)
+        assert numpy.allclose(numpy.sum(distributions, axis=0), 1)

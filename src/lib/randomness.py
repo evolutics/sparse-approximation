@@ -14,3 +14,9 @@ def draw_distribution(generator, size, nonzero_count=None):
     distribution[indices] = probabilities
 
     return distribution
+
+
+def draw_distributions(generator, rows, columns):
+    return numpy.column_stack(
+        [draw_distribution(generator, rows) for _ in range(columns)]
+    )
