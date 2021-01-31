@@ -13,13 +13,13 @@ def _cases():
         (
             divergence.squared_euclidean,
             numpy.array([0.2, 0.3, 0.5]),
-            numpy.array([0.1, 0.2, 0.7]),
+            numpy.array([0.3, 0.1, 0.6]),
             0.06,
         ),
         (
             divergence.total_variation,
             numpy.array([0.2, 0.3, 0.5]),
-            numpy.array([0.1, 0.2, 0.7]),
+            numpy.array([0.3, 0.1, 0.6]),
             0.2,
         ),
     ]

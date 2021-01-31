@@ -11,7 +11,7 @@ class TestClip:
 
     def test_clips(self):
         assert numpy.allclose(
-            normalize.clip(numpy.array([-0.2, 0.4, 1.2])), numpy.array([0, 0.25, 0.75])
+            normalize.clip(numpy.array([0.4, -0.2, 1.2])), numpy.array([0.25, 0, 0.75])
         )
 
 
@@ -23,5 +23,5 @@ class TestShift:
 
     def test_shifts(self):
         assert numpy.allclose(
-            normalize.shift(numpy.array([-0.2, 0.4, 1.2])), numpy.array([0, 0.3, 0.7])
+            normalize.shift(numpy.array([0.4, -0.2, 1.2])), numpy.array([0.3, 0, 0.7])
         )
