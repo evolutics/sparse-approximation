@@ -1,3 +1,11 @@
+[FORMAT]
+
+good-names=
+    D,
+    p,
+    q,
+    Q
+
 [MESSAGES CONTROL]
 
 disable=
