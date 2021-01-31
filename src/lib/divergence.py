@@ -2,6 +2,10 @@ from numpy import linalg
 import numpy
 
 
+def squared_euclidean(p, Q):
+    return numpy.square(_column_wise(Q, lambda q: linalg.norm(p - q)))
+
+
 def total_variation(p, Q):
     return 0.5 * _column_wise(Q, lambda q: linalg.norm(p - q, 1))
 
