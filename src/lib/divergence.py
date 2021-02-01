@@ -1,7 +1,15 @@
+import math
+
 from numpy import linalg
 from scipy import stats
 from scipy.spatial import distance
 import numpy
+
+
+def hellinger_distance(p, Q):
+    sqrt_p = numpy.sqrt(p)
+    differences = _column_wise(Q, lambda q: sqrt_p - numpy.sqrt(q))
+    return (1 / math.sqrt(2)) * linalg.norm(differences, axis=0)
 
 
 def jensen_shannon_distance(p, Q):
