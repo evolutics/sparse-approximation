@@ -1,6 +1,11 @@
 from numpy import linalg
 from scipy import stats
+from scipy.spatial import distance
 import numpy
+
+
+def jensen_shannon_distance(p, Q):
+    return _column_wise(Q, lambda q: distance.jensenshannon(p, q))
 
 
 def kullback_leibler(p, Q):

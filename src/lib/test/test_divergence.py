@@ -9,6 +9,13 @@ from src.lib import randomness
 
 def _cases():
     return {
+        divergence.jensen_shannon_distance: [
+            (
+                numpy.array([0.2, 0.3, 0.5]),
+                numpy.array([0.3, 0.1, 0.6]),
+                0.182953966,
+            ),
+        ],
         divergence.kullback_leibler: [
             (
                 numpy.array([9 / 25, 12 / 25, 4 / 25]),
