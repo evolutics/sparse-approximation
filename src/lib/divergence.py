@@ -16,6 +16,12 @@ def jensen_shannon_distance(p, Q):
     return _column_wise(Q, lambda q: distance.jensenshannon(p, q))
 
 
+def k_directed_divergence(p, Q):
+    """See: Jianhua Lin. "Divergence Measures Based on the Shannon Entropy". 1991."""
+
+    return _column_wise(Q, lambda q: stats.entropy(p, (p + q) / 2))
+
+
 def kullback_leibler(p, Q):
     return _column_wise(Q, lambda q: stats.entropy(p, q))
 

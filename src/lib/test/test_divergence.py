@@ -23,6 +23,13 @@ def _cases():
                 0.182953966,
             ),
         ],
+        divergence.k_directed_divergence: [
+            (
+                numpy.array([0.2, 0.3, 0.5]),
+                numpy.array([0.3, 0.1, 0.6]),
+                0.02935573227,
+            ),
+        ],
         divergence.kullback_leibler: [
             (
                 numpy.array([9 / 25, 12 / 25, 4 / 25]),
