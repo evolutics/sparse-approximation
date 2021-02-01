@@ -1,6 +1,5 @@
 import math
 
-from numpy import random
 from pytest import mark
 import numpy
 
@@ -12,9 +11,7 @@ class TestDrawDistribution:
         "size,nonzero_count",
         [(1, 1), (2, 1), (3, 3), (8, 5), (13, None)],
     )
-    def test_is_valid_distribution(self, size, nonzero_count):
-        generator = random.default_rng(144)
-
+    def test_is_valid_distribution(self, size, nonzero_count, generator):
         distribution = randomness.draw_distribution(
             generator, size, nonzero_count=nonzero_count
         )
@@ -23,16 +20,12 @@ class TestDrawDistribution:
         assert all(distribution >= 0)
         assert math.isclose(numpy.sum(distribution), 1)
 
-    def test_respects_nonzero_count(self):
-        generator = random.default_rng(233)
-
+    def test_respects_nonzero_count(self, generator):
         distribution = randomness.draw_distribution(generator, 5, nonzero_count=3)
 
         assert numpy.count_nonzero(distribution) == 3
 
-    def test_randomizes_nonzero_count_if_not_given(self):
-        generator = random.default_rng(377)
-
+    def test_randomizes_nonzero_count_if_not_given(self, generator):
         nonzero_counts = [
             numpy.count_nonzero(randomness.draw_distribution(generator, 4))
             for _ in range(100)
@@ -42,9 +35,7 @@ class TestDrawDistribution:
 
 
 class TestDrawDistributions:
-    def test_are_valid_distributions(self):
-        generator = random.default_rng(610)
-
+    def test_are_valid_distributions(self, generator):
         distributions = randomness.draw_distributions(generator, 5, 8)
 
         assert distributions.shape == (5, 8)

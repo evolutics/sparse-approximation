@@ -1,6 +1,5 @@
 import math
 
-from numpy import random
 from pytest import mark
 import numpy
 
@@ -52,8 +51,7 @@ def test_broadcast(D, p, q, expected):
     "D",
     [case[0] for case in _cases()],
 )
-def test_is_nonnegative(D):
-    generator = random.default_rng(144)
+def test_is_nonnegative(D, generator):
     for _ in range(20):
         p = randomness.draw_distribution(generator, 5)
         q = randomness.draw_distribution(generator, 5)
@@ -67,8 +65,7 @@ def test_is_nonnegative(D):
     "D",
     [case[0] for case in _cases()],
 )
-def test_is_zero_if_same(D):
-    generator = random.default_rng(233)
+def test_is_zero_if_same(D, generator):
     for _ in range(20):
         p = randomness.draw_distribution(generator, 5)
 
