@@ -27,6 +27,14 @@ def kullback_leibler(p, Q):
     return _column_wise(Q, lambda q: stats.entropy(p, q))
 
 
+def neyman_chi_square(p, Q):
+    return _column_wise(Q, lambda q: numpy.sum(numpy.square(p - q) / q))
+
+
+def pearson_chi_square(p, Q):
+    return _column_wise(Q, lambda q: numpy.sum(numpy.square(p - q) / p))
+
+
 def squared_euclidean(p, Q):
     return numpy.square(_column_wise(Q, lambda q: linalg.norm(p - q)))
 

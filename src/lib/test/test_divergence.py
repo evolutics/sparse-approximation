@@ -37,6 +37,20 @@ def _cases():
                 0.0852996013,
             ),
         ],
+        divergence.neyman_chi_square: [
+            (
+                numpy.array([0.2, 0.3, 0.5]),
+                numpy.array([0.3, 0.1, 0.6]),
+                0.45,
+            ),
+        ],
+        divergence.pearson_chi_square: [
+            (
+                numpy.array([0.2, 0.3, 0.5]),
+                numpy.array([0.3, 0.1, 0.6]),
+                0.2033333333,
+            ),
+        ],
         divergence.squared_euclidean: [
             (numpy.array([0.2, 0.3, 0.5]), numpy.array([0.3, 0.1, 0.6]), 0.06),
         ],
@@ -71,8 +85,8 @@ def test_broadcast(D, p, q, expected):
 @mark.parametrize("D", _cases())
 def test_is_nonnegative(D, generator):
     for _ in range(20):
-        p = randomness.draw_distribution(generator, 5)
-        q = randomness.draw_distribution(generator, 5)
+        p = randomness.draw_distribution(generator, 5, nonzero_count=5)
+        q = randomness.draw_distribution(generator, 5, nonzero_count=5)
 
         value = D(p, q)
 
@@ -82,7 +96,7 @@ def test_is_nonnegative(D, generator):
 @mark.parametrize("D", _cases())
 def test_is_zero_if_same(D, generator):
     for _ in range(20):
-        p = randomness.draw_distribution(generator, 5)
+        p = randomness.draw_distribution(generator, 5, nonzero_count=5)
 
         value = D(p, p)
 
