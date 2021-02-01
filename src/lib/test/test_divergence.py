@@ -14,6 +14,7 @@ def _cases():
         ],
         divergence.total_variation: [
             (numpy.array([0.2, 0.3, 0.5]), numpy.array([0.3, 0.1, 0.6]), 0.2),
+            (numpy.array([1, 0]), numpy.array([0, 1]), 1),
         ],
     }
 
