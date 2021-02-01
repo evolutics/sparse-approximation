@@ -8,36 +8,28 @@ from src.lib import randomness
 
 
 def _cases():
-    return [
-        (
-            divergence.squared_euclidean,
-            numpy.array([0.2, 0.3, 0.5]),
-            numpy.array([0.3, 0.1, 0.6]),
-            0.06,
-        ),
-        (
-            divergence.total_variation,
-            numpy.array([0.2, 0.3, 0.5]),
-            numpy.array([0.3, 0.1, 0.6]),
-            0.2,
-        ),
-    ]
+    return {
+        divergence.squared_euclidean: [
+            (numpy.array([0.2, 0.3, 0.5]), numpy.array([0.3, 0.1, 0.6]), 0.06),
+        ],
+        divergence.total_variation: [
+            (numpy.array([0.2, 0.3, 0.5]), numpy.array([0.3, 0.1, 0.6]), 0.2),
+        ],
+    }
 
 
-@mark.parametrize(
-    "D,p,q,expected",
-    _cases(),
-)
+def _cases_table():
+    return [(key,) + value for key, values in _cases().items() for value in values]
+
+
+@mark.parametrize("D,p,q,expected", _cases_table())
 def test_single(D, p, q, expected):
     actual = D(p, q)
 
     assert math.isclose(actual, expected)
 
 
-@mark.parametrize(
-    "D,p,q,expected",
-    _cases(),
-)
+@mark.parametrize("D,p,q,expected", _cases_table())
 def test_broadcast(D, p, q, expected):
     Q = numpy.column_stack([p, q])
 
@@ -47,10 +39,7 @@ def test_broadcast(D, p, q, expected):
     assert math.isclose(actual[1], expected)
 
 
-@mark.parametrize(
-    "D",
-    [case[0] for case in _cases()],
-)
+@mark.parametrize("D", _cases())
 def test_is_nonnegative(D, generator):
     for _ in range(20):
         p = randomness.draw_distribution(generator, 5)
@@ -61,10 +50,7 @@ def test_is_nonnegative(D, generator):
         assert value >= 0
 
 
-@mark.parametrize(
-    "D",
-    [case[0] for case in _cases()],
-)
+@mark.parametrize("D", _cases())
 def test_is_zero_if_same(D, generator):
     for _ in range(20):
         p = randomness.draw_distribution(generator, 5)
