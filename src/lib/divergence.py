@@ -1,5 +1,10 @@
 from numpy import linalg
+from scipy import stats
 import numpy
+
+
+def kullback_leibler(p, Q):
+    return _column_wise(Q, lambda q: stats.entropy(p, q))
 
 
 def squared_euclidean(p, Q):
