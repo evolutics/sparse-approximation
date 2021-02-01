@@ -8,8 +8,9 @@ import numpy
 
 def hellinger_distance(p, Q):
     sqrt_p = numpy.sqrt(p)
-    differences = _column_wise(Q, lambda q: sqrt_p - numpy.sqrt(q))
-    return (1 / math.sqrt(2)) * linalg.norm(differences, axis=0)
+    return (1 / math.sqrt(2)) * _column_wise(
+        Q, lambda q: linalg.norm(sqrt_p - numpy.sqrt(q))
+    )
 
 
 def jensen_shannon_distance(p, Q):
