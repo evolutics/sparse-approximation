@@ -9,6 +9,9 @@ from src.lib import randomness
 
 def _cases():
     return {
+        divergence.euclidean: [
+            (numpy.array([0.2, 0.3, 0.5]), numpy.array([0.3, 0.1, 0.6]), 0.2449489743),
+        ],
         divergence.hellinger_distance: [
             (
                 numpy.array([0.2, 0.3, 0.5]),
@@ -50,9 +53,6 @@ def _cases():
                 numpy.array([0.3, 0.1, 0.6]),
                 0.2033333333,
             ),
-        ],
-        divergence.squared_euclidean: [
-            (numpy.array([0.2, 0.3, 0.5]), numpy.array([0.3, 0.1, 0.6]), 0.06),
         ],
         divergence.total_variation: [
             (numpy.array([0.2, 0.3, 0.5]), numpy.array([0.3, 0.1, 0.6]), 0.2),

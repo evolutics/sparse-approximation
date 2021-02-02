@@ -6,6 +6,10 @@ from scipy.spatial import distance
 import numpy
 
 
+def euclidean(p, Q):
+    return _column_wise(Q, lambda q: linalg.norm(p - q))
+
+
 def hellinger_distance(p, Q):
     sqrt_p = numpy.sqrt(p)
     return (1 / math.sqrt(2)) * _column_wise(
@@ -33,10 +37,6 @@ def neyman_chi_square(p, Q):
 
 def pearson_chi_square(p, Q):
     return _column_wise(Q, lambda q: numpy.sum(numpy.square(p - q) / p))
-
-
-def squared_euclidean(p, Q):
-    return numpy.square(_column_wise(Q, lambda q: linalg.norm(p - q)))
 
 
 def total_variation(p, Q):
