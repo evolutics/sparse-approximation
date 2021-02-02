@@ -11,10 +11,9 @@ def euclidean(p, Q):
 
 
 def hellinger_distance(p, Q):
+    factor = 1 / math.sqrt(2)
     sqrt_p = numpy.sqrt(p)
-    return (1 / math.sqrt(2)) * _column_wise(
-        Q, lambda q: linalg.norm(sqrt_p - numpy.sqrt(q))
-    )
+    return factor * _column_wise(Q, lambda q: linalg.norm(sqrt_p - numpy.sqrt(q)))
 
 
 def jensen_shannon_distance(p, Q):
