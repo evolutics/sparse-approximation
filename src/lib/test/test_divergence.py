@@ -12,7 +12,7 @@ def _cases():
         divergence.euclidean: [
             (numpy.array([0.2, 0.3, 0.5]), numpy.array([0.3, 0.1, 0.6]), 0.2449489743),
         ],
-        divergence.hellinger_distance: [
+        divergence.hellinger: [
             (
                 numpy.array([0.2, 0.3, 0.5]),
                 numpy.array([0.3, 0.1, 0.6]),
@@ -26,7 +26,7 @@ def _cases():
                 0.182953966,
             ),
         ],
-        divergence.k_directed_divergence: [
+        divergence.k_directed: [
             (
                 numpy.array([0.2, 0.3, 0.5]),
                 numpy.array([0.3, 0.1, 0.6]),
