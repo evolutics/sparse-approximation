@@ -4,6 +4,7 @@ import numpy
 import pandas
 
 from src.lib import divergence
+from src.lib import randomness
 
 
 divergences = {
@@ -16,6 +17,8 @@ divergences = {
     "Pearson χ²": divergence.pearson_chi_square,
     "Total variation": divergence.total_variation,
 }
+
+# # Divergences for Bernoulli distributions
 
 
 def plot_bernoulli(p_0):
@@ -37,3 +40,41 @@ def plot_bernoulli(p_0):
 
 
 ipywidgets.interact(plot_bernoulli, p_0=(0.0, 1.0, 0.01))
+
+# # Example of disagreement between divergences
+
+
+def get_example(d_0, d_1, size, tries, random_seed):
+    generator = numpy.random.default_rng(random_seed)
+
+    example = None
+    example_differences = numpy.zeros(2)
+
+    for _ in range(tries):
+        p = randomness.draw_distribution(generator, size, nonzero_count=size)
+        q_0 = randomness.draw_distribution(generator, size, nonzero_count=size)
+        q_1 = randomness.draw_distribution(generator, size, nonzero_count=size)
+
+        d_0_0 = divergences[d_0](p, q_0)
+        d_0_1 = divergences[d_0](p, q_1)
+        d_1_0 = divergences[d_1](p, q_0)
+        d_1_1 = divergences[d_1](p, q_1)
+
+        differences = numpy.array([d_0_1 - d_0_0, d_1_0 - d_1_1])
+
+        if all(differences > example_differences):
+            example = pandas.DataFrame(
+                {
+                    "p": p,
+                    f"{d_0} favors ({d_0_0:.3f} < {d_0_1:.3f})": q_0,
+                    f"{d_1} favors ({d_1_0:.3f} > {d_1_1:.3f})": q_1,
+                }
+            )
+            example_differences = differences
+
+    return example
+
+
+get_example(
+    "Total variation", "K directed", size=3, tries=2 ** 13, random_seed=144
+).style.format("{:.3f}")
