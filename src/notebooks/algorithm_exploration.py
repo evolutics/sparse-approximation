@@ -1,4 +1,4 @@
-# pylint: disable=invalid-name,pointless-statement
+# pylint: disable=invalid-name
 
 import itertools
 import timeit
@@ -64,7 +64,7 @@ assert not unknown_algorithms, f"Unknown algorithms: {unknown_algorithms}"
 data = pandas.DataFrame(columns=["K", "Algorithm", "Divergence", "Duration / s"])
 
 progress = ipywidgets.FloatProgress(value=0.0, min=0.0, max=1.0)
-progress
+progress  # pylint: disable=pointless-statement
 
 for repetition in range(repetitions):
     progress.value = repetition / repetitions
@@ -100,8 +100,6 @@ for repetition in range(repetitions):
 progress.value = 1.0
 
 # # Output
-
-divergence_name
 
 altair.Chart(data).mark_line().encode(
     x="K",
