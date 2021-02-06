@@ -10,5 +10,5 @@ We have
     A ∈ ℝ^{M×N} with each column aₙ ∈ Δ^M,
     b ∈ Δ^M,
     D is a divergence, and
-    K ∈ ℕ.
+    1 ≤ K < N.
 """
