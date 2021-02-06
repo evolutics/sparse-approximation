@@ -1,10 +1,13 @@
 [FORMAT]
 
 good-names=
+    A,
+    b,
     D,
     p,
+    Q,
     q,
-    Q
+    x
 
 [MESSAGES CONTROL]
 
