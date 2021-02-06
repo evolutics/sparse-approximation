@@ -4,6 +4,7 @@ import itertools
 import timeit
 
 import altair
+import ipywidgets
 import numpy
 import pandas
 
@@ -62,8 +63,11 @@ assert not unknown_algorithms, f"Unknown algorithms: {unknown_algorithms}"
 
 data = pandas.DataFrame(columns=["K", "Algorithm", "Divergence", "Duration / s"])
 
+progress = ipywidgets.FloatProgress(value=0.0, min=0.0, max=1.0)
+progress
+
 for repetition in range(repetitions):
-    print(f"Progress: {repetition / repetitions}")
+    progress.value = repetition / repetitions
 
     A = randomness.draw_distributions(generator, M, N)
     b = randomness.draw_distribution(generator, M, nonzero_count=M)
@@ -92,6 +96,8 @@ for repetition in range(repetitions):
             },
             ignore_index=True,
         )
+
+progress.value = 1.0
 
 # # Output
 
