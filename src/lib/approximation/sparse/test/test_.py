@@ -4,11 +4,17 @@ import numpy
 from src.lib import divergence
 from src.lib import normalize
 from src.lib.approximation import dense
+from src.lib.approximation.sparse import brute_force_search
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 
 
 def _cases():
     return [
+        lambda *problem: brute_force_search.solve(
+            *problem,
+            D=divergence.total_variation,
+            solve_dense=dense.total_variation,
+        ),
         lambda *problem: orthogonal_matching_pursuit.solve(
             *problem,
             solve_dense=dense.euclidean,
