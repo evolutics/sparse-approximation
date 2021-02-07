@@ -1,4 +1,3 @@
-import inspect
 import math
 
 from pytest import mark
@@ -6,6 +5,7 @@ import numpy
 
 from src.lib import divergence
 from src.lib import randomness
+from src.lib.test import testing
 
 
 def _cases():
@@ -79,7 +79,7 @@ def test_broadcast(D, p, q, expected):
     assert math.isclose(actual[1], expected)
 
 
-@mark.parametrize("_name,D", inspect.getmembers(divergence, inspect.isfunction))
+@mark.parametrize("_name,D", testing.public_functions(divergence))
 def test_is_nonnegative(_name, D, generator):
     for _ in range(20):
         p = randomness.draw_distribution(generator, 5, nonzero_count=5)
@@ -90,7 +90,7 @@ def test_is_nonnegative(_name, D, generator):
         assert value >= 0
 
 
-@mark.parametrize("_name,D", inspect.getmembers(divergence, inspect.isfunction))
+@mark.parametrize("_name,D", testing.public_functions(divergence))
 def test_is_zero_if_same(_name, D, generator):
     for _ in range(20):
         p = randomness.draw_distribution(generator, 5, nonzero_count=5)
