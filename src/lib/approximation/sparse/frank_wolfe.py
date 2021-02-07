@@ -1,7 +1,7 @@
 import numpy
 
 
-def solve(A, b, K, solve_dense, potential):
+def solve(A, b, K, solve_dense, potential, is_step_size_adaptive):
     N = A.shape[1]
     S = numpy.full(N, False)
     r = b
@@ -14,7 +14,10 @@ def solve(A, b, K, solve_dense, potential):
         if i == 0:
             y = A[:, n]
         else:
-            step_size = 2 / (i + 2)
+            if is_step_size_adaptive:
+                step_size = solve_dense(numpy.column_stack([y, A[:, n]]), b)[1]
+            else:
+                step_size = 2 / (i + 2)
             y = (1 - step_size) * y + step_size * A[:, n]
 
         r = b - y

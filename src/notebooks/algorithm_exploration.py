@@ -22,7 +22,8 @@ random_seed = 144
 divergence_name = "total_variation"
 
 selected_algorithms = {
-    "Frank-Wolfe",
+    "Frank-Wolfe, adaptive",
+    "Frank-Wolfe, non-adaptive",
     "OMP, clip",
     "OMP, id",
     "OMP, shift",
@@ -45,8 +46,17 @@ potential_clip = lambda r, A: D(normalize.clip(r), A)
 potential_shift = lambda r, A: D(normalize.shift(r), A)
 
 algorithms = {
-    "Frank-Wolfe": lambda *problem: frank_wolfe.solve(
-        *problem, solve_dense=solve_dense, potential=potential_clip
+    "Frank-Wolfe, adaptive": lambda *problem: frank_wolfe.solve(
+        *problem,
+        solve_dense=solve_dense,
+        potential=potential_clip,
+        is_step_size_adaptive=True,
+    ),
+    "Frank-Wolfe, non-adaptive": lambda *problem: frank_wolfe.solve(
+        *problem,
+        solve_dense=solve_dense,
+        potential=potential_clip,
+        is_step_size_adaptive=False,
     ),
     "OMP, clip": lambda *problem: orthogonal_matching_pursuit.solve(
         *problem,

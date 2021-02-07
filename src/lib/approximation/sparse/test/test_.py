@@ -20,6 +20,13 @@ def _cases():
             *problem,
             solve_dense=dense.total_variation,
             potential=lambda r, A: divergence.total_variation(normalize.clip(r), A),
+            is_step_size_adaptive=False,
+        ),
+        lambda *problem: frank_wolfe.solve(
+            *problem,
+            solve_dense=dense.total_variation,
+            potential=lambda r, A: divergence.total_variation(normalize.clip(r), A),
+            is_step_size_adaptive=True,
         ),
         lambda *problem: orthogonal_matching_pursuit.solve(
             *problem,

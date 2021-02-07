@@ -26,4 +26,5 @@ disable=
     missing-module-docstring,
     no-self-use,
     too-few-public-methods,
+    too-many-arguments,
     too-many-locals
