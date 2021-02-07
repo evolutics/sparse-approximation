@@ -12,6 +12,7 @@ from src.lib import divergence
 from src.lib import normalize
 from src.lib import randomness
 from src.lib.approximation import dense
+from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 
 # # Input
@@ -21,6 +22,7 @@ random_seed = 144
 divergence_name = "total_variation"
 
 selected_algorithms = {
+    "Frank-Wolfe",
     "OMP, clip",
     "OMP, id",
     "OMP, shift",
@@ -43,6 +45,9 @@ potential_clip = lambda r, A: D(normalize.clip(r), A)
 potential_shift = lambda r, A: D(normalize.shift(r), A)
 
 algorithms = {
+    "Frank-Wolfe": lambda *problem: frank_wolfe.solve(
+        *problem, solve_dense=solve_dense, potential=potential_clip
+    ),
     "OMP, clip": lambda *problem: orthogonal_matching_pursuit.solve(
         *problem,
         solve_dense=solve_dense,

@@ -5,6 +5,7 @@ from src.lib import divergence
 from src.lib import normalize
 from src.lib.approximation import dense
 from src.lib.approximation.sparse import brute_force_search
+from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 
 
@@ -14,6 +15,11 @@ def _cases():
             *problem,
             D=divergence.total_variation,
             solve_dense=dense.total_variation,
+        ),
+        lambda *problem: frank_wolfe.solve(
+            *problem,
+            solve_dense=dense.total_variation,
+            potential=lambda r, A: divergence.total_variation(normalize.clip(r), A),
         ),
         lambda *problem: orthogonal_matching_pursuit.solve(
             *problem,

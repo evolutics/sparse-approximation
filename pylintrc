@@ -4,6 +4,7 @@ good-names=
     A,
     b,
     D,
+    i,
     K,
     n,
     N,
@@ -13,6 +14,7 @@ good-names=
     r,
     S,
     x,
+    y,
     z
 
 [MESSAGES CONTROL]
