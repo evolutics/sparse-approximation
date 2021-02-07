@@ -11,6 +11,11 @@ def _cases():
     return [
         lambda *problem: orthogonal_matching_pursuit.solve(
             *problem,
+            solve_dense=dense.euclidean,
+            potential=lambda r, A: -A.T @ r,
+        ),
+        lambda *problem: orthogonal_matching_pursuit.solve(
+            *problem,
             solve_dense=dense.total_variation,
             potential=lambda r, A: divergence.total_variation(normalize.clip(r), A),
         ),
