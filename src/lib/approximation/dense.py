@@ -8,6 +8,10 @@ These occur as ingredients of algorithms for the sparse case.
 import cvxpy
 
 
+def euclidean(A, b):
+    return _solve_convex(A, b, lambda p, q: cvxpy.norm2(p - q))
+
+
 def total_variation(A, b):
     return _solve_convex(A, b, lambda p, q: 0.5 * cvxpy.norm1(p - q))
 
