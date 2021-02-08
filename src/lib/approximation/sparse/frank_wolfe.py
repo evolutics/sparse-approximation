@@ -8,7 +8,7 @@ def solve(A, b, K, solve_dense, potential, is_step_size_adaptive):
 
     for i in range(K):
         potentials = potential(r, A[:, ~S])
-        n = numpy.argwhere(~S)[numpy.argmin(potentials)]
+        n = numpy.argwhere(~S)[numpy.argmin(potentials)][0]
         S[n] = True
 
         if i == 0:
