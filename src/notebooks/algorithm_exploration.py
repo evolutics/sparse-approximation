@@ -63,13 +63,13 @@ algorithms = {
         solve_dense=solve_dense,
         potential=potential_clip,
     ),
+    "OMP, id": lambda *problem: orthogonal_matching_pursuit.solve(
+        *problem, solve_dense=solve_dense, potential=D
+    ),
     "OMP, shift": lambda *problem: orthogonal_matching_pursuit.solve(
         *problem,
         solve_dense=solve_dense,
         potential=potential_shift,
-    ),
-    "OMP, id": lambda *problem: orthogonal_matching_pursuit.solve(
-        *problem, solve_dense=solve_dense, potential=D
     ),
 }
 
