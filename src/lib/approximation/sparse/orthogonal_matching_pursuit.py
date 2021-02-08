@@ -8,7 +8,7 @@ def solve(A, b, K, solve_dense, potential):
 
     while numpy.count_nonzero(S) < K:
         potentials = potential(r, A[:, ~S])
-        n = numpy.argwhere(~S)[numpy.argmin(potentials)][0]
+        n = numpy.flatnonzero(~S)[numpy.argmin(potentials)]
         S[n] = True
 
         x = numpy.zeros(N)
