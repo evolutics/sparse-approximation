@@ -12,6 +12,7 @@ from src.lib import divergence
 from src.lib import normalize
 from src.lib import randomness
 from src.lib.approximation import dense
+from src.lib.approximation.sparse import compressive_sampling_matching_pursuit
 from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 
@@ -22,6 +23,7 @@ random_seed = 144
 divergence_name = "total_variation"
 
 selected_algorithms = {
+    "CoSaMP, I=K, L=2K",
     "Frank-Wolfe, adaptive",
     "Frank-Wolfe, non-adaptive",
     "OMP, clip",
@@ -46,6 +48,16 @@ potential_clip = lambda r, A: D(normalize.clip(r), A)
 potential_shift = lambda r, A: D(normalize.shift(r), A)
 
 algorithms = {
+    "CoSaMP, I=K, L=2K": lambda A, b, K: compressive_sampling_matching_pursuit.solve(
+        A,
+        b,
+        K,
+        D=D,
+        solve_dense=solve_dense,
+        normalize=normalize.clip,
+        I=K,
+        L=2 * K,
+    ),
     "Frank-Wolfe, adaptive": lambda *problem: frank_wolfe.solve(
         *problem,
         solve_dense=solve_dense,
