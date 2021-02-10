@@ -63,7 +63,7 @@ algorithms = {
         solve_dense=solve_dense,
         normalize=normalize.clip,
         I=K,
-        L=2 * K,
+        L=min(2 * K, N),
     ),
     "Frank-Wolfe, adaptive": lambda *problem: frank_wolfe.solve(
         *problem,
