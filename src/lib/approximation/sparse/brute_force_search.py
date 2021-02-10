@@ -9,7 +9,9 @@ def solve(A, b, K, D, solve_dense):
 
     x_divergence = math.inf
 
-    for S in itertools.combinations(range(N), K):
+    for combination in itertools.combinations(range(N), K):
+        S = numpy.array(combination)
+
         z = solve_dense(A[:, S], b)
         z_divergence = D(b, A[:, S] @ z)
 
