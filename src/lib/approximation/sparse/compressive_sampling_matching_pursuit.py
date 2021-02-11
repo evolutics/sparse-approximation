@@ -5,23 +5,30 @@ from src.lib import sorting
 
 def solve(A, b, K, D, solve_dense, normalize, I, L):
     N = A.shape[1]
-    S = numpy.full(N, False)
+    T = numpy.full(N, False)
     r = b
 
-    for _ in range(I):
+    for i in range(I):
         potentials = D(normalize(r), A)
-        S[sorting.argmins(potentials, L)] = True
+        T[sorting.argmins(potentials, L)] = True
 
         x = numpy.zeros(N)
-        x[S] = solve_dense(A[:, S], b)
+        x[T] = solve_dense(A[:, T], b)
 
-        S.fill(False)
-        S[sorting.argmaxs(x, K)] = True
+        T.fill(False)
+        T[sorting.argmaxs(x, K)] = True
 
-        x[~S] = 0
+        x[~T] = 0
         x = normalize(x)
 
-        r = b - A[:, S] @ x[S]
+        y = A[:, T] @ x[T]
+        divergence = D(b, y)
+
+        if i == 0 or divergence < best_divergence:
+            S = numpy.copy(T)
+            best_divergence = divergence
+
+        r = b - y
 
     x = numpy.zeros(N)
     x[S] = solve_dense(A[:, S], b)
