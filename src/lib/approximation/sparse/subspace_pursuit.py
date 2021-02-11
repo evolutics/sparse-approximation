@@ -25,12 +25,9 @@ def solve(A, b, K, D, solve_dense, normalize, I, L):
         divergence = D(b, y)
 
         if i == 0 or divergence < best_divergence:
-            S = numpy.copy(T)
+            z = x
             best_divergence = divergence
 
         r = b - y
 
-    x = numpy.zeros(N)
-    x[S] = solve_dense(A[:, S], b)
-
-    return x
+    return z
