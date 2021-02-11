@@ -16,6 +16,7 @@ from src.lib.approximation.sparse import brute_force_search
 from src.lib.approximation.sparse import compressive_sampling_matching_pursuit
 from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
+from src.lib.approximation.sparse import subspace_pursuit
 
 # # Input
 
@@ -31,6 +32,7 @@ selected_algorithms = {
     "OMP, clip",
     "OMP, id",
     "OMP, shift",
+    "SP, I=K, L=K",
 }
 
 M = 16
@@ -89,6 +91,16 @@ algorithms = {
         *problem,
         solve_dense=solve_dense,
         potential=potential_shift,
+    ),
+    "SP, I=K, L=K": lambda A, b, K: subspace_pursuit.solve(
+        A,
+        b,
+        K,
+        D=D,
+        solve_dense=solve_dense,
+        normalize=normalize.clip,
+        I=K,
+        L=K,
     ),
 }
 
