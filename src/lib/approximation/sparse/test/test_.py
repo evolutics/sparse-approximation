@@ -8,6 +8,7 @@ from src.lib.approximation.sparse import brute_force_search
 from src.lib.approximation.sparse import compressive_sampling_matching_pursuit
 from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
+from src.lib.approximation.sparse import stagewise_orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
 
 
@@ -49,6 +50,13 @@ def _cases():
             *problem,
             solve_dense=dense.total_variation,
             potential=lambda r, A: divergence.total_variation(normalize.clip(r), A),
+        ),
+        lambda *problem: stagewise_orthogonal_matching_pursuit.solve(
+            *problem,
+            D=divergence.total_variation,
+            solve_dense=dense.total_variation,
+            normalize=normalize.clip,
+            L=1,
         ),
         lambda A, b, K: subspace_pursuit.solve(
             A,
