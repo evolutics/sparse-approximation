@@ -10,6 +10,7 @@ from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import generalized_orthogonal_matching_pursuit
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
+from src.lib.approximation.sparse import warm_kl
 
 
 def _cases():
@@ -88,6 +89,14 @@ def _cases():
                 normalize=normalize.clip,
                 I=K,
                 L=K,
+            ),
+        ),
+        (
+            divergence.total_variation,
+            lambda *problem: warm_kl.solve(
+                *problem,
+                solve_dense=dense.total_variation,
+                delta=1,
             ),
         ),
     ]

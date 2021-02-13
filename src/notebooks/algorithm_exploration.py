@@ -18,6 +18,7 @@ from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import generalized_orthogonal_matching_pursuit
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
+from src.lib.approximation.sparse import warm_kl
 
 # # Input
 
@@ -32,6 +33,7 @@ selected_algorithms = {
     "gOMP, L=2",
     "OMP",
     "SP, I=K, L=K",
+    "Warm-KL, δ=1",
 }
 
 M = 16
@@ -94,6 +96,11 @@ algorithms = {
         normalize=normalize.clip,
         I=K,
         L=K,
+    ),
+    "Warm-KL, δ=1": lambda *problem: warm_kl.solve(
+        *problem,
+        solve_dense=dense.total_variation,
+        delta=1,
     ),
 }
 
