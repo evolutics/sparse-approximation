@@ -31,9 +31,7 @@ selected_algorithms = {
     "Frank-Wolfe, adaptive",
     "Frank-Wolfe, non-adaptive",
     "gOMP, L=2",
-    "OMP, clip",
-    "OMP, id",
-    "OMP, shift",
+    "OMP",
     "SP, I=K, L=K",
 }
 
@@ -88,18 +86,10 @@ algorithms = {
         normalize=normalize.clip,
         L=2,
     ),
-    "OMP, clip": lambda *problem: orthogonal_matching_pursuit.solve(
+    "OMP": lambda *problem: orthogonal_matching_pursuit.solve(
         *problem,
         solve_dense=solve_dense,
         potential=potential_clip,
-    ),
-    "OMP, id": lambda *problem: orthogonal_matching_pursuit.solve(
-        *problem, solve_dense=solve_dense, potential=D
-    ),
-    "OMP, shift": lambda *problem: orthogonal_matching_pursuit.solve(
-        *problem,
-        solve_dense=solve_dense,
-        potential=potential_shift,
     ),
     "SP, I=K, L=K": lambda A, b, K: subspace_pursuit.solve(
         A,
