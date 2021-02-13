@@ -26,7 +26,6 @@ random_seed = 144
 divergence_name = "total_variation"
 
 selected_algorithms = {
-    "Brute-force search",
     "CoSaMP, I=K, L=2K",
     "Frank-Wolfe, adaptive",
     "Frank-Wolfe, non-adaptive",
@@ -38,7 +37,7 @@ selected_algorithms = {
 M = 16
 N = 256
 
-repetitions = 32
+repetitions = 8
 
 # # Calculation
 
