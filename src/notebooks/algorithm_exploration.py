@@ -15,8 +15,8 @@ from src.lib.approximation import dense
 from src.lib.approximation.sparse import brute_force_search
 from src.lib.approximation.sparse import compressive_sampling_matching_pursuit
 from src.lib.approximation.sparse import frank_wolfe
+from src.lib.approximation.sparse import generalized_orthogonal_matching_pursuit
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
-from src.lib.approximation.sparse import stagewise_orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
 
 # # Input
@@ -30,11 +30,11 @@ selected_algorithms = {
     "CoSaMP, I=K, L=2K",
     "Frank-Wolfe, adaptive",
     "Frank-Wolfe, non-adaptive",
+    "gOMP, L=2",
     "OMP, clip",
     "OMP, id",
     "OMP, shift",
     "SP, I=K, L=K",
-    "StOMP, L=2",
 }
 
 M = 16
@@ -81,6 +81,13 @@ algorithms = {
         potential=potential_clip,
         is_step_size_adaptive=False,
     ),
+    "gOMP, L=2": lambda *problem: generalized_orthogonal_matching_pursuit.solve(
+        *problem,
+        D=D,
+        solve_dense=solve_dense,
+        normalize=normalize.clip,
+        L=2,
+    ),
     "OMP, clip": lambda *problem: orthogonal_matching_pursuit.solve(
         *problem,
         solve_dense=solve_dense,
@@ -103,13 +110,6 @@ algorithms = {
         normalize=normalize.clip,
         I=K,
         L=K,
-    ),
-    "StOMP, L=2": lambda *problem: stagewise_orthogonal_matching_pursuit.solve(
-        *problem,
-        D=D,
-        solve_dense=solve_dense,
-        normalize=normalize.clip,
-        L=2,
     ),
 }
 
