@@ -47,20 +47,16 @@ D = getattr(divergence, divergence_name)
 
 solve_dense = getattr(dense, divergence_name)
 
-potential_clip = lambda r, A: D(normalize.clip(r), A)
-potential_shift = lambda r, A: D(normalize.shift(r), A)
-
 algorithms = {
     "Brute-force search": lambda *problem: brute_force_search.solve(
         *problem,
-        D=D,
         solve_dense=solve_dense,
     ),
-    "CoSaMP, I=K, L=2K": lambda A, b, K: compressive_sampling_matching_pursuit.solve(
+    "CoSaMP, I=K, L=2K": lambda A, b, D, K: compressive_sampling_matching_pursuit.solve(
         A,
         b,
+        D,
         K,
-        D=D,
         solve_dense=solve_dense,
         normalize=normalize.clip,
         I=K,
@@ -69,18 +65,17 @@ algorithms = {
     "Frank-Wolfe, adaptive": lambda *problem: frank_wolfe.solve(
         *problem,
         solve_dense=solve_dense,
-        potential=potential_clip,
+        normalize=normalize.clip,
         is_step_size_adaptive=True,
     ),
     "Frank-Wolfe, non-adaptive": lambda *problem: frank_wolfe.solve(
         *problem,
         solve_dense=solve_dense,
-        potential=potential_clip,
+        normalize=normalize.clip,
         is_step_size_adaptive=False,
     ),
     "gOMP, L=2": lambda *problem: generalized_orthogonal_matching_pursuit.solve(
         *problem,
-        D=D,
         solve_dense=solve_dense,
         normalize=normalize.clip,
         L=2,
@@ -88,13 +83,13 @@ algorithms = {
     "OMP": lambda *problem: orthogonal_matching_pursuit.solve(
         *problem,
         solve_dense=solve_dense,
-        potential=potential_clip,
+        normalize=normalize.clip,
     ),
-    "SP, I=K, L=K": lambda A, b, K: subspace_pursuit.solve(
+    "SP, I=K, L=K": lambda A, b, D, K: subspace_pursuit.solve(
         A,
         b,
+        D,
         K,
-        D=D,
         solve_dense=solve_dense,
         normalize=normalize.clip,
         I=K,
@@ -123,7 +118,7 @@ for repetition in range(repetitions):
         solve = algorithms[algorithm]
 
         start_time = timeit.default_timer()
-        x = solve(A, b, K)
+        x = solve(A, b, D, K)
         end_time = timeit.default_timer()
 
         assert x.shape == (N,)

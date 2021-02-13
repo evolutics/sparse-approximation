@@ -14,69 +14,91 @@ from src.lib.approximation.sparse import subspace_pursuit
 
 def _cases():
     return [
-        lambda *problem: brute_force_search.solve(
-            *problem,
-            D=divergence.total_variation,
-            solve_dense=dense.total_variation,
+        (
+            divergence.total_variation,
+            lambda *problem: brute_force_search.solve(
+                *problem,
+                solve_dense=dense.total_variation,
+            ),
         ),
-        lambda A, b, K: compressive_sampling_matching_pursuit.solve(
-            A,
-            b,
-            K,
-            D=divergence.total_variation,
-            solve_dense=dense.total_variation,
-            normalize=normalize.clip,
-            I=K,
-            L=2 * K,
+        (
+            divergence.total_variation,
+            lambda A, b, D, K: compressive_sampling_matching_pursuit.solve(
+                A,
+                b,
+                D,
+                K,
+                solve_dense=dense.total_variation,
+                normalize=normalize.clip,
+                I=K,
+                L=2 * K,
+            ),
         ),
-        lambda *problem: frank_wolfe.solve(
-            *problem,
-            solve_dense=dense.total_variation,
-            potential=lambda r, A: divergence.total_variation(normalize.clip(r), A),
-            is_step_size_adaptive=False,
+        (
+            divergence.total_variation,
+            lambda *problem: frank_wolfe.solve(
+                *problem,
+                solve_dense=dense.total_variation,
+                normalize=normalize.clip,
+                is_step_size_adaptive=False,
+            ),
         ),
-        lambda *problem: frank_wolfe.solve(
-            *problem,
-            solve_dense=dense.total_variation,
-            potential=lambda r, A: divergence.total_variation(normalize.clip(r), A),
-            is_step_size_adaptive=True,
+        (
+            divergence.total_variation,
+            lambda *problem: frank_wolfe.solve(
+                *problem,
+                solve_dense=dense.total_variation,
+                normalize=normalize.clip,
+                is_step_size_adaptive=True,
+            ),
         ),
-        lambda *problem: generalized_orthogonal_matching_pursuit.solve(
-            *problem,
-            D=divergence.total_variation,
-            solve_dense=dense.total_variation,
-            normalize=normalize.clip,
-            L=1,
+        (
+            divergence.total_variation,
+            lambda *problem: generalized_orthogonal_matching_pursuit.solve(
+                *problem,
+                solve_dense=dense.total_variation,
+                normalize=normalize.clip,
+                L=1,
+            ),
         ),
-        lambda *problem: orthogonal_matching_pursuit.solve(
-            *problem,
-            solve_dense=dense.euclidean,
-            potential=lambda r, A: -A.T @ r,
+        (
+            divergence.euclidean,
+            lambda *problem: orthogonal_matching_pursuit.solve(
+                *problem,
+                solve_dense=dense.euclidean,
+                normalize=lambda r: r,
+            ),
         ),
-        lambda *problem: orthogonal_matching_pursuit.solve(
-            *problem,
-            solve_dense=dense.total_variation,
-            potential=lambda r, A: divergence.total_variation(normalize.clip(r), A),
+        (
+            divergence.total_variation,
+            lambda *problem: orthogonal_matching_pursuit.solve(
+                *problem,
+                solve_dense=dense.total_variation,
+                normalize=normalize.clip,
+            ),
         ),
-        lambda A, b, K: subspace_pursuit.solve(
-            A,
-            b,
-            K,
-            D=divergence.total_variation,
-            solve_dense=dense.total_variation,
-            normalize=normalize.clip,
-            I=K,
-            L=K,
+        (
+            divergence.total_variation,
+            lambda A, b, D, K: subspace_pursuit.solve(
+                A,
+                b,
+                D,
+                K,
+                solve_dense=dense.total_variation,
+                normalize=normalize.clip,
+                I=K,
+                L=K,
+            ),
         ),
     ]
 
 
-@mark.parametrize("solve", _cases())
-def test_selects_single_atom(solve):
+@mark.parametrize("D,solve", _cases())
+def test_selects_single_atom(D, solve):
     A = numpy.array([[1, 0.5, 0.4, 0.8], [0, 0.5, 0.6, 0.2]])
     b = numpy.array([0, 1])
     K = 1
 
-    x = solve(A, b, K)
+    x = solve(A, b, D, K)
 
     assert numpy.allclose(x, numpy.array([0, 0, 1, 0]))

@@ -4,7 +4,7 @@ import math
 import numpy
 
 
-def solve(A, b, K, D, solve_dense):
+def solve(A, b, D, K, solve_dense):
     N = A.shape[1]
 
     x_divergence = math.inf
