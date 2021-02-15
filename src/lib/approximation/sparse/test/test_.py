@@ -96,7 +96,7 @@ def _cases():
             lambda *problem: warm_kl.solve(
                 *problem,
                 solve_dense=dense.total_variation,
-                delta=1,
+                eta_i=lambda i: 1 / (i + 2),
             ),
         ),
     ]

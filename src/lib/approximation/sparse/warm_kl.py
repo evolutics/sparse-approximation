@@ -3,15 +3,15 @@ import numpy
 from src.lib import divergence
 
 
-def solve(A, b, _, K, solve_dense, delta):
+def solve(A, b, _, K, solve_dense, eta_i):
     N = A.shape[1]
     S = numpy.full(N, False)
-    eta = delta ** 2 / (2 * K)
 
     for i in range(K):
         if i == 0:
             Q = A
         else:
+            eta = eta_i(i)
             Q = (1 - eta) * q[:, None] + eta * A[:, ~S]
         potentials = divergence.k_directed(b, Q)
 

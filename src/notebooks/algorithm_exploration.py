@@ -33,7 +33,8 @@ selected_algorithms = {
     "gOMP, L=2",
     "OMP",
     "SP, I=K, L=K",
-    "Warm-KL, δ=1",
+    "Warm-KL, ηᵢ=1/(2K)",
+    "Warm-KL, ηᵢ=1/(i+2)",
 }
 
 M = 16
@@ -97,10 +98,18 @@ algorithms = {
         I=K,
         L=K,
     ),
-    "Warm-KL, δ=1": lambda *problem: warm_kl.solve(
+    "Warm-KL, ηᵢ=1/(2K)": lambda A, b, D, K_: warm_kl.solve(
+        A,
+        b,
+        D,
+        K_,
+        solve_dense=solve_dense,
+        eta_i=lambda _: 1 / (2 * K_),
+    ),
+    "Warm-KL, ηᵢ=1/(i+2)": lambda *problem: warm_kl.solve(
         *problem,
         solve_dense=solve_dense,
-        delta=1,
+        eta_i=lambda i: 1 / (i + 2),
     ),
 }
 
