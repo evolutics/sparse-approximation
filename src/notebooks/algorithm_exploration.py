@@ -99,7 +99,7 @@ algorithms = {
     ),
     "Warm-KL, δ=1": lambda *problem: warm_kl.solve(
         *problem,
-        solve_dense=dense.total_variation,
+        solve_dense=solve_dense,
         delta=1,
     ),
 }
