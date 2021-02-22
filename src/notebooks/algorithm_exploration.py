@@ -18,6 +18,7 @@ from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import generalized_orthogonal_matching_pursuit
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
+from src.lib.approximation.sparse import warm_compressive_sampling_matching_pursuit
 from src.lib.approximation.sparse import warm_kl
 
 # # Input
@@ -33,6 +34,7 @@ selected_algorithms = {
     "gOMP, L=2",
     "OMP",
     "SP, I=K, L=K",
+    "Warm CoSaMP, I=K, L=2K",
     "Warm-KL, ηᵢ=1/(2K)",
     "Warm-KL, ηᵢ=1/(i+2)",
 }
@@ -97,6 +99,17 @@ algorithms = {
         normalize=normalize.clip,
         I=K,
         L=K,
+    ),
+    "Warm CoSaMP, I=K, L=2K": lambda A, b, D, K: warm_compressive_sampling_matching_pursuit.solve(
+        A,
+        b,
+        D,
+        K,
+        solve_dense=solve_dense,
+        eta_i=lambda i: 1 / (i + 2),
+        normalize=normalize.clip,
+        I=K,
+        L=min(2 * K, N),
     ),
     "Warm-KL, ηᵢ=1/(2K)": lambda A, b, D, K_: warm_kl.solve(
         A,
