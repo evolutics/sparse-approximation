@@ -6,6 +6,7 @@ These occur as ingredients of algorithms for the sparse case.
 
 
 import cvxpy
+import numpy
 
 
 def euclidean(A, b):
@@ -26,4 +27,7 @@ def _solve_convex(A, b, D):
 
     status = problem.status
     assert status == cvxpy.OPTIMAL, f"Unable to solve optimization problem: {status}"
-    return x.value
+    x = x.value
+
+    x[numpy.isclose(x, 0)] = 0
+    return x

@@ -138,7 +138,7 @@ for repetition in range(repetitions):
         end_time = timeit.default_timer()
 
         assert x.shape == (N,)
-        assert all((x >= 0) | numpy.isclose(x, 0))
+        assert all(x >= 0)
         assert numpy.isclose(numpy.sum(x), 1)
         assert numpy.count_nonzero(x) <= K
 
