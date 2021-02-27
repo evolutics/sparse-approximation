@@ -125,4 +125,4 @@ def test_selects_single_atom(D, solve):
 
     x = solve(A, b, D, K)
 
-    assert numpy.allclose(x, numpy.array([0, 0, 1, 0]))
+    assert numpy.nonzero(x) == numpy.array([2])

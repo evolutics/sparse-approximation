@@ -19,7 +19,6 @@ def solve(A, b, D, K, solve_dense, normalize, I, L):
         S[sorting.argmaxs(x, K)] = True
 
         x[~S] = 0
-        x = normalize(x)
 
         y = A[:, S] @ x[S]
         divergence = D(b, y)

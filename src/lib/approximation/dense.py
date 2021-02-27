@@ -1,5 +1,5 @@
 """
-Minimizes D(b, Ax) for x ∈ Δ^N where aₙ, b ∈ Δ^M and D is a divergence.
+Minimizes D(b, Ax) for x ∈ ℝ₊^N where aₙ, b ∈ Δ^M and D is a divergence.
 
 These occur as ingredients of algorithms for the sparse case.
 """
@@ -20,7 +20,7 @@ def total_variation(A, b):
 def _solve_convex(A, b, D):
     x = cvxpy.Variable(A.shape[1])
     objective = cvxpy.Minimize(D(b, A @ x))
-    constraints = [x >= 0, cvxpy.sum(x) == 1]
+    constraints = [x >= 0]
     problem = cvxpy.Problem(objective, constraints)
 
     problem.solve()

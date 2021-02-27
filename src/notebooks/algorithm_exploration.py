@@ -157,7 +157,6 @@ for repetition in range(repetitions):
 
         assert x.shape == (N,)
         assert all(x >= 0)
-        assert numpy.isclose(numpy.sum(x), 1)
         assert numpy.count_nonzero(x) <= K
 
         data = data.append(

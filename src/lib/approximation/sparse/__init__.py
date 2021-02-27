@@ -1,5 +1,5 @@
 """
-Minimizes D(b, Ax) for x ∈ Δ^N subject to ‖x‖₀ ≤ K where aₙ, b ∈ Δ^M.
+Minimizes D(b, Ax) for x ∈ ℝ₊^N subject to ‖x‖₀ ≤ K where aₙ, b ∈ Δ^M.
 
 This is a case of sparse approximation.
 
