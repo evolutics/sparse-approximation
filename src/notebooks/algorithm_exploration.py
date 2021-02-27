@@ -26,6 +26,7 @@ from src.lib.approximation.sparse import warm_kl
 random_seed = 144
 
 divergence_name = "total_variation"
+normalize_ = normalize.clip
 
 selected_algorithms = {
     "CoSaMP, I=K, L=2K",
@@ -63,32 +64,32 @@ algorithms = {
         D,
         K,
         solve_dense=solve_dense,
-        normalize=normalize.clip,
+        normalize=normalize_,
         I=K,
         L=min(2 * K, N),
     ),
     "Frank-Wolfe, adaptive": lambda *problem: frank_wolfe.solve(
         *problem,
         solve_dense=solve_dense,
-        normalize=normalize.clip,
+        normalize=normalize_,
         is_step_size_adaptive=True,
     ),
     "Frank-Wolfe, non-adaptive": lambda *problem: frank_wolfe.solve(
         *problem,
         solve_dense=solve_dense,
-        normalize=normalize.clip,
+        normalize=normalize_,
         is_step_size_adaptive=False,
     ),
     "gOMP, L=2": lambda *problem: generalized_orthogonal_matching_pursuit.solve(
         *problem,
         solve_dense=solve_dense,
-        normalize=normalize.clip,
+        normalize=normalize_,
         L=2,
     ),
     "OMP": lambda *problem: orthogonal_matching_pursuit.solve(
         *problem,
         solve_dense=solve_dense,
-        normalize=normalize.clip,
+        normalize=normalize_,
     ),
     "SP, I=K, L=K": lambda A, b, D, K: subspace_pursuit.solve(
         A,
@@ -96,7 +97,7 @@ algorithms = {
         D,
         K,
         solve_dense=solve_dense,
-        normalize=normalize.clip,
+        normalize=normalize_,
         I=K,
         L=K,
     ),
@@ -107,7 +108,7 @@ algorithms = {
         K,
         solve_dense=solve_dense,
         eta_i=lambda i: 1 / (i + 2),
-        normalize=normalize.clip,
+        normalize=normalize_,
         I=K,
         L=min(2 * K, N),
     ),
