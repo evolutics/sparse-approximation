@@ -26,7 +26,6 @@ from src.lib.approximation.sparse import warm_kl
 random_seed = 144
 
 divergence_name = "total_variation"
-normalize_ = normalize.clip
 
 selected_algorithms = {
     "CoSaMP, I=K, L=2K",
@@ -52,6 +51,11 @@ generator = numpy.random.default_rng(random_seed)
 D = getattr(divergence, divergence_name)
 
 solve_dense = getattr(dense, divergence_name)
+
+normalize_ = {
+    "kullback_leibler": normalize.clip,
+    "total_variation": normalize.clip,
+}[divergence_name]
 
 algorithms = {
     "Brute-force search": lambda *problem: brute_force_search.solve(
