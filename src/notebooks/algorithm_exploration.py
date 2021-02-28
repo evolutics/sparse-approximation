@@ -39,6 +39,7 @@ selected_algorithms = {
     "Warm-KL, ηᵢ=1/(2K)",
 }
 
+density_range = (0, 1)
 M = 16
 N = 256
 
@@ -142,7 +143,11 @@ progress  # pylint: disable=pointless-statement
 for repetition in range(repetitions):
     progress.value = repetition / repetitions
 
-    A = randomness.draw_distributions(generator, M, N, nonzero_range=(1, M + 1))
+    nonzero_range = (
+        max(round(density_range[0] * M), 1),
+        round(density_range[1] * M) + 1,
+    )
+    A = randomness.draw_distributions(generator, M, N, nonzero_range=nonzero_range)
     b = randomness.draw_distribution(generator, M)
 
     for K, algorithm in itertools.product(
