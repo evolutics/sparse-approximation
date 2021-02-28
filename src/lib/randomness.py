@@ -1,9 +1,11 @@
 import numpy
 
 
-def draw_distribution(generator, size, nonzero_count=None):
-    if nonzero_count is None:
-        nonzero_count = generator.integers(1, size + 1)
+def draw_distribution(generator, size, nonzero_range=None):
+    if nonzero_range is None:
+        nonzero_count = size
+    else:
+        nonzero_count = generator.integers(*nonzero_range)
 
     indices = generator.choice(size, nonzero_count, replace=False)
 
@@ -16,7 +18,10 @@ def draw_distribution(generator, size, nonzero_count=None):
     return distribution
 
 
-def draw_distributions(generator, rows, columns):
+def draw_distributions(generator, rows, columns, nonzero_range=None):
     return numpy.column_stack(
-        [draw_distribution(generator, rows) for _ in range(columns)]
+        [
+            draw_distribution(generator, rows, nonzero_range=nonzero_range)
+            for _ in range(columns)
+        ]
     )

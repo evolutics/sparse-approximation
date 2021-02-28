@@ -51,9 +51,9 @@ def get_example(d_0, d_1, size, tries, random_seed):
     example_differences = numpy.zeros(2)
 
     for _ in range(tries):
-        p = randomness.draw_distribution(generator, size, nonzero_count=size)
-        q_0 = randomness.draw_distribution(generator, size, nonzero_count=size)
-        q_1 = randomness.draw_distribution(generator, size, nonzero_count=size)
+        p = randomness.draw_distribution(generator, size)
+        q_0 = randomness.draw_distribution(generator, size)
+        q_1 = randomness.draw_distribution(generator, size)
 
         d_0_0 = divergences[d_0](p, q_0)
         d_0_1 = divergences[d_0](p, q_1)

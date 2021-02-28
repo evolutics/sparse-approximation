@@ -142,8 +142,8 @@ progress  # pylint: disable=pointless-statement
 for repetition in range(repetitions):
     progress.value = repetition / repetitions
 
-    A = randomness.draw_distributions(generator, M, N)
-    b = randomness.draw_distribution(generator, M, nonzero_count=M)
+    A = randomness.draw_distributions(generator, M, N, nonzero_range=(1, M + 1))
+    b = randomness.draw_distribution(generator, M)
 
     for K, algorithm in itertools.product(
         range(1, min(M, N)),

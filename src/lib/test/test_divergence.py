@@ -82,8 +82,8 @@ def test_broadcast(D, p, q, expected):
 @mark.parametrize("_name,D", testing.public_functions(divergence))
 def test_is_nonnegative(_name, D, generator):
     for _ in range(20):
-        p = randomness.draw_distribution(generator, 5, nonzero_count=5)
-        q = randomness.draw_distribution(generator, 5, nonzero_count=5)
+        p = randomness.draw_distribution(generator, 5)
+        q = randomness.draw_distribution(generator, 5)
 
         value = D(p, q)
 
@@ -93,7 +93,7 @@ def test_is_nonnegative(_name, D, generator):
 @mark.parametrize("_name,D", testing.public_functions(divergence))
 def test_is_zero_if_same(_name, D, generator):
     for _ in range(20):
-        p = randomness.draw_distribution(generator, 5, nonzero_count=5)
+        p = randomness.draw_distribution(generator, 5)
 
         value = D(p, p)
 
