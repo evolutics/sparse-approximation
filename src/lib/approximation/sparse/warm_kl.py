@@ -1,6 +1,5 @@
+from numpy import ma
 import numpy
-
-from src.lib import divergence
 
 
 def solve(A, b, _, K, solve_dense, eta_i):
@@ -13,9 +12,12 @@ def solve(A, b, _, K, solve_dense, eta_i):
         else:
             eta = eta_i(i)
             Q = (1 - eta) * q[:, None] + eta * A[:, ~S]
-        potentials = divergence.k_directed(b, Q)
 
-        index = numpy.argmin(potentials)
+        # A `q` minimizes the K directed divergence `K(b, q)` if and only if it
+        # maximizes `∑ₘ bₘ log (bₘ+qₘ)`, which is faster to compute.
+        potentials = (b[:, None] * ma.log(b[:, None] + Q).filled(0)).sum(axis=0)
+        index = numpy.argmax(potentials)
+
         S[numpy.flatnonzero(~S)[index]] = True
 
         q = Q[:, index]
