@@ -35,8 +35,8 @@ selected_algorithms = {
     "OMP",
     "SP, I=K, L=K",
     "Warm CoSaMP, I=K, L=2K",
+    "Warm-KL, ηᵢ=1/(2i+1)",
     "Warm-KL, ηᵢ=1/(2K)",
-    "Warm-KL, ηᵢ=1/(i+2)",
 }
 
 M = 16
@@ -111,10 +111,15 @@ algorithms = {
         D,
         K,
         solve_dense=solve_dense,
-        eta_i=lambda i: 1 / (i + 2),
+        eta_i=lambda i: 1 / (2 * i + 1),
         normalize=normalize_,
         I=K,
         L=min(2 * K, N),
+    ),
+    "Warm-KL, ηᵢ=1/(2i+1)": lambda *problem: warm_kl.solve(
+        *problem,
+        solve_dense=solve_dense,
+        eta_i=lambda i: 1 / (2 * i + 1),
     ),
     "Warm-KL, ηᵢ=1/(2K)": lambda A, b, D, K_: warm_kl.solve(
         A,
@@ -123,11 +128,6 @@ algorithms = {
         K_,
         solve_dense=solve_dense,
         eta_i=lambda _: 1 / (2 * K_),
-    ),
-    "Warm-KL, ηᵢ=1/(i+2)": lambda *problem: warm_kl.solve(
-        *problem,
-        solve_dense=solve_dense,
-        eta_i=lambda i: 1 / (i + 2),
     ),
 }
 

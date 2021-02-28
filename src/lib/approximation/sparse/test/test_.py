@@ -100,7 +100,7 @@ def _cases():
                 D,
                 K,
                 solve_dense=dense.total_variation,
-                eta_i=lambda i: 1 / (i + 2),
+                eta_i=lambda i: 1 / (2 * i + 1),
                 normalize=normalize.clip,
                 I=K,
                 L=2 * K,
@@ -111,7 +111,7 @@ def _cases():
             lambda *problem: warm_kl.solve(
                 *problem,
                 solve_dense=dense.total_variation,
-                eta_i=lambda i: 1 / (i + 2),
+                eta_i=lambda i: 1 / (2 * i + 1),
             ),
         ),
     ]
