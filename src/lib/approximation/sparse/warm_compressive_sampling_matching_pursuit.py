@@ -7,11 +7,10 @@ from src.lib.approximation.sparse import warm_kl
 def solve(A, b, D, K, solve_dense, eta_i, normalize, I, L):
     N = A.shape[1]
 
-    x = warm_kl.solve(A, b, D, K, solve_dense, eta_i)
-    S = x != 0
-    y = A[:, S] @ x[S]
-    T = numpy.copy(S)
-    best_divergence = D(b, y)
+    z = warm_kl.solve(A, b, D, K, solve_dense, eta_i)
+    S = z != 0
+    y = A[:, S] @ z[S]
+    z_divergence = D(b, y)
     r = b - y
 
     for _ in range(I):
@@ -25,15 +24,12 @@ def solve(A, b, D, K, solve_dense, eta_i, normalize, I, L):
         S[sorting.argmaxs(x, K)] = True
 
         y = A[:, S] @ x[S]
-        divergence = D(b, y)
-
-        if divergence < best_divergence:
-            T = numpy.copy(S)
-            best_divergence = divergence
-
         r = b - y
 
     x = numpy.zeros(N)
-    x[T] = solve_dense(A[:, T], b)
+    x[S] = solve_dense(A[:, S], b)
+    x_divergence = D(b, A[:, S] @ x[S])
 
-    return x
+    if x_divergence < z_divergence:
+        return x
+    return z
