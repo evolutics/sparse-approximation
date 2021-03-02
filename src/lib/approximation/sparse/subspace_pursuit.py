@@ -25,9 +25,9 @@ def solve(A, b, D, K, solve_dense, normalize, I, L):
         divergence = D(b, y)
 
         if i == 0 or divergence < best_divergence:
-            z = x
+            best_x = x
             best_divergence = divergence
 
         r = b - y
 
-    return z
+    return best_x

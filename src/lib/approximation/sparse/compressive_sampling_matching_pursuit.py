@@ -23,7 +23,7 @@ def solve(A, b, D, K, solve_dense, normalize, I, L):
 
         if i == 0 or divergence < best_divergence:
             x[~S] = 0
-            z = x
+            best_x = x
             best_divergence = divergence
 
         r = b - y
@@ -32,6 +32,6 @@ def solve(A, b, D, K, solve_dense, normalize, I, L):
     x[S] = solve_dense(A[:, S], b)
     divergence = D(b, A[:, S] @ x[S])
     if divergence < best_divergence:
-        z = x
+        best_x = x
 
-    return z
+    return best_x
