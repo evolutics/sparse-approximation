@@ -10,7 +10,7 @@ def solve(A, b, D, K, solve_dense, eta_i, normalize, I, L):
     z = warm_kl.solve(A, b, D, K, solve_dense, eta_i)
     S = z != 0
     y = A[:, S] @ z[S]
-    z_divergence = D(b, y)
+    best_divergence = D(b, y)
     r = b - y
 
     for _ in range(I):
@@ -24,12 +24,19 @@ def solve(A, b, D, K, solve_dense, eta_i, normalize, I, L):
         S[sorting.argmaxs(x, K)] = True
 
         y = A[:, S] @ x[S]
+        divergence = D(b, y)
+
+        if divergence < best_divergence:
+            x[~S] = 0
+            z = x
+            best_divergence = divergence
+
         r = b - y
 
     x = numpy.zeros(N)
     x[S] = solve_dense(A[:, S], b)
-    x_divergence = D(b, A[:, S] @ x[S])
+    divergence = D(b, A[:, S] @ x[S])
+    if divergence < best_divergence:
+        z = x
 
-    if x_divergence < z_divergence:
-        return x
     return z

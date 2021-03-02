@@ -8,7 +8,7 @@ def solve(A, b, D, K, solve_dense, normalize, I, L):
     S = numpy.full(N, False)
     r = b
 
-    for _ in range(I):
+    for i in range(I):
         potentials = D(normalize(r), A)
         S[sorting.argmins(potentials, L)] = True
 
@@ -18,9 +18,20 @@ def solve(A, b, D, K, solve_dense, normalize, I, L):
         S.fill(False)
         S[sorting.argmaxs(x, K)] = True
 
-        r = b - A[:, S] @ x[S]
+        y = A[:, S] @ x[S]
+        divergence = D(b, y)
+
+        if i == 0 or divergence < best_divergence:
+            x[~S] = 0
+            z = x
+            best_divergence = divergence
+
+        r = b - y
 
     x = numpy.zeros(N)
     x[S] = solve_dense(A[:, S], b)
+    divergence = D(b, A[:, S] @ x[S])
+    if divergence < best_divergence:
+        z = x
 
-    return x
+    return z
