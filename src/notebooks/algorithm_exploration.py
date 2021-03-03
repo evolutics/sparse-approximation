@@ -17,6 +17,7 @@ from src.lib.approximation.sparse import brute_force_search
 from src.lib.approximation.sparse import compressive_sampling_matching_pursuit
 from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import generalized_orthogonal_matching_pursuit
+from src.lib.approximation.sparse import generalized_reverse_matching_pursuit
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
 from src.lib.approximation.sparse import warm_compressive_sampling_matching_pursuit
@@ -33,6 +34,7 @@ selected_algorithms = {
     "Frank-Wolfe, adaptive",
     "Frank-Wolfe, non-adaptive",
     "gOMP, L=2",
+    "gRMP, L=N/K",
     "OMP",
     "SP, I=K, L=K",
     "Warm CoSaMP, I=⌊log₂ K⌋+1, L=2K",
@@ -92,6 +94,14 @@ algorithms = {
         solve_dense=solve_dense,
         normalize=normalize_,
         L=2,
+    ),
+    "gRMP, L=N/K": lambda A, b, D, K: generalized_reverse_matching_pursuit.solve(
+        A,
+        b,
+        D,
+        K,
+        solve_dense=solve_dense,
+        L=round(N / K),
     ),
     "OMP": lambda *problem: orthogonal_matching_pursuit.solve(
         *problem,

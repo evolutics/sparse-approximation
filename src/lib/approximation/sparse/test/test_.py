@@ -8,6 +8,7 @@ from src.lib.approximation.sparse import brute_force_search
 from src.lib.approximation.sparse import compressive_sampling_matching_pursuit
 from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import generalized_orthogonal_matching_pursuit
+from src.lib.approximation.sparse import generalized_reverse_matching_pursuit
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
 from src.lib.approximation.sparse import warm_compressive_sampling_matching_pursuit
@@ -60,6 +61,14 @@ def _cases():
                 *problem,
                 solve_dense=dense.total_variation,
                 normalize=normalize.clip,
+                L=1,
+            ),
+        ),
+        (
+            divergence.total_variation,
+            lambda *problem: generalized_reverse_matching_pursuit.solve(
+                *problem,
+                solve_dense=dense.total_variation,
                 L=1,
             ),
         ),
