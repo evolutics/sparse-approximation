@@ -1,6 +1,7 @@
-# pylint: disable=invalid-name
+# pylint: disable=invalid-name, line-too-long
 
 import itertools
+import math
 import timeit
 
 import altair
@@ -34,6 +35,7 @@ selected_algorithms = {
     "gOMP, L=2",
     "OMP",
     "SP, I=K, L=K",
+    "Warm CoSaMP, I=⌊log₂ K⌋+1, L=2K",
     "Warm CoSaMP, I=K, L=2K",
     "Warm-KL, ηᵢ=1/(2i+1)",
     "Warm-KL, ηᵢ=1/(2K)",
@@ -105,6 +107,17 @@ algorithms = {
         normalize=normalize_,
         I=K,
         L=K,
+    ),
+    "Warm CoSaMP, I=⌊log₂ K⌋+1, L=2K": lambda A, b, D, K: warm_compressive_sampling_matching_pursuit.solve(
+        A,
+        b,
+        D,
+        K,
+        solve_dense=solve_dense,
+        eta_i=lambda i: 1 / (2 * i + 1),
+        normalize=normalize_,
+        I=math.floor(math.log2(K)) + 1,
+        L=min(2 * K, N),
     ),
     "Warm CoSaMP, I=K, L=2K": lambda A, b, D, K: warm_compressive_sampling_matching_pursuit.solve(
         A,
