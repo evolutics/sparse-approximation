@@ -15,6 +15,7 @@ from src.lib import randomness
 from src.lib.approximation import dense
 from src.lib.approximation.sparse import brute_force_search
 from src.lib.approximation.sparse import compressive_sampling_matching_pursuit
+from src.lib.approximation.sparse import forward_backward_pursuit
 from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import generalized_orthogonal_matching_pursuit
 from src.lib.approximation.sparse import generalized_reverse_matching_pursuit
@@ -31,6 +32,7 @@ divergence_name = "total_variation"
 
 selected_algorithms = {
     "CoSaMP, I=K, L=2K",
+    "FBP, α=2, β=1",
     "Frank-Wolfe, adaptive",
     "Frank-Wolfe, non-adaptive",
     "gOMP, L=2",
@@ -76,6 +78,13 @@ algorithms = {
         normalize=normalize_,
         I=K,
         L=min(2 * K, N),
+    ),
+    "FBP, α=2, β=1": lambda *problem: forward_backward_pursuit.solve(
+        *problem,
+        solve_dense=solve_dense,
+        normalize=normalize_,
+        alpha=2,
+        beta=1,
     ),
     "Frank-Wolfe, adaptive": lambda *problem: frank_wolfe.solve(
         *problem,

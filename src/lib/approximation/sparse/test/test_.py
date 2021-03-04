@@ -6,6 +6,7 @@ from src.lib import normalize
 from src.lib.approximation import dense
 from src.lib.approximation.sparse import brute_force_search
 from src.lib.approximation.sparse import compressive_sampling_matching_pursuit
+from src.lib.approximation.sparse import forward_backward_pursuit
 from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import generalized_orthogonal_matching_pursuit
 from src.lib.approximation.sparse import generalized_reverse_matching_pursuit
@@ -35,6 +36,16 @@ def _cases():
                 normalize=normalize.clip,
                 I=K,
                 L=2 * K,
+            ),
+        ),
+        (
+            divergence.total_variation,
+            lambda *problem: forward_backward_pursuit.solve(
+                *problem,
+                solve_dense=dense.total_variation,
+                normalize=normalize.clip,
+                alpha=2,
+                beta=1,
             ),
         ),
         (
