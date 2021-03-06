@@ -23,15 +23,7 @@ def solve(A, b, D, K, solve_dense, eta_i, normalize, I, L):
         S.fill(False)
         S[sorting.argmaxs(x, K)] = True
 
-        y = A[:, S] @ x[S]
-        divergence = D(b, y)
-
-        if divergence < best_divergence:
-            x[~S] = 0
-            best_x = x
-            best_divergence = divergence
-
-        r = b - y
+        r = b - A[:, S] @ x[S]
 
     x = numpy.zeros(N)
     x[S] = solve_dense(A[:, S], b)
