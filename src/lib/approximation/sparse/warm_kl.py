@@ -15,7 +15,7 @@ def solve(A, b, _, K, solve_dense, eta_i):
 
         # A `q` minimizes the K directed divergence `K(b, q)` if and only if it
         # maximizes `∑ₘ bₘ log (bₘ+qₘ)`, which is faster to compute.
-        potentials = (b[:, None] * ma.log(b[:, None] + Q).filled(0)).sum(axis=0)
+        potentials = b @ ma.log(b[:, None] + Q).filled(0)
         index = numpy.argmax(potentials)
 
         S[numpy.flatnonzero(~S)[index]] = True
