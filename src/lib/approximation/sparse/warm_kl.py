@@ -1,10 +1,13 @@
-from numpy import ma
 import numpy
 
 
 def solve(A, b, _, K, solve_dense, eta_i):
     N = A.shape[1]
     S = numpy.full(N, False)
+
+    nonzero = b != 0
+    b = b[nonzero]
+    A = A[nonzero, :]
 
     for i in range(K):
         if i == 0:
@@ -15,7 +18,7 @@ def solve(A, b, _, K, solve_dense, eta_i):
 
         # A `q` minimizes the K directed divergence `K(b, q)` if and only if it
         # maximizes `∑ₘ bₘ log (bₘ+qₘ)`, which is faster to compute.
-        potentials = b @ ma.log(b[:, None] + Q).filled(0)
+        potentials = b @ numpy.log(b[:, None] + Q)
         index = numpy.argmax(potentials)
 
         S[numpy.flatnonzero(~S)[index]] = True
