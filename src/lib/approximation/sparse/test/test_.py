@@ -34,8 +34,7 @@ def _cases():
                 K,
                 solve_dense=dense.total_variation,
                 normalize=normalize.clip,
-                I=K,
-                L=2 * K,
+                L=[2 * K] * K,
             ),
         ),
         (
@@ -108,8 +107,7 @@ def _cases():
                 K,
                 solve_dense=dense.total_variation,
                 normalize=normalize.clip,
-                I=K,
-                L=K,
+                L=[K] * K,
             ),
         ),
         (
@@ -122,8 +120,7 @@ def _cases():
                 solve_dense=dense.total_variation,
                 eta_i=None,
                 normalize=normalize.clip,
-                I=K,
-                L=2 * K,
+                L=[2 * K] * K,
             ),
         ),
         (
@@ -136,8 +133,7 @@ def _cases():
                 solve_dense=dense.total_variation,
                 eta_i=lambda i: 1 / (2 * i + 1),
                 normalize=normalize.clip,
-                I=K,
-                L=2 * K,
+                L=[2 * K] * K,
             ),
         ),
         (

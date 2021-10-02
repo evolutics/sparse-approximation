@@ -31,16 +31,16 @@ random_seed = 144
 divergence_name = "total_variation"
 
 selected_algorithms = {
-    "CoSaMP, I=K, L=2K",
+    "CoSaMP, Lᵢ=2K, i∈[K]",
     "FBP, α=2, β=1",
     "Frank-Wolfe, adaptive",
     "Frank-Wolfe, non-adaptive",
     "gOMP, L=2",
     "gRMP, L=N/K",
     "OMP",
-    "SP, I=K, L=K",
-    "Warm CoSaMP, I=⌊log₂ K⌋+1, L=2K",
-    "Warm CoSaMP, I=K, L=2K",
+    "SP, Lᵢ=K, i∈[K]",
+    "Warm CoSaMP, Lᵢ=2K, i∈[⌊log₂ K⌋+1]",
+    "Warm CoSaMP, Lᵢ=2K, i∈[K]",
     "Warm-KL, ηᵢ=1/(2i+1)",
     "Warm-KL, ηᵢ=1/(2K)",
     "Warm-KL, ηᵢ=D",
@@ -70,15 +70,14 @@ algorithms = {
         *problem,
         solve_dense=solve_dense,
     ),
-    "CoSaMP, I=K, L=2K": lambda A, b, D, K: compressive_sampling_matching_pursuit.solve(
+    "CoSaMP, Lᵢ=2K, i∈[K]": lambda A, b, D, K: compressive_sampling_matching_pursuit.solve(
         A,
         b,
         D,
         K,
         solve_dense=solve_dense,
         normalize=normalize_,
-        I=K,
-        L=min(2 * K, N),
+        L=[min(2 * K, N)] * K,
     ),
     "FBP, α=2, β=1": lambda *problem: forward_backward_pursuit.solve(
         *problem,
@@ -118,17 +117,16 @@ algorithms = {
         solve_dense=solve_dense,
         normalize=normalize_,
     ),
-    "SP, I=K, L=K": lambda A, b, D, K: subspace_pursuit.solve(
+    "SP, Lᵢ=K, i∈[K]": lambda A, b, D, K: subspace_pursuit.solve(
         A,
         b,
         D,
         K,
         solve_dense=solve_dense,
         normalize=normalize_,
-        I=K,
-        L=K,
+        L=[K] * K,
     ),
-    "Warm CoSaMP, I=⌊log₂ K⌋+1, L=2K": lambda A, b, D, K: warm_compressive_sampling_matching_pursuit.solve(
+    "Warm CoSaMP, Lᵢ=2K, i∈[⌊log₂ K⌋+1]": lambda A, b, D, K: warm_compressive_sampling_matching_pursuit.solve(
         A,
         b,
         D,
@@ -136,10 +134,9 @@ algorithms = {
         solve_dense=solve_dense,
         eta_i=lambda i: 1 / (2 * i + 1),
         normalize=normalize_,
-        I=math.floor(math.log2(K)) + 1,
-        L=min(2 * K, N),
+        L=[min(2 * K, N)] * (math.floor(math.log2(K)) + 1),
     ),
-    "Warm CoSaMP, I=K, L=2K": lambda A, b, D, K: warm_compressive_sampling_matching_pursuit.solve(
+    "Warm CoSaMP, Lᵢ=2K, i∈[K]": lambda A, b, D, K: warm_compressive_sampling_matching_pursuit.solve(
         A,
         b,
         D,
@@ -147,8 +144,7 @@ algorithms = {
         solve_dense=solve_dense,
         eta_i=lambda i: 1 / (2 * i + 1),
         normalize=normalize_,
-        I=K,
-        L=min(2 * K, N),
+        L=[min(2 * K, N)] * K,
     ),
     "Warm-KL, ηᵢ=1/(2i+1)": lambda *problem: warm_kl.solve(
         *problem,

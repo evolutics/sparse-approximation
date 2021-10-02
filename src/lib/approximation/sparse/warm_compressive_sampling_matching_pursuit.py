@@ -4,7 +4,7 @@ from src.lib import sorting
 from src.lib.approximation.sparse import warm_kl
 
 
-def solve(A, b, D, K, solve_dense, eta_i, normalize, I, L):
+def solve(A, b, D, K, solve_dense, eta_i, normalize, L):
     N = A.shape[1]
 
     best_x = warm_kl.solve(A, b, D, K, solve_dense, eta_i)
@@ -13,9 +13,9 @@ def solve(A, b, D, K, solve_dense, eta_i, normalize, I, L):
     best_divergence = D(b, y)
     r = b - y
 
-    for _ in range(I):
+    for l in L:
         potentials = D(normalize(r), A)
-        S[sorting.argmins(potentials, L)] = True
+        S[sorting.argmins(potentials, l)] = True
 
         x = numpy.zeros(N)
         x[S] = solve_dense(A[:, S], b)
