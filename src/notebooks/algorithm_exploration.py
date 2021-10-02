@@ -233,7 +233,7 @@ altair.Chart(data).mark_boxplot().encode(
     y="Divergence",
     color="Algorithm",
     column="K",
-)
+).properties(height=1600)
 
 altair.Chart(data).mark_line().encode(
     x="K",
