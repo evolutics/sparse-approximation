@@ -12,6 +12,7 @@ import pandas
 from src.lib import divergence
 from src.lib import normalize
 from src.lib import randomness
+from src.lib import sequence
 from src.lib.approximation import dense
 from src.lib.approximation.sparse import brute_force_search
 from src.lib.approximation.sparse import compressive_sampling_matching_pursuit
@@ -32,6 +33,7 @@ divergence_name = "total_variation"
 
 selected_algorithms = {
     "CoSaMP, Lᵢ=2K, i∈[K]",
+    "CoSaMP, Lᵢ=2K/2ⁱ",
     "FBP, α=2, β=1",
     "Frank-Wolfe, adaptive",
     "Frank-Wolfe, non-adaptive",
@@ -39,8 +41,10 @@ selected_algorithms = {
     "gRMP, L=N/K",
     "OMP",
     "SP, Lᵢ=K, i∈[K]",
+    "SP, Lᵢ=K/2ⁱ",
     "Warm CoSaMP, Lᵢ=2K, i∈[⌊log₂ K⌋+1]",
     "Warm CoSaMP, Lᵢ=2K, i∈[K]",
+    "Warm CoSaMP, Lᵢ=2K/2ⁱ",
     "Warm-KL, ηᵢ=1/(2i+1)",
     "Warm-KL, ηᵢ=1/(2K)",
     "Warm-KL, ηᵢ=D",
@@ -78,6 +82,15 @@ algorithms = {
         solve_dense=solve_dense,
         normalize=normalize_,
         L=[min(2 * K, N)] * K,
+    ),
+    "CoSaMP, Lᵢ=2K/2ⁱ": lambda A, b, D, K: compressive_sampling_matching_pursuit.solve(
+        A,
+        b,
+        D,
+        K,
+        solve_dense=solve_dense,
+        normalize=normalize_,
+        L=sequence.halve_until_1(min(2 * K, N)),
     ),
     "FBP, α=2, β=1": lambda *problem: forward_backward_pursuit.solve(
         *problem,
@@ -126,6 +139,15 @@ algorithms = {
         normalize=normalize_,
         L=[K] * K,
     ),
+    "SP, Lᵢ=K/2ⁱ": lambda A, b, D, K: subspace_pursuit.solve(
+        A,
+        b,
+        D,
+        K,
+        solve_dense=solve_dense,
+        normalize=normalize_,
+        L=sequence.halve_until_1(K),
+    ),
     "Warm CoSaMP, Lᵢ=2K, i∈[⌊log₂ K⌋+1]": lambda A, b, D, K: warm_compressive_sampling_matching_pursuit.solve(
         A,
         b,
@@ -145,6 +167,16 @@ algorithms = {
         eta_i=lambda i: 1 / (2 * i + 1),
         normalize=normalize_,
         L=[min(2 * K, N)] * K,
+    ),
+    "Warm CoSaMP, Lᵢ=2K/2ⁱ": lambda A, b, D, K: warm_compressive_sampling_matching_pursuit.solve(
+        A,
+        b,
+        D,
+        K,
+        solve_dense=solve_dense,
+        eta_i=lambda i: 1 / (2 * i + 1),
+        normalize=normalize_,
+        L=sequence.halve_until_1(min(2 * K, N)),
     ),
     "Warm-KL, ηᵢ=1/(2i+1)": lambda *problem: warm_kl.solve(
         *problem,
