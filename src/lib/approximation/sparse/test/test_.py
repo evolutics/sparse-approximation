@@ -120,10 +120,32 @@ def _cases():
                 D,
                 K,
                 solve_dense=dense.total_variation,
+                eta_i=None,
+                normalize=normalize.clip,
+                I=K,
+                L=2 * K,
+            ),
+        ),
+        (
+            divergence.total_variation,
+            lambda A, b, D, K: warm_compressive_sampling_matching_pursuit.solve(
+                A,
+                b,
+                D,
+                K,
+                solve_dense=dense.total_variation,
                 eta_i=lambda i: 1 / (2 * i + 1),
                 normalize=normalize.clip,
                 I=K,
                 L=2 * K,
+            ),
+        ),
+        (
+            divergence.total_variation,
+            lambda *problem: warm_kl.solve(
+                *problem,
+                solve_dense=dense.total_variation,
+                eta_i=None,
             ),
         ),
         (
