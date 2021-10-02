@@ -43,6 +43,7 @@ selected_algorithms = {
     "Warm CoSaMP, I=K, L=2K",
     "Warm-KL, ηᵢ=1/(2i+1)",
     "Warm-KL, ηᵢ=1/(2K)",
+    "Warm-KL, ηᵢ=D",
 }
 
 density_range = (0, 1)
@@ -161,6 +162,10 @@ algorithms = {
         K_,
         solve_dense=solve_dense,
         eta_i=lambda _: 1 / (2 * K_),
+    ),
+    "Warm-KL, ηᵢ=D": lambda *problem: warm_kl.solve(
+        *problem,
+        solve_dense=solve_dense,
     ),
 }
 

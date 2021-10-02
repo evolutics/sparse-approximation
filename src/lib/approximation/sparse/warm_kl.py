@@ -1,19 +1,25 @@
+# pylint: disable=unsubscriptable-object
+
 import numpy
 
 
-def solve(A, b, _, K, solve_dense, eta_i):
+def solve(A, b, D, K, solve_dense, eta_i=None):
     N = A.shape[1]
     S = numpy.full(N, False)
 
     nonzero = b != 0
     b = b[nonzero]
     A = A[nonzero, :]
+    q = None
 
     for i in range(K):
-        if i == 0:
+        if q is None:
             Q = A
         else:
-            eta = eta_i(i)
+            if eta_i is None:
+                eta = D(b, q)
+            else:
+                eta = eta_i(i)
             Q = (1 - eta) * q[:, None] + eta * A[:, ~S]
 
         # A `q` minimizes the K directed divergence `K(b, q)` if and only if it
