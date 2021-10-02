@@ -25,6 +25,8 @@ from src.lib.approximation.sparse import subspace_pursuit
 from src.lib.approximation.sparse import warm_compressive_sampling_matching_pursuit
 from src.lib.approximation.sparse import warm_kl
 
+altair.data_transformers.disable_max_rows()
+
 # # Input
 
 random_seed = 144
