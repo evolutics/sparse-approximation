@@ -166,6 +166,7 @@ algorithms = {
     "Warm-KL, ηᵢ=D": lambda *problem: warm_kl.solve(
         *problem,
         solve_dense=solve_dense,
+        eta_i=None,
     ),
 }
 

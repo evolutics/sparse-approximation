@@ -3,7 +3,7 @@
 import numpy
 
 
-def solve(A, b, D, K, solve_dense, eta_i=None):
+def solve(A, b, D, K, solve_dense, eta_i):
     N = A.shape[1]
     S = numpy.full(N, False)
 
