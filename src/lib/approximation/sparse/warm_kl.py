@@ -4,13 +4,22 @@ import numpy
 
 
 def solve(A, b, D, K, solve_dense, eta_i):
+    S = select(A, b, D, K, eta_i, None)
+
+    N = A.shape[1]
+    x = numpy.zeros(N)
+    x[S] = solve_dense(A[:, S], b)
+
+    return x
+
+
+def select(A, b, D, K, eta_i, q):
     N = A.shape[1]
     S = numpy.full(N, False)
 
     nonzero = b != 0
     A = A[nonzero, :]
     b = b[nonzero]
-    q = None
 
     for i in range(K):
         if q is None:
@@ -31,7 +40,4 @@ def solve(A, b, D, K, solve_dense, eta_i):
 
         q = Q[:, index]
 
-    x = numpy.zeros(N)
-    x[S] = solve_dense(A[:, S], b)
-
-    return x
+    return S
