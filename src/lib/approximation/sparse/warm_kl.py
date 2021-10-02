@@ -8,8 +8,8 @@ def solve(A, b, D, K, solve_dense, eta_i=None):
     S = numpy.full(N, False)
 
     nonzero = b != 0
-    b = b[nonzero]
     A = A[nonzero, :]
+    b = b[nonzero]
     q = None
 
     for i in range(K):
