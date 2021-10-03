@@ -20,6 +20,8 @@ def select(A, b, D, K, *, eta_i, q):
     nonzero = b != 0
     A = A[nonzero, :]
     b = b[nonzero]
+    if q is not None:
+        q = q[nonzero]
 
     for i in range(K):
         if q is None:
