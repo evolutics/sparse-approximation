@@ -7,7 +7,7 @@ from src.lib.approximation.sparse import warm_kl
 def solve(A, b, D, K, solve_dense, eta_i, normalize, L):
     N = A.shape[1]
 
-    best_x = warm_kl.solve(A, b, D, K, solve_dense, eta_i)
+    best_x = warm_kl.solve(A, b, D, K, solve_dense=solve_dense, eta_i=eta_i)
     S = best_x != 0
     y = A[:, S] @ best_x[S]
     best_divergence = D(b, y)

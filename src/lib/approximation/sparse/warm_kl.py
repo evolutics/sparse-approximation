@@ -4,7 +4,7 @@ import numpy
 
 
 def solve(A, b, D, K, solve_dense, eta_i):
-    S = select(A, b, D, K, eta_i, None)
+    S = select(A, b, D, K, eta_i=eta_i, q=None)
 
     N = A.shape[1]
     x = numpy.zeros(N)
