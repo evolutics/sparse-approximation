@@ -118,7 +118,7 @@ def _cases():
                 D,
                 K,
                 solve_dense=dense.total_variation,
-                eta_i=None,
+                eta_i=lambda i: 1 / (2 * i + 1),
                 normalize=normalize.clip,
                 L=[2 * K] * K,
             ),
@@ -131,7 +131,7 @@ def _cases():
                 D,
                 K,
                 solve_dense=dense.total_variation,
-                eta_i=lambda i: 1 / (2 * i + 1),
+                eta_i=None,
                 normalize=normalize.clip,
                 L=[2 * K] * K,
             ),
@@ -141,7 +141,7 @@ def _cases():
             lambda *problem: warm_kl.solve(
                 *problem,
                 solve_dense=dense.total_variation,
-                eta_i=None,
+                eta_i=lambda i: 1 / (2 * i + 1),
             ),
         ),
         (
@@ -149,7 +149,7 @@ def _cases():
             lambda *problem: warm_kl.solve(
                 *problem,
                 solve_dense=dense.total_variation,
-                eta_i=lambda i: 1 / (2 * i + 1),
+                eta_i=None,
             ),
         ),
     ]
