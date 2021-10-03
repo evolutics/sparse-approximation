@@ -1,7 +1,7 @@
 import numpy
 
 
-def solve(A, b, D, K, solve_dense, normalize):
+def solve(A, b, D, K, *, solve_dense, normalize):
     N = A.shape[1]
     S = numpy.full(N, False)
     r = b

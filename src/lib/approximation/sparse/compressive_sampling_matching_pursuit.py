@@ -3,7 +3,7 @@ import numpy
 from src.lib import sorting
 
 
-def solve(A, b, D, K, solve_dense, normalize, L):
+def solve(A, b, D, K, *, solve_dense, normalize, L):
     N = A.shape[1]
     S = numpy.full(N, False)
     r = b

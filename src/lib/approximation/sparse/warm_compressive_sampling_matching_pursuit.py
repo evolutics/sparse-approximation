@@ -4,7 +4,7 @@ from src.lib import sorting
 from src.lib.approximation.sparse import warm_kl
 
 
-def solve(A, b, D, K, solve_dense, eta_i, normalize, L):
+def solve(A, b, D, K, *, solve_dense, eta_i, normalize, L):
     N = A.shape[1]
 
     best_x = warm_kl.solve(A, b, D, K, solve_dense=solve_dense, eta_i=eta_i)

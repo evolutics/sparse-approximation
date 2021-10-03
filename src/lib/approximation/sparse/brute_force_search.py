@@ -4,7 +4,7 @@ import math
 import numpy
 
 
-def solve(A, b, D, K, solve_dense):
+def solve(A, b, D, K, *, solve_dense):
     N = A.shape[1]
 
     best_divergence = math.inf
