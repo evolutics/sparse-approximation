@@ -24,6 +24,7 @@ from src.lib.approximation.sparse import orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
 from src.lib.approximation.sparse import warm_compressive_sampling_matching_pursuit
 from src.lib.approximation.sparse import warm_kl
+from src.lib.approximation.sparse import warm_kl_compressive_sampling_matching_pursuit
 
 altair.data_transformers.disable_max_rows()
 
@@ -50,6 +51,12 @@ selected_algorithms = {
     "Warm CoSaMP, ηᵢ=D, Lᵢ=2K, i∈[⌊log₂ K⌋+1]",
     "Warm CoSaMP, ηᵢ=D, Lᵢ=2K, i∈[K]",
     "Warm CoSaMP, ηᵢ=D, Lᵢ=2K/2ⁱ",
+    "Warm KL-CoSaMP, ηᵢ=1/(2i+1), Lᵢ=2K, i∈[⌊log₂ K⌋+1]",
+    "Warm KL-CoSaMP, ηᵢ=1/(2i+1), Lᵢ=2K, i∈[K]",
+    "Warm KL-CoSaMP, ηᵢ=1/(2i+1), Lᵢ=2K/2ⁱ",
+    "Warm KL-CoSaMP, ηᵢ=D, Lᵢ=2K, i∈[⌊log₂ K⌋+1]",
+    "Warm KL-CoSaMP, ηᵢ=D, Lᵢ=2K, i∈[K]",
+    "Warm KL-CoSaMP, ηᵢ=D, Lᵢ=2K/2ⁱ",
     "Warm-KL, ηᵢ=1/(2i+1)",
     "Warm-KL, ηᵢ=1/(2K)",
     "Warm-KL, ηᵢ=D",
@@ -211,6 +218,60 @@ algorithms = {
         solve_dense=solve_dense,
         eta_i=None,
         normalize=normalize_,
+        L=sequence.halve_until_1(min(2 * K, N)),
+    ),
+    "Warm KL-CoSaMP, ηᵢ=1/(2i+1), Lᵢ=2K, i∈[⌊log₂ K⌋+1]": lambda A, b, D, K: warm_kl_compressive_sampling_matching_pursuit.solve(
+        A,
+        b,
+        D,
+        K,
+        solve_dense=solve_dense,
+        eta_i=lambda i: 1 / (2 * i + 1),
+        L=[min(2 * K, N)] * (math.floor(math.log2(K)) + 1),
+    ),
+    "Warm KL-CoSaMP, ηᵢ=1/(2i+1), Lᵢ=2K, i∈[K]": lambda A, b, D, K: warm_kl_compressive_sampling_matching_pursuit.solve(
+        A,
+        b,
+        D,
+        K,
+        solve_dense=solve_dense,
+        eta_i=lambda i: 1 / (2 * i + 1),
+        L=[min(2 * K, N)] * K,
+    ),
+    "Warm KL-CoSaMP, ηᵢ=1/(2i+1), Lᵢ=2K/2ⁱ": lambda A, b, D, K: warm_kl_compressive_sampling_matching_pursuit.solve(
+        A,
+        b,
+        D,
+        K,
+        solve_dense=solve_dense,
+        eta_i=lambda i: 1 / (2 * i + 1),
+        L=sequence.halve_until_1(min(2 * K, N)),
+    ),
+    "Warm KL-CoSaMP, ηᵢ=D, Lᵢ=2K, i∈[⌊log₂ K⌋+1]": lambda A, b, D, K: warm_kl_compressive_sampling_matching_pursuit.solve(
+        A,
+        b,
+        D,
+        K,
+        solve_dense=solve_dense,
+        eta_i=None,
+        L=[min(2 * K, N)] * (math.floor(math.log2(K)) + 1),
+    ),
+    "Warm KL-CoSaMP, ηᵢ=D, Lᵢ=2K, i∈[K]": lambda A, b, D, K: warm_kl_compressive_sampling_matching_pursuit.solve(
+        A,
+        b,
+        D,
+        K,
+        solve_dense=solve_dense,
+        eta_i=None,
+        L=[min(2 * K, N)] * K,
+    ),
+    "Warm KL-CoSaMP, ηᵢ=D, Lᵢ=2K/2ⁱ": lambda A, b, D, K: warm_kl_compressive_sampling_matching_pursuit.solve(
+        A,
+        b,
+        D,
+        K,
+        solve_dense=solve_dense,
+        eta_i=None,
         L=sequence.halve_until_1(min(2 * K, N)),
     ),
     "Warm-KL, ηᵢ=1/(2i+1)": lambda *problem: warm_kl.solve(

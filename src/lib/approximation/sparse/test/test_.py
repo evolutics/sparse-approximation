@@ -14,6 +14,7 @@ from src.lib.approximation.sparse import orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
 from src.lib.approximation.sparse import warm_compressive_sampling_matching_pursuit
 from src.lib.approximation.sparse import warm_kl
+from src.lib.approximation.sparse import warm_kl_compressive_sampling_matching_pursuit
 
 
 def _cases():
@@ -133,6 +134,30 @@ def _cases():
                 solve_dense=dense.total_variation,
                 eta_i=None,
                 normalize=normalize.clip,
+                L=[2 * K] * K,
+            ),
+        ),
+        (
+            divergence.total_variation,
+            lambda A, b, D, K: warm_kl_compressive_sampling_matching_pursuit.solve(
+                A,
+                b,
+                D,
+                K,
+                solve_dense=dense.total_variation,
+                eta_i=lambda i: 1 / (2 * i + 1),
+                L=[2 * K] * K,
+            ),
+        ),
+        (
+            divergence.total_variation,
+            lambda A, b, D, K: warm_kl_compressive_sampling_matching_pursuit.solve(
+                A,
+                b,
+                D,
+                K,
+                solve_dense=dense.total_variation,
+                eta_i=None,
                 L=[2 * K] * K,
             ),
         ),
