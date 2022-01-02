@@ -43,4 +43,6 @@ def pearson_chi_square(p, Q):
 
 
 def total_variation(p, Q):
-    return 0.5 * numpy.apply_along_axis(lambda q: linalg.norm(p - q, 1), 0, Q)
+    if Q.ndim == 1:
+        return 0.5 * numpy.sum(numpy.abs(p - Q))
+    return 0.5 * numpy.sum(numpy.abs(p[:, None] - Q), axis=0)
