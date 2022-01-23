@@ -20,6 +20,7 @@ from src.lib.approximation.sparse import forward_backward_pursuit
 from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import generalized_orthogonal_matching_pursuit
 from src.lib.approximation.sparse import generalized_reverse_matching_pursuit
+from src.lib.approximation.sparse import multi_warm_js_subspace_pursuit
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
 from src.lib.approximation.sparse import warm_compressive_sampling_matching_pursuit
@@ -42,6 +43,7 @@ selected_algorithms = {
     "Frank-Wolfe, non-adaptive",
     "gOMP, L=2",
     "gRMP, L=N/K",
+    "Multi Warm-JS SP",
     "OMP",
     "SP, Lᵢ=K, i∈[K]",
     "SP, Lᵢ=K/2ⁱ",
@@ -136,6 +138,16 @@ algorithms = {
         K,
         solve_dense=solve_dense,
         L=round(N / K),
+    ),
+    "Multi Warm-JS SP": lambda A, b, D, K: multi_warm_js_subspace_pursuit.solve(
+        A,
+        b,
+        D,
+        K,
+        solve_dense=solve_dense,
+        lambdas=[0.25, 0.5, 1, 2, 4],
+        I={2 * K - 1, 8 * K - 1},
+        L=[K],
     ),
     "OMP": lambda *problem: orthogonal_matching_pursuit.solve(
         *problem,
