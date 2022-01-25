@@ -9,8 +9,9 @@ def solve(A, b, _, K, *, solve_dense, L):
     x = solve_dense(A, b)
 
     while numpy.count_nonzero(S) > K:
-        count = min(L, numpy.count_nonzero(S) - K)
-        T = numpy.flatnonzero(S)[sorting.argmins(x[S], count)]
+        surplus = numpy.count_nonzero(S) - K
+        drops = min(L, surplus)
+        T = numpy.flatnonzero(S)[sorting.argmins(x[S], drops)]
         S[T] = False
 
         x = numpy.zeros(N)
