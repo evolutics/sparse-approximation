@@ -10,7 +10,8 @@ def solve(A, b, _, K, *, solve_dense, L):
 
     while numpy.count_nonzero(S) > K:
         surplus = numpy.count_nonzero(S) - K
-        drops = min(L, surplus)
+        l = L if isinstance(L, int) else L(surplus)
+        drops = max(min(l, surplus), 1)
         T = numpy.flatnonzero(S)[sorting.argmins(x[S], drops)]
         S[T] = False
 
