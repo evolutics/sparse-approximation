@@ -152,7 +152,7 @@ algorithms = {
         K,
         solve_dense=solve_dense,
         lambdas=[0.25, 0.5, 1, 2, 4],
-        I={2 * K - 1, 8 * K - 1},
+        I={2 * K, 8 * K},
         L=[K],
     ),
     "OMP": lambda *problem: orthogonal_matching_pursuit.solve(

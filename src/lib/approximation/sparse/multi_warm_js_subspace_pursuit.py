@@ -26,7 +26,7 @@ def solve(A, b, D, K, *, solve_dense, lambdas, I, L):
         eta_i = lambda i, lambda_=lambda_: 1 / (lambda_ * i + 1)
         xs_ = _iterate(A=A, b=b, eta_i=eta_i)
 
-        for x in itertools.islice((x for i, x in enumerate(xs_) if i in I), len(I)):
+        for x in itertools.islice((x for i, x in enumerate(xs_, 1) if i in I), len(I)):
             S = numpy.full(N, False)
             S[sorting.argmaxs(x, K)] = True
             x = numpy.zeros(N)
