@@ -25,7 +25,7 @@ def solve(A, b, D, K, *, solve_dense, etas, I, L):
     for eta in etas:
         eta_i = lambda i, eta=eta: eta if eta >= 0 else 1 / (-eta * i + 1)
 
-        xs_ = _iterate(A=A, b=b, eta_i=eta_i)
+        xs_ = _warm_js(A=A, b=b, eta_i=eta_i)
 
         for x in itertools.islice((x for i, x in enumerate(xs_, 1) if i in I), len(I)):
             S = numpy.full(N, False)
@@ -64,7 +64,7 @@ def solve(A, b, D, K, *, solve_dense, etas, I, L):
     return best_x
 
 
-def _iterate(*, A, b, eta_i):
+def _warm_js(*, A, b, eta_i):
     M, N = A.shape
 
     q = numpy.zeros(M)
