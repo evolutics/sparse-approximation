@@ -7,7 +7,7 @@ import numpy
 from src.lib import sorting
 
 
-def solve(A, b, D, K, *, solve_dense, lambdas, I, L):
+def solve(A, b, D, K, *, solve_dense, etas, I, L):
     N = A.shape[1]
 
     best_divergence = math.inf
@@ -22,12 +22,8 @@ def solve(A, b, D, K, *, solve_dense, lambdas, I, L):
             solve_dense_cache[indices] = x
             return x
 
-    for lambda_ in lambdas:
-        eta_i = (
-            lambda i, lambda_=lambda_: -lambda_
-            if lambda_ < 0
-            else 1 / (lambda_ * i + 1)
-        )
+    for eta in etas:
+        eta_i = lambda i, eta=eta: eta if eta >= 0 else 1 / (-eta * i + 1)
 
         xs_ = _iterate(A=A, b=b, eta_i=eta_i)
 

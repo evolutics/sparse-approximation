@@ -92,7 +92,7 @@ def _cases():
                 D,
                 K,
                 solve_dense=dense.total_variation,
-                lambdas=[0.5],
+                etas=[-0.5],
                 I={2 * K - 1},
                 L=[K],
             ),

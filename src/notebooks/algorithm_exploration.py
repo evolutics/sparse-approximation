@@ -151,7 +151,7 @@ algorithms = {
         D,
         K,
         solve_dense=solve_dense,
-        lambdas=[-1 / (2 * K), -1 / (8 * K), 2],
+        etas=[1 / (2 * K), 1 / (8 * K), -2],
         I={2 * K, 8 * K},
         L=[K],
     ),
