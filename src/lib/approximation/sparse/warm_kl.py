@@ -21,7 +21,7 @@ def select(A, b, D, K, *, eta, I, q):
     if q is None:
         q = numpy.zeros(M)
 
-    for i in range(I * K):
+    for i in range(I):
         if eta is None:
             eta_i = D(b, q)
         elif eta >= 0:
