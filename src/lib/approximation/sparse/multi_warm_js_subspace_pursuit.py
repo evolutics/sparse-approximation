@@ -23,9 +23,7 @@ def solve(A, b, D, K, *, solve_dense, etas, I, L):
             return x
 
     for eta in etas:
-        eta_i = lambda i, eta=eta: eta if eta >= 0 else 1 / (-eta * i + 1)
-
-        xs_ = warm_js.iterate(A=A, b=b, D=D, eta_i=eta_i)
+        xs_ = warm_js.iterate(A=A, b=b, D=D, eta=eta)
 
         for x in itertools.islice((x for i, x in enumerate(xs_) if i in I), len(I)):
             S = numpy.full(N, False)
