@@ -3,6 +3,23 @@ import itertools
 from numpy import ma
 import numpy
 
+from src.lib import sorting
+
+
+def solve(A, b, _, K, *, solve_dense, eta_i, I):
+    N = A.shape[1]
+
+    xs_ = iterate(A=A, b=b, eta_i=eta_i)
+    x = next(itertools.islice(xs_, I - 1, None))
+
+    S = numpy.full(N, False)
+    S[sorting.argmaxs(x, K)] = True
+
+    x = numpy.zeros(N)
+    x[S] = solve_dense(A[:, S], b)
+
+    return x
+
 
 def iterate(*, A, b, eta_i):
     M, N = A.shape

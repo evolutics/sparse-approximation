@@ -14,6 +14,7 @@ from src.lib.approximation.sparse import multi_warm_js_subspace_pursuit
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
 from src.lib.approximation.sparse import warm_compressive_sampling_matching_pursuit
+from src.lib.approximation.sparse import warm_js
 from src.lib.approximation.sparse import warm_kl
 from src.lib.approximation.sparse import warm_kl_compressive_sampling_matching_pursuit
 
@@ -151,6 +152,18 @@ def _cases():
                 I=1,
                 normalize=normalize.clip,
                 L=[2 * K] * K,
+            ),
+        ),
+        (
+            divergence.total_variation,
+            lambda A, b, D, K: warm_js.solve(
+                A,
+                b,
+                D,
+                K,
+                solve_dense=dense.total_variation,
+                eta_i=lambda _: 1 / (2 * K),
+                I=2 * K,
             ),
         ),
         (

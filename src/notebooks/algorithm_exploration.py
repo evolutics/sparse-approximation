@@ -24,6 +24,7 @@ from src.lib.approximation.sparse import multi_warm_js_subspace_pursuit
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
 from src.lib.approximation.sparse import warm_compressive_sampling_matching_pursuit
+from src.lib.approximation.sparse import warm_js
 from src.lib.approximation.sparse import warm_kl
 from src.lib.approximation.sparse import warm_kl_compressive_sampling_matching_pursuit
 
@@ -60,6 +61,9 @@ selected_algorithms = {
     "Warm KL-CoSaMP, ηᵢ=D, I=4, Lᵢ=2K, i∈[⌊log₂ K⌋+1]",
     "Warm KL-CoSaMP, ηᵢ=D, I=4, Lᵢ=2K, i∈[K]",
     "Warm KL-CoSaMP, ηᵢ=D, I=4, Lᵢ=2K/2ⁱ",
+    "Warm-JS, ηᵢ=1/(2i+1), I=2K",
+    "Warm-JS, ηᵢ=1/(2K), I=2K",
+    "Warm-JS, ηᵢ=1/(i/2+1), I=2K",
     "Warm-KL, ηᵢ=1/(2i+1), I=4",
     "Warm-KL, ηᵢ=1/(2K), I=4",
     "Warm-KL, ηᵢ=D, I=4",
@@ -303,6 +307,33 @@ algorithms = {
         eta_i=None,
         I=4,
         L=sequence.halve_until_1(min(2 * K, N)),
+    ),
+    "Warm-JS, ηᵢ=1/(2i+1), I=2K": lambda A, b, D, K_: warm_js.solve(
+        A,
+        b,
+        D,
+        K_,
+        solve_dense=solve_dense,
+        eta_i=lambda i: 1 / (2 * i + 1),
+        I=2 * K_,
+    ),
+    "Warm-JS, ηᵢ=1/(2K), I=2K": lambda A, b, D, K_: warm_js.solve(
+        A,
+        b,
+        D,
+        K_,
+        solve_dense=solve_dense,
+        eta_i=lambda _: 1 / (2 * K_),
+        I=2 * K_,
+    ),
+    "Warm-JS, ηᵢ=1/(i/2+1), I=2K": lambda A, b, D, K_: warm_js.solve(
+        A,
+        b,
+        D,
+        K_,
+        solve_dense=solve_dense,
+        eta_i=lambda i: 1 / (i / 2 + 1),
+        I=2 * K_,
     ),
     "Warm-KL, ηᵢ=1/(2i+1), I=4": lambda *problem: warm_kl.solve(
         *problem,
