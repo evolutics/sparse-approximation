@@ -14,20 +14,21 @@ def solve(A, b, D, K, *, solve_dense, eta, I):
 
 
 def select(A, b, D, K, *, eta, I, q):
-    N = A.shape[1]
+    M, N = A.shape
+
     S = numpy.full(N, False)
 
+    if q is None:
+        q = numpy.zeros(M)
+
     for i in range(I * K):
-        if q is None:
-            Q = A
+        if eta is None:
+            eta_i = D(b, q)
+        elif eta >= 0:
+            eta_i = eta
         else:
-            if eta is None:
-                eta_i = D(b, q)
-            elif eta >= 0:
-                eta_i = eta
-            else:
-                eta_i = 1 / (-eta * i + 1)
-            Q = (1 - eta_i) * q[:, None] + eta_i * A
+            eta_i = 1 / (-eta * i + 1)
+        Q = (1 - eta_i) * q[:, None] + eta_i * A
 
         index = numpy.argmin(_optimized_k_directed_divergences(b, Q))
 
