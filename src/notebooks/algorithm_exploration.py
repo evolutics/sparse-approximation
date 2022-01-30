@@ -308,32 +308,32 @@ algorithms = {
         I=4,
         L=sequence.halve_until_1(min(2 * K, N)),
     ),
-    "Warm-JS, ηᵢ=1/(2i+1), I=2K": lambda A, b, D, K_: warm_js.solve(
+    "Warm-JS, ηᵢ=1/(2i+1), I=2K": lambda A, b, D, K: warm_js.solve(
         A,
         b,
         D,
-        K_,
+        K,
         solve_dense=solve_dense,
         eta=-2,
-        I=2 * K_,
+        I=2 * K,
     ),
-    "Warm-JS, ηᵢ=1/(2K), I=2K": lambda A, b, D, K_: warm_js.solve(
+    "Warm-JS, ηᵢ=1/(2K), I=2K": lambda A, b, D, K: warm_js.solve(
         A,
         b,
         D,
-        K_,
+        K,
         solve_dense=solve_dense,
-        eta=1 / (2 * K_),
-        I=2 * K_,
+        eta=1 / (2 * K),
+        I=2 * K,
     ),
-    "Warm-JS, ηᵢ=D, I=2K": lambda A, b, D, K_: warm_js.solve(
+    "Warm-JS, ηᵢ=D, I=2K": lambda A, b, D, K: warm_js.solve(
         A,
         b,
         D,
-        K_,
+        K,
         solve_dense=solve_dense,
         eta=None,
-        I=2 * K_,
+        I=2 * K,
     ),
     "Warm-KL, ηᵢ=1/(2i+1), I=4": lambda *problem: warm_kl.solve(
         *problem,
@@ -341,13 +341,13 @@ algorithms = {
         eta=-2,
         I=4,
     ),
-    "Warm-KL, ηᵢ=1/(2K), I=4": lambda A, b, D, K_: warm_kl.solve(
+    "Warm-KL, ηᵢ=1/(2K), I=4": lambda A, b, D, K: warm_kl.solve(
         A,
         b,
         D,
-        K_,
+        K,
         solve_dense=solve_dense,
-        eta=1 / (2 * K_),
+        eta=1 / (2 * K),
         I=4,
     ),
     "Warm-KL, ηᵢ=D, I=4": lambda *problem: warm_kl.solve(
