@@ -3,8 +3,8 @@
 import numpy
 
 
-def solve(A, b, D, K, *, solve_dense, eta_i, I):
-    S = select(A, b, D, K, eta_i=eta_i, I=I, q=None)
+def solve(A, b, D, K, *, solve_dense, eta, I):
+    S = select(A, b, D, K, eta=eta, I=I, q=None)
 
     N = A.shape[1]
     x = numpy.zeros(N)
@@ -13,7 +13,7 @@ def solve(A, b, D, K, *, solve_dense, eta_i, I):
     return x
 
 
-def select(A, b, D, K, *, eta_i, I, q):
+def select(A, b, D, K, *, eta, I, q):
     N = A.shape[1]
     S = numpy.full(N, False)
 
@@ -27,11 +27,13 @@ def select(A, b, D, K, *, eta_i, I, q):
         if q is None:
             Q = A
         else:
-            if eta_i is None:
-                eta = D(b, q)
+            if eta is None:
+                eta_i = D(b, q)
+            elif eta >= 0:
+                eta_i = eta
             else:
-                eta = eta_i(i)
-            Q = (1 - eta) * q[:, None] + eta * A
+                eta_i = 1 / (-eta * i + 1)
+            Q = (1 - eta_i) * q[:, None] + eta_i * A
 
         # A `q` minimizes the K directed divergence `K(b, q)` if and only if it
         # maximizes `∑ₘ bₘ log (bₘ+qₘ)`, which is faster to compute.
