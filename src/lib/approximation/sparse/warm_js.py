@@ -6,10 +6,10 @@ import numpy
 from src.lib import sorting
 
 
-def solve(A, b, _, K, *, solve_dense, eta_i, I):
+def solve(A, b, D, K, *, solve_dense, eta_i, I):
     N = A.shape[1]
 
-    xs_ = iterate(A=A, b=b, eta_i=eta_i)
+    xs_ = iterate(A=A, b=b, D=D, eta_i=eta_i)
     x = next(itertools.islice(xs_, I - 1, None))
 
     S = numpy.full(N, False)
@@ -21,14 +21,17 @@ def solve(A, b, _, K, *, solve_dense, eta_i, I):
     return x
 
 
-def iterate(*, A, b, eta_i):
+def iterate(*, A, b, D, eta_i):
     M, N = A.shape
 
     q = numpy.zeros(M)
     x = numpy.zeros(N)
 
     for i in itertools.count():
-        eta = eta_i(i)
+        if eta_i is None:
+            eta = D(b, q)
+        else:
+            eta = eta_i(i)
         Q = (1 - eta) * q[:, None] + eta * A
 
         index = numpy.argmin(_optimized_js_divergences(b, Q))

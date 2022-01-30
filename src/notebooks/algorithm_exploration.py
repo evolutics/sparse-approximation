@@ -64,6 +64,7 @@ selected_algorithms = {
     "Warm-JS, ηᵢ=1/(2i+1), I=2K",
     "Warm-JS, ηᵢ=1/(2K), I=2K",
     "Warm-JS, ηᵢ=1/(i/2+1), I=2K",
+    "Warm-JS, ηᵢ=D, I=2K",
     "Warm-KL, ηᵢ=1/(2i+1), I=4",
     "Warm-KL, ηᵢ=1/(2K), I=4",
     "Warm-KL, ηᵢ=D, I=4",
@@ -333,6 +334,15 @@ algorithms = {
         K_,
         solve_dense=solve_dense,
         eta_i=lambda i: 1 / (i / 2 + 1),
+        I=2 * K_,
+    ),
+    "Warm-JS, ηᵢ=D, I=2K": lambda A, b, D, K_: warm_js.solve(
+        A,
+        b,
+        D,
+        K_,
+        solve_dense=solve_dense,
+        eta_i=None,
         I=2 * K_,
     ),
     "Warm-KL, ηᵢ=1/(2i+1), I=4": lambda *problem: warm_kl.solve(

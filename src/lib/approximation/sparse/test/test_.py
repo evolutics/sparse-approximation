@@ -168,6 +168,18 @@ def _cases():
         ),
         (
             divergence.total_variation,
+            lambda A, b, D, K: warm_js.solve(
+                A,
+                b,
+                D,
+                K,
+                solve_dense=dense.total_variation,
+                eta_i=None,
+                I=2 * K,
+            ),
+        ),
+        (
+            divergence.total_variation,
             lambda A, b, D, K: warm_kl_compressive_sampling_matching_pursuit.solve(
                 A,
                 b,
