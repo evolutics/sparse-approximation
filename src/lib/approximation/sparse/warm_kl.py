@@ -17,12 +17,6 @@ def select(A, b, D, K, *, eta, I, q):
     N = A.shape[1]
     S = numpy.full(N, False)
 
-    nonzero = b != 0
-    A = A[nonzero, :]
-    b = b[nonzero]
-    if q is not None:
-        q = q[nonzero]
-
     for i in range(I * K):
         if q is None:
             Q = A
@@ -35,10 +29,7 @@ def select(A, b, D, K, *, eta, I, q):
                 eta_i = 1 / (-eta * i + 1)
             Q = (1 - eta_i) * q[:, None] + eta_i * A
 
-        # A `q` minimizes the K directed divergence `K(b, q)` if and only if it
-        # maximizes `∑ₘ bₘ log (bₘ+qₘ)`, which is faster to compute.
-        potentials = b @ numpy.log(b[:, None] + Q)
-        index = numpy.argmax(potentials)
+        index = numpy.argmin(_optimized_k_directed_divergences(b, Q))
 
         S[index] = True
         if numpy.count_nonzero(S) == K:
@@ -47,3 +38,14 @@ def select(A, b, D, K, *, eta, I, q):
         q = Q[:, index]
 
     return S
+
+
+def _optimized_k_directed_divergences(b, Q):
+    # A `q` minimizes the K directed divergence `K(b, q)` if and only if it
+    # minimizes `-∑ₘ bₘ log (bₘ+qₘ)`, which is faster to compute.
+
+    nonzero = b != 0
+    b = b[nonzero]
+    Q = Q[nonzero, :]
+
+    return -b @ numpy.log(b[:, None] + Q)
