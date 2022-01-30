@@ -63,7 +63,6 @@ selected_algorithms = {
     "Warm KL-CoSaMP, ηᵢ=D, I=4, Lᵢ=2K/2ⁱ",
     "Warm-JS, ηᵢ=1/(2i+1), I=2K",
     "Warm-JS, ηᵢ=1/(2K), I=2K",
-    "Warm-JS, ηᵢ=1/(i/2+1), I=2K",
     "Warm-JS, ηᵢ=D, I=2K",
     "Warm-KL, ηᵢ=1/(2i+1), I=4",
     "Warm-KL, ηᵢ=1/(2K), I=4",
@@ -325,15 +324,6 @@ algorithms = {
         K_,
         solve_dense=solve_dense,
         eta=1 / (2 * K_),
-        I=2 * K_,
-    ),
-    "Warm-JS, ηᵢ=1/(i/2+1), I=2K": lambda A, b, D, K_: warm_js.solve(
-        A,
-        b,
-        D,
-        K_,
-        solve_dense=solve_dense,
-        eta=-0.5,
         I=2 * K_,
     ),
     "Warm-JS, ηᵢ=D, I=2K": lambda A, b, D, K_: warm_js.solve(
