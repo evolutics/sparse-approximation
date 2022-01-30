@@ -27,7 +27,7 @@ def solve(A, b, D, K, *, solve_dense, etas, I, L):
 
         xs_ = warm_js.iterate(A=A, b=b, D=D, eta_i=eta_i)
 
-        for x in itertools.islice((x for i, x in enumerate(xs_, 1) if i in I), len(I)):
+        for x in itertools.islice((x for i, x in enumerate(xs_) if i in I), len(I)):
             S = numpy.full(N, False)
             S[sorting.argmaxs(x, K)] = True
             x = numpy.zeros(N)

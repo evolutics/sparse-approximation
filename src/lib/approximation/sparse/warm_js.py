@@ -10,7 +10,7 @@ def solve(A, b, D, K, *, solve_dense, eta_i, I):
     N = A.shape[1]
 
     xs_ = iterate(A=A, b=b, D=D, eta_i=eta_i)
-    x = next(itertools.islice(xs_, I - 1, None))
+    x = next(itertools.islice(xs_, I, None))
 
     S = numpy.full(N, False)
     S[sorting.argmaxs(x, K)] = True
@@ -26,6 +26,8 @@ def iterate(*, A, b, D, eta_i):
 
     q = numpy.zeros(M)
     x = numpy.zeros(N)
+
+    yield x
 
     for i in itertools.count():
         if eta_i is None:
