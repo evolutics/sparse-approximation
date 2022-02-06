@@ -1,13 +1,14 @@
 """
-Minimizes D(b, Ax) for x ∈ ℝ₊^N subject to ‖x‖₀ ≤ K where aₙ, b ∈ ℝ₊^M.
+Minimizes D(b, Ax) for x ∈ ℝ₊^N subject to ‖x‖₀ ≤ K where aₙ, b ∈ Δ^M.
 
 This is a case of sparse approximation.
 
-ℝ₊ denotes the nonnegative real numbers.
+Δ^L denotes the standard L-simplex, that is, the set of L-dimensional vectors
+with nonnegative entries that sum up to 1 (probability vectors).
 
 We have
-    A ∈ ℝ₊^{M×N},
-    b ∈ ℝ₊^M,
+    A ∈ ℝ^{M×N} with each column aₙ ∈ Δ^M,
+    b ∈ Δ^M,
     D is a divergence, and
     1 ≤ K < N.
 """
