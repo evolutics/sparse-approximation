@@ -9,7 +9,7 @@ from src.lib import sorting
 def solve(A, b, D, K, *, solve_dense, eta, I):
     N = A.shape[1]
 
-    xs_ = iterate(A=A, b=b, D=D, eta=eta)
+    xs_ = iterate(A=A, b=b, D=D, eta=eta, q=None)
     x = next(itertools.islice(xs_, I, None))
 
     S = numpy.full(N, False)
@@ -21,11 +21,12 @@ def solve(A, b, D, K, *, solve_dense, eta, I):
     return x
 
 
-def iterate(*, A, b, D, eta):
+def iterate(*, A, b, D, eta, q):
     M, N = A.shape
 
     x = numpy.zeros(N)
-    q = numpy.zeros(M)
+    if q is None:
+        q = numpy.zeros(M)
 
     yield x
 
