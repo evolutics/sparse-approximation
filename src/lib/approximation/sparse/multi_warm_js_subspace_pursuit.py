@@ -4,7 +4,7 @@ import math
 import numpy
 
 from src.lib import sorting
-from src.lib.approximation.sparse import warm_js
+from src.lib.approximation.sparse import warm
 
 
 def solve(A, b, D, K, *, solve_dense, etas, I, L):
@@ -23,7 +23,7 @@ def solve(A, b, D, K, *, solve_dense, etas, I, L):
             return x
 
     for eta in etas:
-        xs_ = warm_js.iterate(A=A, b=b, D=D, eta=eta, q=None)
+        xs_ = warm.iterate(A=A, b=b, D=D, eta=eta, is_kl_not_js=False, q=None)
 
         for x in itertools.islice((x for i, x in enumerate(xs_) if i in I), len(I)):
             S = numpy.full(N, False)

@@ -1,6 +1,7 @@
 import numpy
 
 from src.lib import sorting
+from src.lib.approximation.sparse import warm
 from src.lib.approximation.sparse import warm_kl
 
 
@@ -13,7 +14,7 @@ def solve(A, b, D, K, *, solve_dense, eta, I, L):
     best_divergence = D(b, y)
 
     for l in L:
-        xs_ = warm_kl.iterate(A=A, b=b, D=D, eta=eta, q=y)
+        xs_ = warm.iterate(A=A, b=b, D=D, eta=eta, is_kl_not_js=True, q=y)
         x = next(x for i, x in enumerate(xs_) if numpy.count_nonzero(x) >= l or i >= I)
         S |= x != 0
 
