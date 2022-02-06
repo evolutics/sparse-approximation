@@ -2,8 +2,8 @@ import numpy
 
 
 def solve(A, b, D, k, *, solve_dense, normalize, is_step_size_adaptive):
-    N = A.shape[1]
-    S = numpy.full(N, False)
+    n = A.shape[1]
+    S = numpy.full(n, False)
     r = b
 
     for i in range(k):
@@ -22,7 +22,7 @@ def solve(A, b, D, k, *, solve_dense, normalize, is_step_size_adaptive):
 
         r = b - y
 
-    x = numpy.zeros(N)
+    x = numpy.zeros(n)
     x[S] = solve_dense(A[:, S], b)
 
     return x

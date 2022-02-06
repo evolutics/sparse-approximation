@@ -4,8 +4,8 @@ from src.lib import sorting
 
 
 def solve(A, b, _, k, *, solve_dense, L):
-    N = A.shape[1]
-    S = numpy.full(N, True)
+    n = A.shape[1]
+    S = numpy.full(n, True)
     x = solve_dense(A, b)
 
     while numpy.count_nonzero(S) > k:
@@ -15,7 +15,7 @@ def solve(A, b, _, k, *, solve_dense, L):
         T = numpy.flatnonzero(S)[sorting.argmins(x[S], drops)]
         S[T] = False
 
-        x = numpy.zeros(N)
+        x = numpy.zeros(n)
         x[S] = solve_dense(A[:, S], b)
 
     return x

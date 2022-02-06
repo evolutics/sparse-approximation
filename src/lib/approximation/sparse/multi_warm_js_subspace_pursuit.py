@@ -8,7 +8,7 @@ from src.lib.approximation.sparse import warm
 
 
 def solve(A, b, D, k, *, solve_dense, etas, I, L):
-    N = A.shape[1]
+    n = A.shape[1]
 
     best_divergence = math.inf
     solve_dense_cache = {}
@@ -26,9 +26,9 @@ def solve(A, b, D, k, *, solve_dense, etas, I, L):
         xs_ = warm.iterate(A=A, b=b, D=D, eta=eta, is_kl_not_js=False, q=None)
 
         for x in itertools.islice((x for i, x in enumerate(xs_) if i in I), len(I)):
-            S = numpy.full(N, False)
+            S = numpy.full(n, False)
             S[sorting.argmaxs(x, k)] = True
-            x = numpy.zeros(N)
+            x = numpy.zeros(n)
             x[S] = cached_solve_dense(S)
 
             y = A[:, S] @ x[S]
@@ -45,12 +45,12 @@ def solve(A, b, D, k, *, solve_dense, etas, I, L):
                 divergences = D(r_normalized, shift_normalized)
 
                 S[sorting.argmins(divergences, l)] = True
-                x = numpy.zeros(N)
+                x = numpy.zeros(n)
                 x[S] = cached_solve_dense(S)
 
                 S.fill(False)
                 S[sorting.argmaxs(x, k)] = True
-                x = numpy.zeros(N)
+                x = numpy.zeros(n)
                 x[S] = cached_solve_dense(S)
 
                 y = A[:, S] @ x[S]

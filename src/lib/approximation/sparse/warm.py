@@ -5,11 +5,11 @@ import numpy
 
 
 def iterate(*, A, b, D, eta, is_kl_not_js, q):
-    M, N = A.shape
+    m, n = A.shape
 
-    x = numpy.zeros(N)
+    x = numpy.zeros(n)
     if q is None:
-        q = numpy.zeros(M)
+        q = numpy.zeros(m)
 
     yield x
 

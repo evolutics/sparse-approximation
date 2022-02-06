@@ -1,5 +1,5 @@
 """
-Minimizes D(b, Ax) for x ∈ ℝ₊^N subject to ‖x‖₀ ≤ k where aₙ, b ∈ Δ^M.
+Minimizes D(b, Ax) for x ∈ ℝ₊ⁿ subject to ‖x‖₀ ≤ k where aₙ, b ∈ Δᵐ.
 
 This is a case of sparse approximation.
 
@@ -7,8 +7,8 @@ This is a case of sparse approximation.
 with nonnegative entries that sum up to 1 (probability vectors).
 
 We have
-    A ∈ ℝ^{M×N} with each column aₙ ∈ Δ^M,
-    b ∈ Δ^M,
+    A ∈ ℝᵐˣⁿ with each column aₙ ∈ Δᵐ,
+    b ∈ Δᵐ,
     D is a divergence, and
-    1 ≤ k < N.
+    1 ≤ k < n.
 """

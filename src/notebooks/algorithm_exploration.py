@@ -70,8 +70,8 @@ selected_algorithms = {
 }
 
 density_range = (0, 1)
-M = 16
-N = 256
+m = 16
+n = 256
 
 repetitions = 8
 
@@ -100,7 +100,7 @@ algorithms = {
         k,
         solve_dense=solve_dense,
         normalize=normalize_,
-        L=[min(2 * k, N)] * k,
+        L=[min(2 * k, n)] * k,
     ),
     "CoSaMP, Lᵢ=2k/2ⁱ": lambda A, b, D, k: compressive_sampling_matching_pursuit.solve(
         A,
@@ -109,7 +109,7 @@ algorithms = {
         k,
         solve_dense=solve_dense,
         normalize=normalize_,
-        L=sequence.halve_until_1(min(2 * k, N)),
+        L=sequence.halve_until_1(min(2 * k, n)),
     ),
     "FBP, α=2, β=1": lambda *problem: forward_backward_pursuit.solve(
         *problem,
@@ -147,7 +147,7 @@ algorithms = {
         D,
         k,
         solve_dense=solve_dense,
-        L=round(N / k),
+        L=round(n / k),
     ),
     "Multi Warm-JS SP": lambda A, b, D, k: multi_warm_js_subspace_pursuit.solve(
         A,
@@ -191,7 +191,7 @@ algorithms = {
         eta=-2,
         I=4 * k,
         normalize=normalize_,
-        L=[min(2 * k, N)] * (math.floor(math.log2(k)) + 1),
+        L=[min(2 * k, n)] * (math.floor(math.log2(k)) + 1),
     ),
     "Warm CoSaMP, ηᵢ=1/(2i+1), I=4k, Lᵢ=2k, i∈[k]": lambda A, b, D, k: warm_compressive_sampling_matching_pursuit.solve(
         A,
@@ -202,7 +202,7 @@ algorithms = {
         eta=-2,
         I=4 * k,
         normalize=normalize_,
-        L=[min(2 * k, N)] * k,
+        L=[min(2 * k, n)] * k,
     ),
     "Warm CoSaMP, ηᵢ=1/(2i+1), I=4k, Lᵢ=2k/2ⁱ": lambda A, b, D, k: warm_compressive_sampling_matching_pursuit.solve(
         A,
@@ -213,7 +213,7 @@ algorithms = {
         eta=-2,
         I=4 * k,
         normalize=normalize_,
-        L=sequence.halve_until_1(min(2 * k, N)),
+        L=sequence.halve_until_1(min(2 * k, n)),
     ),
     "Warm CoSaMP, ηᵢ=D, I=4k, Lᵢ=2k, i∈[⌊log₂ k⌋+1]": lambda A, b, D, k: warm_compressive_sampling_matching_pursuit.solve(
         A,
@@ -224,7 +224,7 @@ algorithms = {
         eta=None,
         I=4 * k,
         normalize=normalize_,
-        L=[min(2 * k, N)] * (math.floor(math.log2(k)) + 1),
+        L=[min(2 * k, n)] * (math.floor(math.log2(k)) + 1),
     ),
     "Warm CoSaMP, ηᵢ=D, I=4k, Lᵢ=2k, i∈[k]": lambda A, b, D, k: warm_compressive_sampling_matching_pursuit.solve(
         A,
@@ -235,7 +235,7 @@ algorithms = {
         eta=None,
         I=4 * k,
         normalize=normalize_,
-        L=[min(2 * k, N)] * k,
+        L=[min(2 * k, n)] * k,
     ),
     "Warm CoSaMP, ηᵢ=D, I=4k, Lᵢ=2k/2ⁱ": lambda A, b, D, k: warm_compressive_sampling_matching_pursuit.solve(
         A,
@@ -246,7 +246,7 @@ algorithms = {
         eta=None,
         I=4 * k,
         normalize=normalize_,
-        L=sequence.halve_until_1(min(2 * k, N)),
+        L=sequence.halve_until_1(min(2 * k, n)),
     ),
     "Warm KL-CoSaMP, ηᵢ=1/(2i+1), I=4k, Lᵢ=2k, i∈[⌊log₂ k⌋+1]": lambda A, b, D, k: warm_kl_compressive_sampling_matching_pursuit.solve(
         A,
@@ -256,7 +256,7 @@ algorithms = {
         solve_dense=solve_dense,
         eta=-2,
         I=4 * k,
-        L=[min(2 * k, N)] * (math.floor(math.log2(k)) + 1),
+        L=[min(2 * k, n)] * (math.floor(math.log2(k)) + 1),
     ),
     "Warm KL-CoSaMP, ηᵢ=1/(2i+1), I=4k, Lᵢ=2k, i∈[k]": lambda A, b, D, k: warm_kl_compressive_sampling_matching_pursuit.solve(
         A,
@@ -266,7 +266,7 @@ algorithms = {
         solve_dense=solve_dense,
         eta=-2,
         I=4 * k,
-        L=[min(2 * k, N)] * k,
+        L=[min(2 * k, n)] * k,
     ),
     "Warm KL-CoSaMP, ηᵢ=1/(2i+1), I=4k, Lᵢ=2k/2ⁱ": lambda A, b, D, k: warm_kl_compressive_sampling_matching_pursuit.solve(
         A,
@@ -276,7 +276,7 @@ algorithms = {
         solve_dense=solve_dense,
         eta=-2,
         I=4 * k,
-        L=sequence.halve_until_1(min(2 * k, N)),
+        L=sequence.halve_until_1(min(2 * k, n)),
     ),
     "Warm KL-CoSaMP, ηᵢ=D, I=4k, Lᵢ=2k, i∈[⌊log₂ k⌋+1]": lambda A, b, D, k: warm_kl_compressive_sampling_matching_pursuit.solve(
         A,
@@ -286,7 +286,7 @@ algorithms = {
         solve_dense=solve_dense,
         eta=None,
         I=4 * k,
-        L=[min(2 * k, N)] * (math.floor(math.log2(k)) + 1),
+        L=[min(2 * k, n)] * (math.floor(math.log2(k)) + 1),
     ),
     "Warm KL-CoSaMP, ηᵢ=D, I=4k, Lᵢ=2k, i∈[k]": lambda A, b, D, k: warm_kl_compressive_sampling_matching_pursuit.solve(
         A,
@@ -296,7 +296,7 @@ algorithms = {
         solve_dense=solve_dense,
         eta=None,
         I=4 * k,
-        L=[min(2 * k, N)] * k,
+        L=[min(2 * k, n)] * k,
     ),
     "Warm KL-CoSaMP, ηᵢ=D, I=4k, Lᵢ=2k/2ⁱ": lambda A, b, D, k: warm_kl_compressive_sampling_matching_pursuit.solve(
         A,
@@ -306,7 +306,7 @@ algorithms = {
         solve_dense=solve_dense,
         eta=None,
         I=4 * k,
-        L=sequence.halve_until_1(min(2 * k, N)),
+        L=sequence.halve_until_1(min(2 * k, n)),
     ),
     "Warm-JS, ηᵢ=1/(2i+1), I=2k": lambda A, b, D, k: warm_js.solve(
         A,
@@ -376,14 +376,14 @@ for repetition in range(repetitions):
     progress.value = repetition / repetitions
 
     nonzero_range = (
-        max(round(density_range[0] * M), 1),
-        round(density_range[1] * M) + 1,
+        max(round(density_range[0] * m), 1),
+        round(density_range[1] * m) + 1,
     )
-    A = randomness.draw_distributions(generator, M, N, nonzero_range=nonzero_range)
-    b = randomness.draw_distribution(generator, M)
+    A = randomness.draw_distributions(generator, m, n, nonzero_range=nonzero_range)
+    b = randomness.draw_distribution(generator, m)
 
     for k, algorithm in itertools.product(
-        range(1, min(M, N)),
+        range(1, min(m, n)),
         selected_algorithms,
     ):
         solve = algorithms[algorithm]
@@ -392,7 +392,7 @@ for repetition in range(repetitions):
         x = solve(A, b, D, k)
         end_time = timeit.default_timer()
 
-        assert x.shape == (N,)
+        assert x.shape == (n,)
         assert all(x >= 0)
         assert numpy.count_nonzero(x) <= k
 

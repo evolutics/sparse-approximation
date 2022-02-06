@@ -6,7 +6,7 @@ from src.lib.approximation.sparse import warm_kl
 
 
 def solve(A, b, D, k, *, solve_dense, eta, I, L):
-    N = A.shape[1]
+    n = A.shape[1]
 
     best_x = warm_kl.solve(A, b, D, k, solve_dense=solve_dense, eta=eta, I=I)
     S = best_x != 0
@@ -18,7 +18,7 @@ def solve(A, b, D, k, *, solve_dense, eta, I, L):
         x = next(x for i, x in enumerate(xs_) if numpy.count_nonzero(x) >= l or i >= I)
         S |= x != 0
 
-        x = numpy.zeros(N)
+        x = numpy.zeros(n)
         x[S] = solve_dense(A[:, S], b)
 
         S.fill(False)
@@ -26,7 +26,7 @@ def solve(A, b, D, k, *, solve_dense, eta, I, L):
 
         y = A[:, S] @ x[S]
 
-    x = numpy.zeros(N)
+    x = numpy.zeros(n)
     x[S] = solve_dense(A[:, S], b)
     divergence = D(b, A[:, S] @ x[S])
     if divergence < best_divergence:

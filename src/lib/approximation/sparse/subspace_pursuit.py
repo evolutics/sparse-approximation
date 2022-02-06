@@ -6,8 +6,8 @@ from src.lib import sorting
 
 
 def solve(A, b, D, k, *, solve_dense, normalize, L):
-    N = A.shape[1]
-    S = numpy.full(N, False)
+    n = A.shape[1]
+    S = numpy.full(n, False)
     r = b
     best_divergence = math.inf
 
@@ -15,13 +15,13 @@ def solve(A, b, D, k, *, solve_dense, normalize, L):
         potentials = D(normalize(r), A)
         S[sorting.argmins(potentials, l)] = True
 
-        x = numpy.zeros(N)
+        x = numpy.zeros(n)
         x[S] = solve_dense(A[:, S], b)
 
         S.fill(False)
         S[sorting.argmaxs(x, k)] = True
 
-        x = numpy.zeros(N)
+        x = numpy.zeros(n)
         x[S] = solve_dense(A[:, S], b)
 
         y = A[:, S] @ x[S]
