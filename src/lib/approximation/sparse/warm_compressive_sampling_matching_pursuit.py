@@ -4,10 +4,10 @@ from src.lib import sorting
 from src.lib.approximation.sparse import warm_kl
 
 
-def solve(A, b, D, K, *, solve_dense, eta, I, normalize, L):
+def solve(A, b, D, k, *, solve_dense, eta, I, normalize, L):
     N = A.shape[1]
 
-    best_x = warm_kl.solve(A, b, D, K, solve_dense=solve_dense, eta=eta, I=I)
+    best_x = warm_kl.solve(A, b, D, k, solve_dense=solve_dense, eta=eta, I=I)
     S = best_x != 0
     y = A[:, S] @ best_x[S]
     best_divergence = D(b, y)
@@ -21,7 +21,7 @@ def solve(A, b, D, K, *, solve_dense, eta, I, normalize, L):
         x[S] = solve_dense(A[:, S], b)
 
         S.fill(False)
-        S[sorting.argmaxs(x, K)] = True
+        S[sorting.argmaxs(x, k)] = True
 
         r = b - A[:, S] @ x[S]
 

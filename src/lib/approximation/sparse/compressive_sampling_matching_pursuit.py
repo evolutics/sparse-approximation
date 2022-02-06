@@ -3,7 +3,7 @@ import numpy
 from src.lib import sorting
 
 
-def solve(A, b, D, K, *, solve_dense, normalize, L):
+def solve(A, b, D, k, *, solve_dense, normalize, L):
     N = A.shape[1]
     S = numpy.full(N, False)
     r = b
@@ -16,7 +16,7 @@ def solve(A, b, D, K, *, solve_dense, normalize, L):
         x[S] = solve_dense(A[:, S], b)
 
         S.fill(False)
-        S[sorting.argmaxs(x, K)] = True
+        S[sorting.argmaxs(x, k)] = True
 
         r = b - A[:, S] @ x[S]
 

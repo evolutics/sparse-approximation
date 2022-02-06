@@ -3,14 +3,14 @@ import numpy
 from src.lib import sorting
 
 
-def solve(A, b, D, K, *, solve_dense, normalize, L):
+def solve(A, b, D, k, *, solve_dense, normalize, L):
     N = A.shape[1]
     S = numpy.full(N, False)
     r = b
 
-    while numpy.count_nonzero(S) < K:
+    while numpy.count_nonzero(S) < k:
         potentials = D(normalize(r), A[:, ~S])
-        count = min(L, K - numpy.count_nonzero(S))
+        count = min(L, k - numpy.count_nonzero(S))
         T = numpy.flatnonzero(~S)[sorting.argmins(potentials, count)]
         S[T] = True
 

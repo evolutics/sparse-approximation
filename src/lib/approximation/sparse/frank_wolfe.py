@@ -1,12 +1,12 @@
 import numpy
 
 
-def solve(A, b, D, K, *, solve_dense, normalize, is_step_size_adaptive):
+def solve(A, b, D, k, *, solve_dense, normalize, is_step_size_adaptive):
     N = A.shape[1]
     S = numpy.full(N, False)
     r = b
 
-    for i in range(K):
+    for i in range(k):
         potentials = D(normalize(r), A[:, ~S])
         index = numpy.flatnonzero(~S)[numpy.argmin(potentials)]
         S[index] = True

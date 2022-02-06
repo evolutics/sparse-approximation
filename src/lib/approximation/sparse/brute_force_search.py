@@ -4,12 +4,12 @@ import math
 import numpy
 
 
-def solve(A, b, D, K, *, solve_dense):
+def solve(A, b, D, k, *, solve_dense):
     N = A.shape[1]
 
     best_divergence = math.inf
 
-    for combination in itertools.combinations(range(N), K):
+    for combination in itertools.combinations(range(N), k):
         S = numpy.array(combination)
 
         x = solve_dense(A[:, S], b)

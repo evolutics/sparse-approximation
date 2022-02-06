@@ -7,7 +7,7 @@ from src.lib import sorting
 from src.lib.approximation.sparse import warm
 
 
-def solve(A, b, D, K, *, solve_dense, etas, I, L):
+def solve(A, b, D, k, *, solve_dense, etas, I, L):
     N = A.shape[1]
 
     best_divergence = math.inf
@@ -27,7 +27,7 @@ def solve(A, b, D, K, *, solve_dense, etas, I, L):
 
         for x in itertools.islice((x for i, x in enumerate(xs_) if i in I), len(I)):
             S = numpy.full(N, False)
-            S[sorting.argmaxs(x, K)] = True
+            S[sorting.argmaxs(x, k)] = True
             x = numpy.zeros(N)
             x[S] = cached_solve_dense(S)
 
@@ -49,7 +49,7 @@ def solve(A, b, D, K, *, solve_dense, etas, I, L):
                 x[S] = cached_solve_dense(S)
 
                 S.fill(False)
-                S[sorting.argmaxs(x, K)] = True
+                S[sorting.argmaxs(x, k)] = True
                 x = numpy.zeros(N)
                 x[S] = cached_solve_dense(S)
 

@@ -1,12 +1,12 @@
 import numpy
 
 
-def solve(A, b, D, K, *, solve_dense, normalize):
+def solve(A, b, D, k, *, solve_dense, normalize):
     N = A.shape[1]
     S = numpy.full(N, False)
     r = b
 
-    while numpy.count_nonzero(S) < K:
+    while numpy.count_nonzero(S) < k:
         potentials = D(normalize(r), A[:, ~S])
         index = numpy.flatnonzero(~S)[numpy.argmin(potentials)]
         S[index] = True
