@@ -24,8 +24,8 @@ def solve(A, b, D, K, *, solve_dense, eta, I):
 def iterate(*, A, b, D, eta):
     M, N = A.shape
 
-    q = numpy.zeros(M)
     x = numpy.zeros(N)
+    q = numpy.zeros(M)
 
     yield x
 
@@ -40,9 +40,9 @@ def iterate(*, A, b, D, eta):
 
         index = numpy.argmin(_optimized_js_divergences(b, Q))
 
-        q = Q[:, index]
         x *= 1 - eta_i
         x[index] += eta_i
+        q = Q[:, index]
 
         yield x
 

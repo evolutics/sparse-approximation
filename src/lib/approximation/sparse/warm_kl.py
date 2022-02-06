@@ -21,9 +21,9 @@ def solve(A, b, D, K, *, solve_dense, eta, I):
 def iterate(*, A, b, D, eta, q):
     M, N = A.shape
 
+    x = numpy.zeros(N)
     if q is None:
         q = numpy.zeros(M)
-    x = numpy.zeros(N)
 
     yield x
 
