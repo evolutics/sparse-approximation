@@ -1,27 +1,33 @@
 # pylint: disable=unsubscriptable-object
 
+import itertools
+
 import numpy
 
 
 def solve(A, b, D, K, *, solve_dense, eta, I):
-    S = select(A, b, D, K, eta=eta, I=I, q=None)
-
     N = A.shape[1]
+
+    xs_ = iterate(A=A, b=b, D=D, eta=eta, q=None)
+    x = next(x for i, x in enumerate(xs_) if numpy.count_nonzero(x) >= K or i >= I)
+    S = x != 0
+
     x = numpy.zeros(N)
     x[S] = solve_dense(A[:, S], b)
 
     return x
 
 
-def select(A, b, D, K, *, eta, I, q):
+def iterate(*, A, b, D, eta, q):
     M, N = A.shape
-
-    S = numpy.full(N, False)
 
     if q is None:
         q = numpy.zeros(M)
+    x = numpy.zeros(N)
 
-    for i in range(I):
+    yield x
+
+    for i in itertools.count():
         if eta is None:
             eta_i = D(b, q)
         elif eta >= 0:
@@ -32,13 +38,11 @@ def select(A, b, D, K, *, eta, I, q):
 
         index = numpy.argmin(_optimized_k_directed_divergences(b, Q))
 
-        S[index] = True
-        if numpy.count_nonzero(S) == K:
-            break
-
+        x *= 1 - eta_i
+        x[index] += eta_i
         q = Q[:, index]
 
-    return S
+        yield x
 
 
 def _optimized_k_directed_divergences(b, Q):
