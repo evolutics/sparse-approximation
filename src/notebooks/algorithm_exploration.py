@@ -396,13 +396,18 @@ for repetition in range(repetitions):
         assert all(x >= 0)
         assert numpy.count_nonzero(x) <= K
 
-        data = data.append(
-            {
-                "K": K,
-                "Algorithm": algorithm,
-                "Divergence": D(b, A @ x),
-                "Duration / s": end_time - start_time,
-            },
+        data = pandas.concat(
+            [
+                data,
+                pandas.DataFrame(
+                    {
+                        "K": [K],
+                        "Algorithm": [algorithm],
+                        "Divergence": [D(b, A @ x)],
+                        "Duration / s": [end_time - start_time],
+                    }
+                ),
+            ],
             ignore_index=True,
         )
 
