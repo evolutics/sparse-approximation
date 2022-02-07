@@ -1,5 +1,5 @@
 """
-Minimizes D(p, Ax) for x ∈ ℝ₊ⁿ where aₙ, p ∈ Δᵐ and D is a divergence.
+Minimizes D(p, Ax) for x ∈ ℝ₊ⁿ where aᵢ, p ∈ Δᵐ and D is a divergence.
 
 These occur as ingredients of algorithms for the sparse case.
 """

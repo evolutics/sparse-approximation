@@ -37,7 +37,7 @@ def iterate(*, A, p, D, eta, is_kl_not_js, q):
 
 def _optimized_k_directed_divergences(p, Q):
     # A `q` minimizes the K directed divergence `K(p, q)` if and only if it
-    # minimizes `-∑ₘ pₘ log (pₘ+qₘ)`, which is faster to compute.
+    # minimizes `-∑ᵢ pᵢ log (pᵢ+qᵢ)`, which is faster to compute.
 
     nonzero = p != 0
     p = p[nonzero]
