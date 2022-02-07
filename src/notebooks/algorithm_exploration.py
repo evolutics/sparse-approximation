@@ -42,7 +42,7 @@ selected_algorithms = {
     "FBP, α=2, β=1",
     "Frank-Wolfe, adaptive",
     "Frank-Wolfe, non-adaptive",
-    "gOMP, L=2",
+    "gOMP, l=2",
     "gRMP, exponential",
     "gRMP, linear",
     "Multi Warm-JS SP",
@@ -130,16 +130,16 @@ algorithms = {
         normalize=normalize_,
         is_step_size_adaptive=False,
     ),
-    "gOMP, L=2": lambda *problem: generalized_orthogonal_matching_pursuit.solve(
+    "gOMP, l=2": lambda *problem: generalized_orthogonal_matching_pursuit.solve(
         *problem,
         solve_dense=solve_dense,
         normalize=normalize_,
-        L=2,
+        l=2,
     ),
     "gRMP, exponential": lambda *problem: generalized_reverse_matching_pursuit.solve(
         *problem,
         solve_dense=solve_dense,
-        L=lambda surplus: surplus // 2,
+        l=lambda surplus: surplus // 2,
     ),
     "gRMP, linear": lambda C, p, D, k: generalized_reverse_matching_pursuit.solve(
         C,
@@ -147,7 +147,7 @@ algorithms = {
         D,
         k,
         solve_dense=solve_dense,
-        L=round(n / k),
+        l=round(n / k),
     ),
     "Multi Warm-JS SP": lambda C, p, D, k: multi_warm_js_subspace_pursuit.solve(
         C,

@@ -74,7 +74,7 @@ def _cases():
                 *problem,
                 solve_dense=dense.total_variation,
                 normalize=normalize.clip,
-                L=1,
+                l=1,
             ),
         ),
         (
@@ -82,7 +82,7 @@ def _cases():
             lambda *problem: generalized_reverse_matching_pursuit.solve(
                 *problem,
                 solve_dense=dense.total_variation,
-                L=1,
+                l=1,
             ),
         ),
         (
