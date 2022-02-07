@@ -31,16 +31,16 @@ def solve(A, b, D, k, *, solve_dense, etas, I, L):
             x = numpy.zeros(n)
             x[S] = cached_solve_dense(S)
 
-            y = A[:, S] @ x[S]
-            divergence = D(b, y)
+            q = A[:, S] @ x[S]
+            divergence = D(b, q)
             if divergence < best_divergence:
                 best_x = x
                 best_divergence = divergence
 
             for l in L:
-                r = b - y
+                r = b - q
                 r_normalized = r / numpy.sum(numpy.abs(r))
-                shift = A - y[:, None]
+                shift = A - q[:, None]
                 shift_normalized = shift / numpy.sum(numpy.abs(shift), axis=0)
                 divergences = D(r_normalized, shift_normalized)
 
@@ -53,8 +53,8 @@ def solve(A, b, D, k, *, solve_dense, etas, I, L):
                 x = numpy.zeros(n)
                 x[S] = cached_solve_dense(S)
 
-                y = A[:, S] @ x[S]
-                divergence = D(b, y)
+                q = A[:, S] @ x[S]
+                divergence = D(b, q)
                 if divergence < best_divergence:
                     best_x = x
                     best_divergence = divergence

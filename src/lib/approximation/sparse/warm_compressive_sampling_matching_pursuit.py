@@ -9,9 +9,9 @@ def solve(A, b, D, k, *, solve_dense, eta, I, normalize, L):
 
     best_x = warm_kl.solve(A, b, D, k, solve_dense=solve_dense, eta=eta, I=I)
     S = best_x != 0
-    y = A[:, S] @ best_x[S]
-    best_divergence = D(b, y)
-    r = b - y
+    q = A[:, S] @ best_x[S]
+    best_divergence = D(b, q)
+    r = b - q
 
     for l in L:
         potentials = D(normalize(r), A)

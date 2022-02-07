@@ -10,11 +10,11 @@ def solve(A, b, D, k, *, solve_dense, eta, I, L):
 
     best_x = warm_kl.solve(A, b, D, k, solve_dense=solve_dense, eta=eta, I=I)
     S = best_x != 0
-    y = A[:, S] @ best_x[S]
-    best_divergence = D(b, y)
+    q = A[:, S] @ best_x[S]
+    best_divergence = D(b, q)
 
     for l in L:
-        xs_ = warm.iterate(A=A, b=b, D=D, eta=eta, is_kl_not_js=True, q=y)
+        xs_ = warm.iterate(A=A, b=b, D=D, eta=eta, is_kl_not_js=True, q=q)
         x = next(x for i, x in enumerate(xs_) if numpy.count_nonzero(x) >= l or i >= I)
         S |= x != 0
 
@@ -24,7 +24,7 @@ def solve(A, b, D, k, *, solve_dense, eta, I, L):
         S.fill(False)
         S[sorting.argmaxs(x, k)] = True
 
-        y = A[:, S] @ x[S]
+        q = A[:, S] @ x[S]
 
     x = numpy.zeros(n)
     x[S] = solve_dense(A[:, S], b)

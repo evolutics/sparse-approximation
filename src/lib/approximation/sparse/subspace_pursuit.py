@@ -24,13 +24,13 @@ def solve(A, b, D, k, *, solve_dense, normalize, L):
         x = numpy.zeros(n)
         x[S] = solve_dense(A[:, S], b)
 
-        y = A[:, S] @ x[S]
-        divergence = D(b, y)
+        q = A[:, S] @ x[S]
+        divergence = D(b, q)
 
         if divergence < best_divergence:
             best_x = x
             best_divergence = divergence
 
-        r = b - y
+        r = b - q
 
     return best_x
