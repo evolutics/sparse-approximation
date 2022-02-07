@@ -94,7 +94,7 @@ def _cases():
                 k,
                 solve_dense=dense.total_variation,
                 etas=[1 / (2 * k)],
-                I={2 * k},
+                iterations={2 * k},
                 L=[k],
             ),
         ),
