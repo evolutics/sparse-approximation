@@ -3,7 +3,7 @@ Minimizes D(p, Cy) for y ∈ ℝ₊ⁿ subject to ‖y‖₀ ≤ k where cᵢ, p
 
 This is a case of sparse approximation.
 
-Δ^L denotes the standard L-simplex, that is, the set of L-dimensional vectors
+Δᵐ denotes the standard m-simplex, that is, the set of m-dimensional vectors
 with nonnegative entries that sum up to 1 (probability vectors).
 
 We have
