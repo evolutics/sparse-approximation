@@ -7,11 +7,11 @@ import numpy
 def iterate(*, C, p, D, eta, is_kl_not_js, q):
     m, n = C.shape
 
-    x = numpy.zeros(n)
+    y = numpy.zeros(n)
     if q is None:
         q = numpy.zeros(m)
 
-    yield x
+    yield y
 
     for i in itertools.count():
         if eta is None:
@@ -28,11 +28,11 @@ def iterate(*, C, p, D, eta, is_kl_not_js, q):
             else _optimized_js_divergences(p, Q)
         )
 
-        x *= 1 - eta_i
-        x[index] += eta_i
+        y *= 1 - eta_i
+        y[index] += eta_i
         q = Q[:, index]
 
-        yield x
+        yield y
 
 
 def _optimized_k_directed_divergences(p, Q):

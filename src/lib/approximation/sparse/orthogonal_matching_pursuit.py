@@ -11,9 +11,9 @@ def solve(C, p, D, k, *, solve_dense, normalize):
         index = numpy.flatnonzero(~S)[numpy.argmin(potentials)]
         S[index] = True
 
-        x = numpy.zeros(n)
-        x[S] = solve_dense(C[:, S], p)
+        y = numpy.zeros(n)
+        y[S] = solve_dense(C[:, S], p)
 
-        r = p - C[:, S] @ x[S]
+        r = p - C[:, S] @ y[S]
 
-    return x
+    return y

@@ -12,15 +12,15 @@ def solve(C, p, D, k, *, solve_dense, normalize, L):
         potentials = D(normalize(r), C)
         S[sorting.argmins(potentials, l)] = True
 
-        x = numpy.zeros(n)
-        x[S] = solve_dense(C[:, S], p)
+        y = numpy.zeros(n)
+        y[S] = solve_dense(C[:, S], p)
 
         S.fill(False)
-        S[sorting.argmaxs(x, k)] = True
+        S[sorting.argmaxs(y, k)] = True
 
-        r = p - C[:, S] @ x[S]
+        r = p - C[:, S] @ y[S]
 
-    x = numpy.zeros(n)
-    x[S] = solve_dense(C[:, S], p)
+    y = numpy.zeros(n)
+    y[S] = solve_dense(C[:, S], p)
 
-    return x
+    return y

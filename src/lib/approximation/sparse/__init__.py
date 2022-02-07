@@ -1,5 +1,5 @@
 """
-Minimizes D(p, Cx) for x ∈ ℝ₊ⁿ subject to ‖x‖₀ ≤ k where cᵢ, p ∈ Δᵐ.
+Minimizes D(p, Cy) for y ∈ ℝ₊ⁿ subject to ‖y‖₀ ≤ k where cᵢ, p ∈ Δᵐ.
 
 This is a case of sparse approximation.
 

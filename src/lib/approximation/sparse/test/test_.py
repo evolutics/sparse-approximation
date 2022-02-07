@@ -237,6 +237,6 @@ def test_selects_single_atom(D, solve):
     p = numpy.array([0, 1])
     k = 1
 
-    x = solve(C, p, D, k)
+    y = solve(C, p, D, k)
 
-    assert numpy.nonzero(x) == numpy.array([2])
+    assert numpy.nonzero(y) == numpy.array([2])

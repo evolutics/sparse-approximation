@@ -12,12 +12,12 @@ def solve(C, p, D, k, *, solve_dense):
     for combination in itertools.combinations(range(n), k):
         S = numpy.array(combination)
 
-        x = solve_dense(C[:, S], p)
-        divergence = D(p, C[:, S] @ x)
+        y = solve_dense(C[:, S], p)
+        divergence = D(p, C[:, S] @ y)
 
         if divergence < best_divergence:
-            best_x = numpy.zeros(n)
-            best_x[S] = x
+            best_y = numpy.zeros(n)
+            best_y[S] = y
             best_divergence = divergence
 
-    return best_x
+    return best_y

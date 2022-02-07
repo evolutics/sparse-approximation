@@ -22,7 +22,7 @@ def solve(C, p, D, k, *, solve_dense, normalize, is_step_size_adaptive):
 
         r = p - q
 
-    x = numpy.zeros(n)
-    x[S] = solve_dense(C[:, S], p)
+    y = numpy.zeros(n)
+    y[S] = solve_dense(C[:, S], p)
 
-    return x
+    return y

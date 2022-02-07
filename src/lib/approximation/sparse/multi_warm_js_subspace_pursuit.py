@@ -18,23 +18,23 @@ def solve(C, p, D, k, *, solve_dense, etas, I, L):
         try:
             return solve_dense_cache[indices]
         except KeyError:
-            x = solve_dense(C[:, S], p)
-            solve_dense_cache[indices] = x
-            return x
+            y = solve_dense(C[:, S], p)
+            solve_dense_cache[indices] = y
+            return y
 
     for eta in etas:
-        xs_ = warm.iterate(C=C, p=p, D=D, eta=eta, is_kl_not_js=False, q=None)
+        ys_ = warm.iterate(C=C, p=p, D=D, eta=eta, is_kl_not_js=False, q=None)
 
-        for x in itertools.islice((x for i, x in enumerate(xs_) if i in I), len(I)):
+        for y in itertools.islice((y for i, y in enumerate(ys_) if i in I), len(I)):
             S = numpy.full(n, False)
-            S[sorting.argmaxs(x, k)] = True
-            x = numpy.zeros(n)
-            x[S] = cached_solve_dense(S)
+            S[sorting.argmaxs(y, k)] = True
+            y = numpy.zeros(n)
+            y[S] = cached_solve_dense(S)
 
-            q = C[:, S] @ x[S]
+            q = C[:, S] @ y[S]
             divergence = D(p, q)
             if divergence < best_divergence:
-                best_x = x
+                best_y = y
                 best_divergence = divergence
 
             for l in L:
@@ -45,18 +45,18 @@ def solve(C, p, D, k, *, solve_dense, etas, I, L):
                 divergences = D(r_normalized, shift_normalized)
 
                 S[sorting.argmins(divergences, l)] = True
-                x = numpy.zeros(n)
-                x[S] = cached_solve_dense(S)
+                y = numpy.zeros(n)
+                y[S] = cached_solve_dense(S)
 
                 S.fill(False)
-                S[sorting.argmaxs(x, k)] = True
-                x = numpy.zeros(n)
-                x[S] = cached_solve_dense(S)
+                S[sorting.argmaxs(y, k)] = True
+                y = numpy.zeros(n)
+                y[S] = cached_solve_dense(S)
 
-                q = C[:, S] @ x[S]
+                q = C[:, S] @ y[S]
                 divergence = D(p, q)
                 if divergence < best_divergence:
-                    best_x = x
+                    best_y = y
                     best_divergence = divergence
 
-    return best_x
+    return best_y

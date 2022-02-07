@@ -7,9 +7,9 @@ from src.lib.approximation.sparse import warm_kl
 def solve(C, p, D, k, *, solve_dense, eta, I, normalize, L):
     n = C.shape[1]
 
-    best_x = warm_kl.solve(C, p, D, k, solve_dense=solve_dense, eta=eta, I=I)
-    S = best_x != 0
-    q = C[:, S] @ best_x[S]
+    best_y = warm_kl.solve(C, p, D, k, solve_dense=solve_dense, eta=eta, I=I)
+    S = best_y != 0
+    q = C[:, S] @ best_y[S]
     best_divergence = D(p, q)
     r = p - q
 
@@ -17,18 +17,18 @@ def solve(C, p, D, k, *, solve_dense, eta, I, normalize, L):
         potentials = D(normalize(r), C)
         S[sorting.argmins(potentials, l)] = True
 
-        x = numpy.zeros(n)
-        x[S] = solve_dense(C[:, S], p)
+        y = numpy.zeros(n)
+        y[S] = solve_dense(C[:, S], p)
 
         S.fill(False)
-        S[sorting.argmaxs(x, k)] = True
+        S[sorting.argmaxs(y, k)] = True
 
-        r = p - C[:, S] @ x[S]
+        r = p - C[:, S] @ y[S]
 
-    x = numpy.zeros(n)
-    x[S] = solve_dense(C[:, S], p)
-    divergence = D(p, C[:, S] @ x[S])
+    y = numpy.zeros(n)
+    y[S] = solve_dense(C[:, S], p)
+    divergence = D(p, C[:, S] @ y[S])
     if divergence < best_divergence:
-        best_x = x
+        best_y = y
 
-    return best_x
+    return best_y

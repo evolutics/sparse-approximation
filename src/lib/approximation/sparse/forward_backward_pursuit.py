@@ -13,16 +13,16 @@ def solve(C, p, D, k, *, solve_dense, normalize, alpha, beta):
         T = numpy.flatnonzero(~S)[sorting.argmins(potentials, alpha)]
         S[T] = True
 
-        x = numpy.zeros(n)
-        x[S] = solve_dense(C[:, S], p)
+        y = numpy.zeros(n)
+        y[S] = solve_dense(C[:, S], p)
 
         count = max(beta, numpy.count_nonzero(S) - k)
-        T = numpy.flatnonzero(S)[sorting.argmins(x[S], count)]
+        T = numpy.flatnonzero(S)[sorting.argmins(y[S], count)]
         S[T] = False
 
-        x = numpy.zeros(n)
-        x[S] = solve_dense(C[:, S], p)
+        y = numpy.zeros(n)
+        y[S] = solve_dense(C[:, S], p)
 
-        r = p - C[:, S] @ x[S]
+        r = p - C[:, S] @ y[S]
 
-    return x
+    return y

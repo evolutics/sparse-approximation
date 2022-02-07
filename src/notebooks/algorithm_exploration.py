@@ -389,12 +389,12 @@ for repetition in range(repetitions):
         solve = algorithms[algorithm]
 
         start_time = timeit.default_timer()
-        x = solve(C, p, D, k)
+        y = solve(C, p, D, k)
         end_time = timeit.default_timer()
 
-        assert x.shape == (n,)
-        assert all(x >= 0)
-        assert numpy.count_nonzero(x) <= k
+        assert y.shape == (n,)
+        assert all(y >= 0)
+        assert numpy.count_nonzero(y) <= k
 
         data = pandas.concat(
             [
@@ -403,7 +403,7 @@ for repetition in range(repetitions):
                     {
                         "k": [k],
                         "Algorithm": [algorithm],
-                        "Divergence": [D(p, C @ x)],
+                        "Divergence": [D(p, C @ y)],
                         "Duration / s": [end_time - start_time],
                     }
                 ),
