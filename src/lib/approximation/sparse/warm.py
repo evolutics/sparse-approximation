@@ -59,5 +59,5 @@ def _optimized_js_divergences(p, Q):
     return pi_sum_q_log_q - sum_combined_log_combined
 
 
-def _x_log_x(x):
-    return x * ma.log(x).filled(0)
+def _x_log_x(values):
+    return values * ma.log(values).filled(0)
