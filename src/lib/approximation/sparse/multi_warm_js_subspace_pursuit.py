@@ -23,9 +23,9 @@ def solve(C, p, D, k, *, solve_dense, etas, I, L):
             return y
 
     for eta in etas:
-        ys_ = warm.iterate(C=C, p=p, D=D, eta=eta, is_kl_not_js=False, q=None)
+        ys = warm.iterate(C=C, p=p, D=D, eta=eta, is_kl_not_js=False, q=None)
 
-        for y in itertools.islice((y for i, y in enumerate(ys_) if i in I), len(I)):
+        for y in itertools.islice((y for i, y in enumerate(ys) if i in I), len(I)):
             S = numpy.full(n, False)
             S[sorting.argmaxs(y, k)] = True
             y = numpy.zeros(n)
