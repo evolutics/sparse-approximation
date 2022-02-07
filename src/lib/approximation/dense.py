@@ -1,5 +1,5 @@
 """
-Minimizes D(b, Ax) for x ∈ ℝ₊ⁿ where aₙ, b ∈ Δᵐ and D is a divergence.
+Minimizes D(p, Ax) for x ∈ ℝ₊ⁿ where aₙ, p ∈ Δᵐ and D is a divergence.
 
 These occur as ingredients of algorithms for the sparse case.
 """
@@ -9,17 +9,17 @@ import cvxpy
 import numpy
 
 
-def euclidean(A, b):
-    return _solve_convex(A, b, lambda p, q: cvxpy.norm2(p - q))
+def euclidean(A, p):
+    return _solve_convex(A, p, lambda p, q: cvxpy.norm2(p - q))
 
 
-def total_variation(A, b):
-    return _solve_convex(A, b, lambda p, q: 0.5 * cvxpy.norm1(p - q))
+def total_variation(A, p):
+    return _solve_convex(A, p, lambda p, q: 0.5 * cvxpy.norm1(p - q))
 
 
-def _solve_convex(A, b, D):
+def _solve_convex(A, p, D):
     x = cvxpy.Variable(A.shape[1])
-    objective = cvxpy.Minimize(D(b, A @ x))
+    objective = cvxpy.Minimize(D(p, A @ x))
     constraints = [x >= 0]
     problem = cvxpy.Problem(objective, constraints)
 

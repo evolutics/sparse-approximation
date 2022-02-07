@@ -4,7 +4,7 @@ import math
 import numpy
 
 
-def solve(A, b, D, k, *, solve_dense):
+def solve(A, p, D, k, *, solve_dense):
     n = A.shape[1]
 
     best_divergence = math.inf
@@ -12,8 +12,8 @@ def solve(A, b, D, k, *, solve_dense):
     for combination in itertools.combinations(range(n), k):
         S = numpy.array(combination)
 
-        x = solve_dense(A[:, S], b)
-        divergence = D(b, A[:, S] @ x)
+        x = solve_dense(A[:, S], p)
+        divergence = D(p, A[:, S] @ x)
 
         if divergence < best_divergence:
             best_x = numpy.zeros(n)

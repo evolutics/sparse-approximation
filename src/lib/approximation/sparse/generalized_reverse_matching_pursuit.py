@@ -3,10 +3,10 @@ import numpy
 from src.lib import sorting
 
 
-def solve(A, b, _, k, *, solve_dense, L):
+def solve(A, p, _, k, *, solve_dense, L):
     n = A.shape[1]
     S = numpy.full(n, True)
-    x = solve_dense(A, b)
+    x = solve_dense(A, p)
 
     while numpy.count_nonzero(S) > k:
         surplus = numpy.count_nonzero(S) - k
@@ -16,6 +16,6 @@ def solve(A, b, _, k, *, solve_dense, L):
         S[T] = False
 
         x = numpy.zeros(n)
-        x[S] = solve_dense(A[:, S], b)
+        x[S] = solve_dense(A[:, S], p)
 
     return x

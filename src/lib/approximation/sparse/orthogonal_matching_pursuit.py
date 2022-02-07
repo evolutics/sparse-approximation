@@ -1,10 +1,10 @@
 import numpy
 
 
-def solve(A, b, D, k, *, solve_dense, normalize):
+def solve(A, p, D, k, *, solve_dense, normalize):
     n = A.shape[1]
     S = numpy.full(n, False)
-    r = b
+    r = p
 
     while numpy.count_nonzero(S) < k:
         potentials = D(normalize(r), A[:, ~S])
@@ -12,8 +12,8 @@ def solve(A, b, D, k, *, solve_dense, normalize):
         S[index] = True
 
         x = numpy.zeros(n)
-        x[S] = solve_dense(A[:, S], b)
+        x[S] = solve_dense(A[:, S], p)
 
-        r = b - A[:, S] @ x[S]
+        r = p - A[:, S] @ x[S]
 
     return x

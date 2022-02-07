@@ -4,7 +4,7 @@ from numpy import ma
 import numpy
 
 
-def iterate(*, A, b, D, eta, is_kl_not_js, q):
+def iterate(*, A, p, D, eta, is_kl_not_js, q):
     m, n = A.shape
 
     x = numpy.zeros(n)
@@ -15,7 +15,7 @@ def iterate(*, A, b, D, eta, is_kl_not_js, q):
 
     for i in itertools.count():
         if eta is None:
-            eta_i = D(b, q)
+            eta_i = D(p, q)
         elif eta >= 0:
             eta_i = eta
         else:
@@ -23,9 +23,9 @@ def iterate(*, A, b, D, eta, is_kl_not_js, q):
         Q = (1 - eta_i) * q[:, None] + eta_i * A
 
         index = numpy.argmin(
-            _optimized_k_directed_divergences(b, Q)
+            _optimized_k_directed_divergences(p, Q)
             if is_kl_not_js
-            else _optimized_js_divergences(b, Q)
+            else _optimized_js_divergences(p, Q)
         )
 
         x *= 1 - eta_i
@@ -35,24 +35,24 @@ def iterate(*, A, b, D, eta, is_kl_not_js, q):
         yield x
 
 
-def _optimized_k_directed_divergences(b, Q):
-    # A `q` minimizes the K directed divergence `K(b, q)` if and only if it
-    # minimizes `-∑ₘ bₘ log (bₘ+qₘ)`, which is faster to compute.
+def _optimized_k_directed_divergences(p, Q):
+    # A `q` minimizes the K directed divergence `K(p, q)` if and only if it
+    # minimizes `-∑ₘ pₘ log (pₘ+qₘ)`, which is faster to compute.
 
-    nonzero = b != 0
-    b = b[nonzero]
+    nonzero = p != 0
+    p = p[nonzero]
     Q = Q[nonzero, :]
 
-    return -b @ numpy.log(b[:, None] + Q)
+    return -p @ numpy.log(p[:, None] + Q)
 
 
-def _optimized_js_divergences(b, Q):
+def _optimized_js_divergences(p, Q):
     pi_ = 0.5
 
     q_log_q = _x_log_x(Q)
     pi_sum_q_log_q = pi_ * numpy.sum(q_log_q, axis=0)
 
-    combined = (1 - pi_) * b[:, None] + pi_ * Q
+    combined = (1 - pi_) * p[:, None] + pi_ * Q
     combined_log_combined = _x_log_x(combined)
     sum_combined_log_combined = numpy.sum(combined_log_combined, axis=0)
 
