@@ -30,8 +30,8 @@ def _cases():
         ),
         (
             divergence.total_variation,
-            lambda A, p, D, k: compressive_sampling_matching_pursuit.solve(
-                A,
+            lambda C, p, D, k: compressive_sampling_matching_pursuit.solve(
+                C,
                 p,
                 D,
                 k,
@@ -87,8 +87,8 @@ def _cases():
         ),
         (
             divergence.total_variation,
-            lambda A, p, D, k: multi_warm_js_subspace_pursuit.solve(
-                A,
+            lambda C, p, D, k: multi_warm_js_subspace_pursuit.solve(
+                C,
                 p,
                 D,
                 k,
@@ -116,8 +116,8 @@ def _cases():
         ),
         (
             divergence.total_variation,
-            lambda A, p, D, k: subspace_pursuit.solve(
-                A,
+            lambda C, p, D, k: subspace_pursuit.solve(
+                C,
                 p,
                 D,
                 k,
@@ -128,8 +128,8 @@ def _cases():
         ),
         (
             divergence.total_variation,
-            lambda A, p, D, k: warm_compressive_sampling_matching_pursuit.solve(
-                A,
+            lambda C, p, D, k: warm_compressive_sampling_matching_pursuit.solve(
+                C,
                 p,
                 D,
                 k,
@@ -142,8 +142,8 @@ def _cases():
         ),
         (
             divergence.total_variation,
-            lambda A, p, D, k: warm_compressive_sampling_matching_pursuit.solve(
-                A,
+            lambda C, p, D, k: warm_compressive_sampling_matching_pursuit.solve(
+                C,
                 p,
                 D,
                 k,
@@ -156,8 +156,8 @@ def _cases():
         ),
         (
             divergence.total_variation,
-            lambda A, p, D, k: warm_js.solve(
-                A,
+            lambda C, p, D, k: warm_js.solve(
+                C,
                 p,
                 D,
                 k,
@@ -168,8 +168,8 @@ def _cases():
         ),
         (
             divergence.total_variation,
-            lambda A, p, D, k: warm_js.solve(
-                A,
+            lambda C, p, D, k: warm_js.solve(
+                C,
                 p,
                 D,
                 k,
@@ -180,8 +180,8 @@ def _cases():
         ),
         (
             divergence.total_variation,
-            lambda A, p, D, k: warm_kl_compressive_sampling_matching_pursuit.solve(
-                A,
+            lambda C, p, D, k: warm_kl_compressive_sampling_matching_pursuit.solve(
+                C,
                 p,
                 D,
                 k,
@@ -193,8 +193,8 @@ def _cases():
         ),
         (
             divergence.total_variation,
-            lambda A, p, D, k: warm_kl_compressive_sampling_matching_pursuit.solve(
-                A,
+            lambda C, p, D, k: warm_kl_compressive_sampling_matching_pursuit.solve(
+                C,
                 p,
                 D,
                 k,
@@ -206,8 +206,8 @@ def _cases():
         ),
         (
             divergence.total_variation,
-            lambda A, p, D, k: warm_kl.solve(
-                A,
+            lambda C, p, D, k: warm_kl.solve(
+                C,
                 p,
                 D,
                 k,
@@ -218,8 +218,8 @@ def _cases():
         ),
         (
             divergence.total_variation,
-            lambda A, p, D, k: warm_kl.solve(
-                A,
+            lambda C, p, D, k: warm_kl.solve(
+                C,
                 p,
                 D,
                 k,
@@ -233,10 +233,10 @@ def _cases():
 
 @mark.parametrize("D,solve", _cases())
 def test_selects_single_atom(D, solve):
-    A = numpy.array([[1, 0.5, 0.4, 0.8], [0, 0.5, 0.6, 0.2]])
+    C = numpy.array([[1, 0.5, 0.4, 0.8], [0, 0.5, 0.6, 0.2]])
     p = numpy.array([0, 1])
     k = 1
 
-    x = solve(A, p, D, k)
+    x = solve(C, p, D, k)
 
     assert numpy.nonzero(x) == numpy.array([2])

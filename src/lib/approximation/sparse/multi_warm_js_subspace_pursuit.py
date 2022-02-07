@@ -7,8 +7,8 @@ from src.lib import sorting
 from src.lib.approximation.sparse import warm
 
 
-def solve(A, p, D, k, *, solve_dense, etas, I, L):
-    n = A.shape[1]
+def solve(C, p, D, k, *, solve_dense, etas, I, L):
+    n = C.shape[1]
 
     best_divergence = math.inf
     solve_dense_cache = {}
@@ -18,12 +18,12 @@ def solve(A, p, D, k, *, solve_dense, etas, I, L):
         try:
             return solve_dense_cache[indices]
         except KeyError:
-            x = solve_dense(A[:, S], p)
+            x = solve_dense(C[:, S], p)
             solve_dense_cache[indices] = x
             return x
 
     for eta in etas:
-        xs_ = warm.iterate(A=A, p=p, D=D, eta=eta, is_kl_not_js=False, q=None)
+        xs_ = warm.iterate(C=C, p=p, D=D, eta=eta, is_kl_not_js=False, q=None)
 
         for x in itertools.islice((x for i, x in enumerate(xs_) if i in I), len(I)):
             S = numpy.full(n, False)
@@ -31,7 +31,7 @@ def solve(A, p, D, k, *, solve_dense, etas, I, L):
             x = numpy.zeros(n)
             x[S] = cached_solve_dense(S)
 
-            q = A[:, S] @ x[S]
+            q = C[:, S] @ x[S]
             divergence = D(p, q)
             if divergence < best_divergence:
                 best_x = x
@@ -40,7 +40,7 @@ def solve(A, p, D, k, *, solve_dense, etas, I, L):
             for l in L:
                 r = p - q
                 r_normalized = r / numpy.sum(numpy.abs(r))
-                shift = A - q[:, None]
+                shift = C - q[:, None]
                 shift_normalized = shift / numpy.sum(numpy.abs(shift), axis=0)
                 divergences = D(r_normalized, shift_normalized)
 
@@ -53,7 +53,7 @@ def solve(A, p, D, k, *, solve_dense, etas, I, L):
                 x = numpy.zeros(n)
                 x[S] = cached_solve_dense(S)
 
-                q = A[:, S] @ x[S]
+                q = C[:, S] @ x[S]
                 divergence = D(p, q)
                 if divergence < best_divergence:
                     best_x = x

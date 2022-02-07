@@ -4,8 +4,8 @@ from numpy import ma
 import numpy
 
 
-def iterate(*, A, p, D, eta, is_kl_not_js, q):
-    m, n = A.shape
+def iterate(*, C, p, D, eta, is_kl_not_js, q):
+    m, n = C.shape
 
     x = numpy.zeros(n)
     if q is None:
@@ -20,7 +20,7 @@ def iterate(*, A, p, D, eta, is_kl_not_js, q):
             eta_i = eta
         else:
             eta_i = 1 / (-eta * i + 1)
-        Q = (1 - eta_i) * q[:, None] + eta_i * A
+        Q = (1 - eta_i) * q[:, None] + eta_i * C
 
         index = numpy.argmin(
             _optimized_k_directed_divergences(p, Q)
