@@ -4,6 +4,7 @@ import math
 import numpy
 
 from src.lib import sorting
+from src.lib.approximation.sparse.common import identification
 from src.lib.approximation.sparse.common import warm
 
 
@@ -38,13 +39,9 @@ def solve(C, p, D, k, *, solve_dense, etas, J, L):
                 best_divergence = divergence
 
             for l in L:
-                r = p - q
-                r_normalized = r / numpy.sum(numpy.abs(r))
-                shift = C - q[:, None]
-                shift_normalized = shift / numpy.sum(numpy.abs(shift), axis=0)
-                divergences = D(r_normalized, shift_normalized)
+                spaces = identification.shift(C=C, p=p, D=D, q=q)
 
-                S[sorting.argmins(divergences, l)] = True
+                S[sorting.argmins(spaces, l)] = True
                 y = numpy.zeros(n)
                 y[S] = cached_solve_dense(S)
 
