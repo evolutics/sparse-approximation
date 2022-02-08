@@ -1,16 +1,17 @@
 import numpy
 
 from src.lib import sorting
+from src.lib.approximation.sparse.common import identification
 
 
-def solve(C, p, D, k, *, solve_dense, normalize, L):
-    n = C.shape[1]
+def solve(C, p, D, k, *, solve_dense, L):
+    m, n = C.shape
     S = numpy.full(n, False)
-    r = p
+    q = numpy.zeros(m)
 
     for l in L:
-        potentials = D(normalize(r), C)
-        S[sorting.argmins(potentials, l)] = True
+        spaces = identification.shift(C=C, p=p, D=D, q=q)
+        S[sorting.argmins(spaces, l)] = True
 
         y = numpy.zeros(n)
         y[S] = solve_dense(C[:, S], p)
@@ -18,7 +19,7 @@ def solve(C, p, D, k, *, solve_dense, normalize, L):
         S.fill(False)
         S[sorting.argmaxs(y, k)] = True
 
-        r = p - C[:, S] @ y[S]
+        q = C[:, S] @ y[S]
 
     y = numpy.zeros(n)
     y[S] = solve_dense(C[:, S], p)

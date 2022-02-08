@@ -1,16 +1,17 @@
 import numpy
 
 from src.lib import sorting
+from src.lib.approximation.sparse.common import identification
 
 
-def solve(C, p, D, k, *, solve_dense, normalize, alpha, beta):
-    n = C.shape[1]
+def solve(C, p, D, k, *, solve_dense, alpha, beta):
+    m, n = C.shape
     S = numpy.full(n, False)
-    r = p
+    q = numpy.zeros(m)
 
     while numpy.count_nonzero(S) < k:
-        potentials = D(normalize(r), C[:, ~S])
-        T = numpy.flatnonzero(~S)[sorting.argmins(potentials, alpha)]
+        spaces = identification.shift(C=C[:, ~S], p=p, D=D, q=q)
+        T = numpy.flatnonzero(~S)[sorting.argmins(spaces, alpha)]
         S[T] = True
 
         y = numpy.zeros(n)
@@ -23,6 +24,6 @@ def solve(C, p, D, k, *, solve_dense, normalize, alpha, beta):
         y = numpy.zeros(n)
         y[S] = solve_dense(C[:, S], p)
 
-        r = p - C[:, S] @ y[S]
+        q = C[:, S] @ y[S]
 
     return y

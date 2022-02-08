@@ -2,7 +2,6 @@ from pytest import mark
 import numpy
 
 from src.lib import divergence
-from src.lib import normalize
 from src.lib.approximation import dense
 from src.lib.approximation.sparse import brute_force_search
 from src.lib.approximation.sparse import compressive_sampling_matching_pursuit
@@ -36,7 +35,6 @@ def _cases():
                 D,
                 k,
                 solve_dense=dense.total_variation,
-                normalize=normalize.clip,
                 L=[2 * k] * k,
             ),
         ),
@@ -45,7 +43,6 @@ def _cases():
             lambda *problem: forward_backward_pursuit.solve(
                 *problem,
                 solve_dense=dense.total_variation,
-                normalize=normalize.clip,
                 alpha=2,
                 beta=1,
             ),
@@ -55,7 +52,6 @@ def _cases():
             lambda *problem: frank_wolfe.solve(
                 *problem,
                 solve_dense=dense.total_variation,
-                normalize=normalize.clip,
                 is_step_size_adaptive=False,
             ),
         ),
@@ -64,7 +60,6 @@ def _cases():
             lambda *problem: frank_wolfe.solve(
                 *problem,
                 solve_dense=dense.total_variation,
-                normalize=normalize.clip,
                 is_step_size_adaptive=True,
             ),
         ),
@@ -73,7 +68,6 @@ def _cases():
             lambda *problem: generalized_orthogonal_matching_pursuit.solve(
                 *problem,
                 solve_dense=dense.total_variation,
-                normalize=normalize.clip,
                 l=1,
             ),
         ),
@@ -103,7 +97,6 @@ def _cases():
             lambda *problem: orthogonal_matching_pursuit.solve(
                 *problem,
                 solve_dense=dense.euclidean,
-                normalize=lambda r: r,
             ),
         ),
         (
@@ -111,7 +104,6 @@ def _cases():
             lambda *problem: orthogonal_matching_pursuit.solve(
                 *problem,
                 solve_dense=dense.total_variation,
-                normalize=normalize.clip,
             ),
         ),
         (
@@ -122,7 +114,6 @@ def _cases():
                 D,
                 k,
                 solve_dense=dense.total_variation,
-                normalize=normalize.clip,
                 L=[k] * k,
             ),
         ),
@@ -136,7 +127,6 @@ def _cases():
                 solve_dense=dense.total_variation,
                 eta=-2,
                 j=k,
-                normalize=normalize.clip,
                 L=[2 * k] * k,
             ),
         ),
@@ -150,7 +140,6 @@ def _cases():
                 solve_dense=dense.total_variation,
                 eta=None,
                 j=k,
-                normalize=normalize.clip,
                 L=[2 * k] * k,
             ),
         ),

@@ -1,14 +1,16 @@
 import numpy
 
+from src.lib.approximation.sparse.common import identification
 
-def solve(C, p, D, k, *, solve_dense, normalize, is_step_size_adaptive):
-    n = C.shape[1]
+
+def solve(C, p, D, k, *, solve_dense, is_step_size_adaptive):
+    m, n = C.shape
     S = numpy.full(n, False)
-    r = p
+    q = numpy.zeros(m)
 
     for i in range(k):
-        potentials = D(normalize(r), C[:, ~S])
-        index = numpy.flatnonzero(~S)[numpy.argmin(potentials)]
+        spaces = identification.shift(C=C[:, ~S], p=p, D=D, q=q)
+        index = numpy.flatnonzero(~S)[numpy.argmin(spaces)]
         S[index] = True
 
         if i == 0:
@@ -19,8 +21,6 @@ def solve(C, p, D, k, *, solve_dense, normalize, is_step_size_adaptive):
             else:
                 step_size = 2 / (i + 2)
             q = (1 - step_size) * q + step_size * C[:, index]
-
-        r = p - q
 
     y = numpy.zeros(n)
     y[S] = solve_dense(C[:, S], p)

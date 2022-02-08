@@ -10,7 +10,6 @@ import numpy
 import pandas
 
 from src.lib import divergence
-from src.lib import normalize
 from src.lib import randomness
 from src.lib import sequence
 from src.lib.approximation import dense
@@ -83,11 +82,6 @@ D = getattr(divergence, divergence_name)
 
 solve_dense = getattr(dense, divergence_name)
 
-normalize_ = {
-    "kullback_leibler": normalize.clip,
-    "total_variation": normalize.clip,
-}[divergence_name]
-
 algorithms = {
     "Brute-force search": lambda *problem: brute_force_search.solve(
         *problem,
@@ -99,7 +93,6 @@ algorithms = {
         D,
         k,
         solve_dense=solve_dense,
-        normalize=normalize_,
         L=[min(2 * k, n)] * k,
     ),
     "CoSaMP, lᵢ=2k/2ⁱ": lambda C, p, D, k: compressive_sampling_matching_pursuit.solve(
@@ -108,32 +101,27 @@ algorithms = {
         D,
         k,
         solve_dense=solve_dense,
-        normalize=normalize_,
         L=sequence.halve_until_1(min(2 * k, n)),
     ),
     "FBP, α=2, β=1": lambda *problem: forward_backward_pursuit.solve(
         *problem,
         solve_dense=solve_dense,
-        normalize=normalize_,
         alpha=2,
         beta=1,
     ),
     "Frank-Wolfe, adaptive": lambda *problem: frank_wolfe.solve(
         *problem,
         solve_dense=solve_dense,
-        normalize=normalize_,
         is_step_size_adaptive=True,
     ),
     "Frank-Wolfe, non-adaptive": lambda *problem: frank_wolfe.solve(
         *problem,
         solve_dense=solve_dense,
-        normalize=normalize_,
         is_step_size_adaptive=False,
     ),
     "gOMP, l=2": lambda *problem: generalized_orthogonal_matching_pursuit.solve(
         *problem,
         solve_dense=solve_dense,
-        normalize=normalize_,
         l=2,
     ),
     "gRMP, exponential": lambda *problem: generalized_reverse_matching_pursuit.solve(
@@ -162,7 +150,6 @@ algorithms = {
     "OMP": lambda *problem: orthogonal_matching_pursuit.solve(
         *problem,
         solve_dense=solve_dense,
-        normalize=normalize_,
     ),
     "SP, lᵢ=k, i∈[k]": lambda C, p, D, k: subspace_pursuit.solve(
         C,
@@ -170,7 +157,6 @@ algorithms = {
         D,
         k,
         solve_dense=solve_dense,
-        normalize=normalize_,
         L=[k] * k,
     ),
     "SP, lᵢ=k/2ⁱ": lambda C, p, D, k: subspace_pursuit.solve(
@@ -179,7 +165,6 @@ algorithms = {
         D,
         k,
         solve_dense=solve_dense,
-        normalize=normalize_,
         L=sequence.halve_until_1(k),
     ),
     "Warm CoSaMP, ηᵢ=1/(2i+1), j=4k, lᵢ=2k, i∈[⌊log₂ k⌋+1]": lambda C, p, D, k: warm_compressive_sampling_matching_pursuit.solve(
@@ -190,7 +175,6 @@ algorithms = {
         solve_dense=solve_dense,
         eta=-2,
         j=4 * k,
-        normalize=normalize_,
         L=[min(2 * k, n)] * (math.floor(math.log2(k)) + 1),
     ),
     "Warm CoSaMP, ηᵢ=1/(2i+1), j=4k, lᵢ=2k, i∈[k]": lambda C, p, D, k: warm_compressive_sampling_matching_pursuit.solve(
@@ -201,7 +185,6 @@ algorithms = {
         solve_dense=solve_dense,
         eta=-2,
         j=4 * k,
-        normalize=normalize_,
         L=[min(2 * k, n)] * k,
     ),
     "Warm CoSaMP, ηᵢ=1/(2i+1), j=4k, lᵢ=2k/2ⁱ": lambda C, p, D, k: warm_compressive_sampling_matching_pursuit.solve(
@@ -212,7 +195,6 @@ algorithms = {
         solve_dense=solve_dense,
         eta=-2,
         j=4 * k,
-        normalize=normalize_,
         L=sequence.halve_until_1(min(2 * k, n)),
     ),
     "Warm CoSaMP, ηᵢ=D, j=4k, lᵢ=2k, i∈[⌊log₂ k⌋+1]": lambda C, p, D, k: warm_compressive_sampling_matching_pursuit.solve(
@@ -223,7 +205,6 @@ algorithms = {
         solve_dense=solve_dense,
         eta=None,
         j=4 * k,
-        normalize=normalize_,
         L=[min(2 * k, n)] * (math.floor(math.log2(k)) + 1),
     ),
     "Warm CoSaMP, ηᵢ=D, j=4k, lᵢ=2k, i∈[k]": lambda C, p, D, k: warm_compressive_sampling_matching_pursuit.solve(
@@ -234,7 +215,6 @@ algorithms = {
         solve_dense=solve_dense,
         eta=None,
         j=4 * k,
-        normalize=normalize_,
         L=[min(2 * k, n)] * k,
     ),
     "Warm CoSaMP, ηᵢ=D, j=4k, lᵢ=2k/2ⁱ": lambda C, p, D, k: warm_compressive_sampling_matching_pursuit.solve(
@@ -245,7 +225,6 @@ algorithms = {
         solve_dense=solve_dense,
         eta=None,
         j=4 * k,
-        normalize=normalize_,
         L=sequence.halve_until_1(min(2 * k, n)),
     ),
     "Warm KL-CoSaMP, ηᵢ=1/(2i+1), j=4k, lᵢ=2k, i∈[⌊log₂ k⌋+1]": lambda C, p, D, k: warm_kl_compressive_sampling_matching_pursuit.solve(
