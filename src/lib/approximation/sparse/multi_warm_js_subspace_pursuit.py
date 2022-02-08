@@ -4,7 +4,7 @@ import math
 import numpy
 
 from src.lib import sorting
-from src.lib.approximation.sparse import warm
+from src.lib.approximation.sparse.common import warm
 
 
 def solve(C, p, D, k, *, solve_dense, etas, J, L):

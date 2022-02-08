@@ -1,6 +1,6 @@
 import numpy
 
-from src.lib.approximation.sparse import warm
+from src.lib.approximation.sparse.common import warm
 
 
 def solve(C, p, D, k, *, solve_dense, eta, j):
