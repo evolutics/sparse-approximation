@@ -5,11 +5,11 @@ from src.lib.approximation.sparse import warm_kl_like
 from src.lib.approximation.sparse.common import identification
 
 
-def solve(C, p, D, k, *, solve_dense, eta, j, L):
+def solve(C, p, D, k, *, solve_dense, eta, is_kl_not_js, j, L):
     n = C.shape[1]
 
     best_y = warm_kl_like.solve(
-        C, p, D, k, solve_dense=solve_dense, eta=eta, is_kl_not_js=True, j=j
+        C, p, D, k, solve_dense=solve_dense, eta=eta, is_kl_not_js=is_kl_not_js, j=j
     )
     S = best_y != 0
     q = C[:, S] @ best_y[S]
