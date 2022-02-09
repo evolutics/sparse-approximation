@@ -23,8 +23,7 @@ from src.lib.approximation.sparse import multi_warm_js_subspace_pursuit
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
 from src.lib.approximation.sparse import warm_compressive_sampling_matching_pursuit
-from src.lib.approximation.sparse import warm_js
-from src.lib.approximation.sparse import warm_kl
+from src.lib.approximation.sparse import warm_kl_like
 from src.lib.approximation.sparse import warming_compressive_sampling_matching_pursuit
 
 altair.data_transformers.disable_max_rows()
@@ -54,9 +53,9 @@ selected_algorithms = {
     "Warm CoSaMP, ηᵢ=D, j=4k, lᵢ=2k, i∈[⌊log₂ k⌋+1]",
     "Warm CoSaMP, ηᵢ=D, j=4k, lᵢ=2k, i∈[k]",
     "Warm CoSaMP, ηᵢ=D, j=4k, lᵢ=2k/2ⁱ",
-    "Warm-JS, ηᵢ=1/(2i+1), j=2k",
-    "Warm-JS, ηᵢ=1/(2k), j=2k",
-    "Warm-JS, ηᵢ=D, j=2k",
+    "Warm-JS, ηᵢ=1/(2i+1), j=4k",
+    "Warm-JS, ηᵢ=1/(2k), j=4k",
+    "Warm-JS, ηᵢ=D, j=4k",
     "Warm-KL, ηᵢ=1/(2i+1), j=4k",
     "Warm-KL, ηᵢ=1/(2k), j=4k",
     "Warm-KL, ηᵢ=D, j=4k",
@@ -227,58 +226,64 @@ algorithms = {
         j=4 * k,
         L=sequence.halve_until_1(min(2 * k, n)),
     ),
-    "Warm-JS, ηᵢ=1/(2i+1), j=2k": lambda C, p, D, k: warm_js.solve(
+    "Warm-JS, ηᵢ=1/(2i+1), j=4k": lambda C, p, D, k: warm_kl_like.solve(
         C,
         p,
         D,
         k,
         solve_dense=solve_dense,
         eta=-2,
-        j=2 * k,
+        is_kl_not_js=False,
+        j=4 * k,
     ),
-    "Warm-JS, ηᵢ=1/(2k), j=2k": lambda C, p, D, k: warm_js.solve(
+    "Warm-JS, ηᵢ=1/(2k), j=4k": lambda C, p, D, k: warm_kl_like.solve(
         C,
         p,
         D,
         k,
         solve_dense=solve_dense,
         eta=1 / (2 * k),
-        j=2 * k,
+        is_kl_not_js=False,
+        j=4 * k,
     ),
-    "Warm-JS, ηᵢ=D, j=2k": lambda C, p, D, k: warm_js.solve(
+    "Warm-JS, ηᵢ=D, j=4k": lambda C, p, D, k: warm_kl_like.solve(
         C,
         p,
         D,
         k,
         solve_dense=solve_dense,
         eta=None,
-        j=2 * k,
+        is_kl_not_js=False,
+        j=4 * k,
     ),
-    "Warm-KL, ηᵢ=1/(2i+1), j=4k": lambda C, p, D, k: warm_kl.solve(
+    "Warm-KL, ηᵢ=1/(2i+1), j=4k": lambda C, p, D, k: warm_kl_like.solve(
         C,
         p,
         D,
         k,
         solve_dense=solve_dense,
         eta=-2,
+        is_kl_not_js=True,
         j=4 * k,
     ),
-    "Warm-KL, ηᵢ=1/(2k), j=4k": lambda C, p, D, k: warm_kl.solve(
+    "Warm-KL, ηᵢ=1/(2k), j=4k": lambda C, p, D, k: warm_kl_like.solve(
         C,
         p,
         D,
         k,
         solve_dense=solve_dense,
         eta=1 / (2 * k),
+        is_kl_not_js=True,
         j=4 * k,
     ),
-    "Warm-KL, ηᵢ=D, j=4k": lambda C, p, D, k: warm_kl.solve(
+    "Warm-KL, ηᵢ=D, j=4k": lambda C, p, D, k: warm_kl_like.solve(
         C,
         p,
         D,
         k,
         solve_dense=solve_dense,
         eta=None,
+        is_kl_not_js=True,
         j=4 * k,
     ),
     "Warming-KL CoSaMP, ηᵢ=1/(2i+1), j=4k, lᵢ=2k, i∈[⌊log₂ k⌋+1]": lambda C, p, D, k: warming_compressive_sampling_matching_pursuit.solve(
