@@ -9,7 +9,7 @@ from src.lib.approximation.sparse import forward_backward_pursuit
 from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import generalized_orthogonal_matching_pursuit
 from src.lib.approximation.sparse import generalized_reverse_matching_pursuit
-from src.lib.approximation.sparse import multi_warm_js_subspace_pursuit
+from src.lib.approximation.sparse import multi_warm_subspace_pursuit
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
 from src.lib.approximation.sparse import warm_compressive_sampling_matching_pursuit
@@ -80,13 +80,14 @@ def _cases():
         ),
         (
             divergence.total_variation,
-            lambda C, p, D, k: multi_warm_js_subspace_pursuit.solve(
+            lambda C, p, D, k: multi_warm_subspace_pursuit.solve(
                 C,
                 p,
                 D,
                 k,
                 solve_dense=dense.total_variation,
                 etas=[1 / (2 * k)],
+                is_kl_not_js=True,
                 J={2 * k},
                 L=[k],
             ),

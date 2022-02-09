@@ -8,7 +8,7 @@ from src.lib.approximation.sparse.common import identification
 from src.lib.approximation.sparse.common import warm
 
 
-def solve(C, p, D, k, *, solve_dense, etas, J, L):
+def solve(C, p, D, k, *, solve_dense, etas, is_kl_not_js, J, L):
     n = C.shape[1]
 
     best_divergence = math.inf
@@ -24,7 +24,7 @@ def solve(C, p, D, k, *, solve_dense, etas, J, L):
             return y
 
     for eta in etas:
-        ys = warm.iterate(C=C, p=p, D=D, eta=eta, is_kl_not_js=False, q=None)
+        ys = warm.iterate(C=C, p=p, D=D, eta=eta, is_kl_not_js=is_kl_not_js, q=None)
 
         for y in itertools.islice((y for i, y in enumerate(ys) if i in J), len(J)):
             S = numpy.full(n, False)

@@ -19,7 +19,7 @@ from src.lib.approximation.sparse import forward_backward_pursuit
 from src.lib.approximation.sparse import frank_wolfe
 from src.lib.approximation.sparse import generalized_orthogonal_matching_pursuit
 from src.lib.approximation.sparse import generalized_reverse_matching_pursuit
-from src.lib.approximation.sparse import multi_warm_js_subspace_pursuit
+from src.lib.approximation.sparse import multi_warm_subspace_pursuit
 from src.lib.approximation.sparse import orthogonal_matching_pursuit
 from src.lib.approximation.sparse import subspace_pursuit
 from src.lib.approximation.sparse import warm_compressive_sampling_matching_pursuit
@@ -44,6 +44,7 @@ selected_algorithms = {
     "gRMP, exponential",
     "gRMP, linear",
     "Multi Warm-JS SP",
+    "Multi Warm-KL SP",
     "OMP",
     "SP, lᵢ=k, i∈[k]",
     "SP, lᵢ=k/2ⁱ",
@@ -136,13 +137,25 @@ algorithms = {
         solve_dense=solve_dense,
         l=round(n / k),
     ),
-    "Multi Warm-JS SP": lambda C, p, D, k: multi_warm_js_subspace_pursuit.solve(
+    "Multi Warm-JS SP": lambda C, p, D, k: multi_warm_subspace_pursuit.solve(
         C,
         p,
         D,
         k,
         solve_dense=solve_dense,
         etas=[1 / (2 * k), 1 / (8 * k), -2],
+        is_kl_not_js=False,
+        J={2 * k, 8 * k},
+        L=[k],
+    ),
+    "Multi Warm-KL SP": lambda C, p, D, k: multi_warm_subspace_pursuit.solve(
+        C,
+        p,
+        D,
+        k,
+        solve_dense=solve_dense,
+        etas=[1 / (2 * k), 1 / (8 * k), -2],
+        is_kl_not_js=True,
         J={2 * k, 8 * k},
         L=[k],
     ),
