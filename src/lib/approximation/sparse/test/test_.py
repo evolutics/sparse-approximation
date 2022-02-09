@@ -150,7 +150,7 @@ def _cases():
                 D,
                 k,
                 solve_dense=dense.total_variation,
-                eta=1 / (2 * k),
+                eta=-2,
                 is_kl_not_js=False,
                 j=k,
             ),
