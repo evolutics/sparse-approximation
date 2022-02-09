@@ -5,7 +5,7 @@ from src.lib.approximation.sparse import warm_kl
 from src.lib.approximation.sparse.common import warm
 
 
-def solve(C, p, D, k, *, solve_dense, eta, j, L):
+def solve(C, p, D, k, *, solve_dense, eta, is_kl_not_js, j, L):
     n = C.shape[1]
 
     best_y = warm_kl.solve(C, p, D, k, solve_dense=solve_dense, eta=eta, j=j)
@@ -14,7 +14,7 @@ def solve(C, p, D, k, *, solve_dense, eta, j, L):
     best_divergence = D(p, q)
 
     for l in L:
-        ys = warm.iterate(C=C, p=p, D=D, eta=eta, is_kl_not_js=True, q=q)
+        ys = warm.iterate(C=C, p=p, D=D, eta=eta, is_kl_not_js=is_kl_not_js, q=q)
         y = next(y for i, y in enumerate(ys) if numpy.count_nonzero(y) >= l or i >= j)
         S |= y != 0
 

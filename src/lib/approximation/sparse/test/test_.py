@@ -15,7 +15,7 @@ from src.lib.approximation.sparse import subspace_pursuit
 from src.lib.approximation.sparse import warm_compressive_sampling_matching_pursuit
 from src.lib.approximation.sparse import warm_js
 from src.lib.approximation.sparse import warm_kl
-from src.lib.approximation.sparse import warm_kl_compressive_sampling_matching_pursuit
+from src.lib.approximation.sparse import warming_compressive_sampling_matching_pursuit
 
 
 def _cases():
@@ -169,32 +169,6 @@ def _cases():
         ),
         (
             divergence.total_variation,
-            lambda C, p, D, k: warm_kl_compressive_sampling_matching_pursuit.solve(
-                C,
-                p,
-                D,
-                k,
-                solve_dense=dense.total_variation,
-                eta=-2,
-                j=k,
-                L=[2 * k] * k,
-            ),
-        ),
-        (
-            divergence.total_variation,
-            lambda C, p, D, k: warm_kl_compressive_sampling_matching_pursuit.solve(
-                C,
-                p,
-                D,
-                k,
-                solve_dense=dense.total_variation,
-                eta=None,
-                j=k,
-                L=[2 * k] * k,
-            ),
-        ),
-        (
-            divergence.total_variation,
             lambda C, p, D, k: warm_kl.solve(
                 C,
                 p,
@@ -215,6 +189,34 @@ def _cases():
                 solve_dense=dense.total_variation,
                 eta=None,
                 j=k,
+            ),
+        ),
+        (
+            divergence.total_variation,
+            lambda C, p, D, k: warming_compressive_sampling_matching_pursuit.solve(
+                C,
+                p,
+                D,
+                k,
+                solve_dense=dense.total_variation,
+                eta=-2,
+                is_kl_not_js=True,
+                j=k,
+                L=[2 * k] * k,
+            ),
+        ),
+        (
+            divergence.total_variation,
+            lambda C, p, D, k: warming_compressive_sampling_matching_pursuit.solve(
+                C,
+                p,
+                D,
+                k,
+                solve_dense=dense.total_variation,
+                eta=None,
+                is_kl_not_js=True,
+                j=k,
+                L=[2 * k] * k,
             ),
         ),
     ]
