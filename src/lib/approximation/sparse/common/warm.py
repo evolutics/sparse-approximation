@@ -17,7 +17,7 @@ def iterate(*, C, p, D, eta, is_kl_not_js, q):
         if eta is None:
             eta_i = D(p, q)
         elif eta >= 0:
-            eta_i = eta
+            eta_i = eta / (1 - (1 - eta) ** (i + 1))
         else:
             eta_i = 1 / (-eta * i + 1)
         Q = (1 - eta_i) * q[:, None] + eta_i * C
