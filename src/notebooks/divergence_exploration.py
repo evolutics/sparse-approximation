@@ -76,5 +76,5 @@ def get_example(d_0, d_1, size, tries, random_seed):
 
 
 get_example(
-    "Total variation", "K directed", size=3, tries=2 ** 13, random_seed=144
+    "Total variation", "K directed", size=3, tries=2**13, random_seed=144
 ).style.format("{:.3f}")
