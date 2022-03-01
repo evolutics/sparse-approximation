@@ -1,5 +1,5 @@
 """
-Minimizes D(p, Cy) for y ∈ ℝ₊ⁿ where cᵢ, p ∈ Δᵐ and D is a divergence.
+Minimizes D(p, Cy) for y ∈ ℝ₊ⁿ where cᵢ, p ∈ Δᵐ⁻¹ and D is a divergence.
 
 These occur as ingredients of algorithms for the sparse case.
 """
