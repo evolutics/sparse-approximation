@@ -1,9 +1,11 @@
 """
-Minimizes D(p, Cy) for y ∈ ℝ₊ⁿ where cᵢ, p ∈ Δᵐ⁻¹ and D is a divergence.
+Minimizes D(p, Cy) for y ∈ Δⁿ⁻¹ where cᵢ, p ∈ ℝ₊ᵐ and D is a divergence.
 
 These occur as ingredients of algorithms for the sparse case.
 """
 
+
+import math
 
 import cvxpy
 import numpy
@@ -20,7 +22,7 @@ def total_variation(C, p):
 def _solve_convex(C, p, D):
     y = cvxpy.Variable(C.shape[1])
     objective = cvxpy.Minimize(D(p, C @ y))
-    constraints = [y >= 0]
+    constraints = [y >= 0, cvxpy.sum(y) == 1]
     problem = cvxpy.Problem(objective, constraints)
 
     problem.solve()
@@ -29,5 +31,9 @@ def _solve_convex(C, p, D):
     assert status == cvxpy.OPTIMAL, f"Unable to solve optimization problem: {status}"
     y = y.value
 
+    assert math.isclose(numpy.sum(y), 1)
     y[numpy.isclose(y, 0)] = 0
+    y /= numpy.sum(y)
+    assert math.isclose(numpy.sum(y), 1)
+
     return y

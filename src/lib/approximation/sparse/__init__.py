@@ -1,5 +1,5 @@
 """
-Approx. minimizes D(p, Cy) for y ∈ ℝ₊ⁿ subject to ‖y‖₀ ≤ k where cᵢ, p ∈ Δᵐ⁻¹.
+Approx. minimizes D(p, Cy) for y ∈ Δⁿ⁻¹ subject to ‖y‖₀ ≤ k where cᵢ, p ∈ ℝ₊ᵐ.
 
 This is a case of sparse approximation.
 
@@ -7,8 +7,8 @@ This is a case of sparse approximation.
 with nonnegative entries that sum up to 1 (probability vectors).
 
 We have
-    C ∈ ℝᵐˣⁿ with each column cᵢ ∈ Δᵐ⁻¹,
-    p ∈ Δᵐ⁻¹,
-    D is a divergence, and
+    C ∈ ℝ₊ᵐˣⁿ,
+    p ∈ ℝ₊ᵐ,
+    D is a generalized "divergence", and
     1 ≤ k < n.
 """

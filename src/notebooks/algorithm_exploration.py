@@ -400,8 +400,8 @@ for repetition in range(repetitions):
         max(round(density_range[0] * m), 1),
         round(density_range[1] * m) + 1,
     )
-    C = randomness.draw_distributions(generator, m, n, nonzero_range=nonzero_range)
-    p = randomness.draw_distribution(generator, m)
+    C = randomness.draw_nonnegative_matrix(generator, m, n, nonzero_range=nonzero_range)
+    p = randomness.draw_nonnegative_vector(generator, m)
 
     for k, algorithm in itertools.product(
         range(1, min(m, n)),
@@ -415,6 +415,7 @@ for repetition in range(repetitions):
 
         assert y.shape == (n,)
         assert all(y >= 0)
+        assert math.isclose(numpy.sum(y), 1)
         assert numpy.count_nonzero(y) <= k
 
         data = pandas.concat(
