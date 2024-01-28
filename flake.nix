@@ -13,20 +13,23 @@
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {inherit system;};
+      pythonPackages = ps:
+        with ps; [
+          altair
+          cvxpy
+          ipywidgets
+          jupyterlab
+          jupytext
+          numpy
+          pandas
+          pytest
+          scipy
+        ];
     in {
       devShell = pkgs.mkShellNoCC {
         buildInputs =
           (with pkgs; [
-            python311Full
-            python311Packages.altair
-            python311Packages.cvxpy
-            python311Packages.ipywidgets
-            python311Packages.jupyterlab
-            python311Packages.jupytext
-            python311Packages.numpy
-            python311Packages.pandas
-            python311Packages.pytest
-            python311Packages.scipy
+            (python3.withPackages pythonPackages)
           ])
           ++ [travel-kit.defaultApp.${system}];
 
