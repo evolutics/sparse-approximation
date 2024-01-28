@@ -1,7 +1,6 @@
 --editable .
 altair==4.2.0
 cvxpy==1.1.18
-git+https://github.com/evolutics/journal#egg=journal
 ipywidgets==7.6.5
 jupyterlab==3.2.9
 jupytext==1.13.6

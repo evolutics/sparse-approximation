@@ -17,7 +17,8 @@ main() {
   source .venv/bin/activate
   pip install --requirement requirements.txt
 
-  journal test
+  pylint src
+  pytest
 }
 
 main "$@"
