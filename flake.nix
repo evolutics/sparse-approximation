@@ -31,7 +31,7 @@
           (with pkgs; [
             (python3.withPackages pythonPackages)
           ])
-          ++ [travel-kit.defaultApp.${system}];
+          ++ [travel-kit.packages.${system}.default];
 
         shellHook = ''
           export PYTHONPATH="$PWD:$PYTHONPATH"
