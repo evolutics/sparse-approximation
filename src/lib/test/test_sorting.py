@@ -1,5 +1,5 @@
-import numpy
 from pytest import mark
+import numpy
 
 from src.lib import sorting
 

@@ -4,7 +4,6 @@ Minimizes D(p, Cy) for y ∈ Δⁿ⁻¹ where cᵢ, p ∈ ℝ₊ᵐ and D is a d
 These occur as ingredients of algorithms for the sparse case.
 """
 
-
 import math
 
 import cvxpy

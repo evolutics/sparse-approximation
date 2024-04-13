@@ -6,7 +6,6 @@ import pandas
 from src.lib import divergence
 from src.lib import randomness
 
-
 divergences = {
     "Euclidean": divergence.euclidean,
     "Hellinger": divergence.hellinger,
