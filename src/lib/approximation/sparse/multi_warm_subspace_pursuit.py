@@ -11,6 +11,7 @@ from src.lib.approximation.sparse.common import warm
 def solve(C, p, D, k, *, solve_dense, etas, is_kl_not_js, J, L):
     n = C.shape[1]
 
+    best_y = None
     best_divergence = math.inf
     solve_dense_cache = {}
 

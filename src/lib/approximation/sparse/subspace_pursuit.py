@@ -10,6 +10,7 @@ def solve(C, p, D, k, *, solve_dense, L):
     m, n = C.shape
     S = numpy.full(n, False)
     q = numpy.zeros(m)
+    best_y = None
     best_divergence = math.inf
 
     for l in L:
